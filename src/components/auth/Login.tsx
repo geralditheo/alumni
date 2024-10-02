@@ -2,7 +2,7 @@
 
 import { useBear } from '@/hooks/bear/useStore.hook';
 
-export default function Blog(){
+export default function Login(){
 
     const { bears, increasePopulation, removeAllBears, updateBears } = useBear();
 

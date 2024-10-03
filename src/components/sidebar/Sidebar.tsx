@@ -19,7 +19,7 @@ export default function SidebarComponent(){
 
         <div className='flex flex-col' >
             { menu.map((item) => {
-                return <Link href={item.path} className='text-white flex gap-x-2 items-center px-4 py-2 hover:bg-blue-700 transition-all ease-in ' >
+                return <Link href={item.path} key={item.key} className='text-white flex gap-x-2 items-center px-4 py-2 hover:bg-blue-700 transition-all ease-in ' >
                     <item.icon /> {item.title} 
                 </Link>
             })}

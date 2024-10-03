@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image'
-import pancakes from '@/public/images/undraw_pancakes_238t.png';
 import Link from 'next/link';
 import { useFormState } from 'react-dom';
 import { login } from '@/app/auth/register/actions';
@@ -19,7 +18,7 @@ export default function Register(){
         <div className='hidden w-full flex-initial justify-center h-auto md:flex items-center  ' >
 
             <div>
-                <Image  src={pancakes} alt="Picture of the author"  style={{ maxWidth: '100%', height: 'auto' }}  />
+                <Image src="/draw/undraw_pancakes_238t.png" alt="Beach day illustration" width={400} height={400} style={{ maxWidth: '100%', height: 'auto' }} />
 
                 <p className="font-semibold mb-5 text-gray-400 text-center " >Welcome here, </p>
 

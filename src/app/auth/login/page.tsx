@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import beachDay from '@/public/images/undraw_Beach_day_cser.png';
 import Link from 'next/link';
 
 export default function Login(){
@@ -35,8 +34,8 @@ export default function Login(){
 
         <div className='hidden w-full flex-initial justify-center h-auto md:flex items-center  ' >
 
-            <div>
-                <Image  src={beachDay} alt="Picture of the author"  style={{ maxWidth: '100%', height: 'auto' }}  />
+            <div  >
+                <Image src="/draw/undraw_Beach_day_cser.png" alt="Beach day illustration" width={400} height={400} style={{ maxWidth: '100%', height: 'auto' }} />
 
                 <p className="font-semibold mb-5 text-gray-400 text-center " >Welcome back, </p>
 

@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link';
+import { login } from '@/app/auth/login/actions';
 
 export default function Login(){
 
@@ -9,16 +10,16 @@ export default function Login(){
 
             <h2 className="text-2xl font-semibold mb-5" >Login</h2>
             
-            <form className="mx-auto">
+            <form action={login} className="mx-auto">
 
                 <div className="mb-5">
                     <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-900 ">Your email</label>
-                    <input type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="alumni@mhs.co.id" required />
+                    <input type="email" id="email" name='email' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="alumni@mhs.co.id" required />
                 </div>
 
                 <div className="mb-5">
                     <label htmlFor="password" className="block mb-1 text-sm font-medium text-gray-900 ">Your password</label>
-                    <input type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder='xxxxxxxxx' required />
+                    <input type="password" id="password" name='password' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder='xxxxxxxxx' required />
                 </div>
 
                 <p className='text-xs mb-5' >Dont have an account ? you can <span className='text-blue-800' > <Link  href={"/auth/register"} >register</Link> </span>  first</p>

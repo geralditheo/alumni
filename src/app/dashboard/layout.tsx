@@ -10,11 +10,11 @@ export default function DashboardLayout({ children, }: Readonly<{ children: Reac
   return <section className="flex h-screen " >
     <Sidebar/>
 
-    <main className="w-full" >
+    <main className="w-full overflow-y-auto " >
 
       <Navigationbar />
 
-      <div> {children} </div>
+      <div className="p-5" > {children} </div>
 
     </main>
     

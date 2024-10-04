@@ -1,17 +1,9 @@
-'use client';
 
 import Image from 'next/image'
 import Link from 'next/link';
-import { useFormState } from 'react-dom';
-import { login } from '@/app/auth/register/actions';
-
-export const initialState = {
-    message: ""
-}
+import { register } from '@/app/auth/register/actions';
 
 export default function Register(){
-    
-    const [state, formAction] = useFormState(login, initialState);
 
     return <main className='py-5 px-8 rounded-lg shadow flex w-full max-w-2xl mx-10 gap-x-3 ' >
 
@@ -30,7 +22,7 @@ export default function Register(){
 
             <h2 className="text-2xl font-semibold mb-5" >Register</h2>
             
-            <form action={formAction} className="mx-auto mb-5">
+            <form action={register} className="mx-auto mb-5">
 
                 <div className="mb-5">
                     <label htmlFor="name" className="block mb-1 text-sm font-medium text-gray-900 ">Your name</label>
@@ -50,7 +42,7 @@ export default function Register(){
                 <p className='text-xs mb-5' >Already have an account ? please <span className='text-blue-800' > <Link  href={"/auth/login"} >login</Link> </span> </p>
 
                 <div className="flex justify-end" >
-                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Submit</button>
                 </div>
 
 

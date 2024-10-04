@@ -1,6 +1,6 @@
 'use server'
  
-export async function register(formData: FormData) {
+export async function login(formData: FormData) {
   
     const data = Object.fromEntries(formData.entries());
 

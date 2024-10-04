@@ -1,11 +1,22 @@
+import Image from 'next/image'
 import Link from 'next/link'
  
+
+
 export default function NotFound() {
-  return (
+
+  return <div className='h-screen flex items-center justify-center' >
+
     <div>
-      <h2>Not Found</h2>
-      <p>Could not find requested resource</p>
-      <Link href="/dashboard">Return Home</Link>
+
+      <Image src="/draw/undraw_Not_found_re_bh2e.png" alt="Not Found Illustration" width={400} height={400} style={{ maxWidth: '100%', height: 'auto' }} />
+      
+      <h2 className='font-semibold text-4xl text-center text-gray-500 my-3' >404 - Not Found</h2>
+
+      <p className='text-center' >Could not find the requested page, you can return <Link href="/" className='text-blue-500' >home</Link> </p>
+
     </div>
-  )
+
+  </div>
+  
 }

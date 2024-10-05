@@ -1,4 +1,4 @@
-import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser, HiViewBoards } from 'react-icons/hi';
+import { HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser, HiViewBoards, HiHome } from 'react-icons/hi';
 import { IconType } from 'react-icons';
 
 interface MenuItem {
@@ -15,8 +15,8 @@ export function getMenu(): MenuItem[] {
             key: 'dashboard',
             title: "Dashboard",
             path: '/dashboard',
-            icon: HiArrowSmRight,  
-            condition: 'admin | alumni',
+            icon: HiHome,  
+            condition: 'admin | alumni | mahasiswa ',
         },
         {
             key: 'statistic',
@@ -44,21 +44,21 @@ export function getMenu(): MenuItem[] {
             title: "Lowongan Kerja",
             path: '/dashboard/loker',
             icon: HiTable,
-            condition: 'admin | alumni',
+            condition: 'admin | alumni | mahasiswa ',
         },
         {
             key: 'logang',
             title: "Lowongan Magang",
             path: '/dashboard/logang',
             icon: HiUser,
-            condition: 'admin | alumni',
+            condition: 'admin | alumni | mahasiswa',
         },
         {
             key: 'announcement',
             title: "Pengumuman",
             path: '/dashboard/announcement',
             icon: HiViewBoards,
-            condition: 'admin',
+            condition: 'admin | mahasiswa | alumni',
         },
     ];
 }

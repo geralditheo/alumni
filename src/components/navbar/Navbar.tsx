@@ -12,10 +12,6 @@ export default function Navigationbar(){
 
     return <main className="border w-full p-5  flex justify-between bg-white shadow-md items-center" >
 
-        <div className='hidden sm:block' >
-            <Image  src={"/logo/logo-sti.png"} height={100} width={200}  alt='Logo'    />    
-        </div>
-
         <div className="sm:hidden" >
             <Dropdown
                 arrowIcon={false}
@@ -27,6 +23,10 @@ export default function Navigationbar(){
                 { menu.map((item) => (<Dropdown.Item key={item.key} className="active:bg-blue-700 active:text-white" > <Link href={item.path} >{item.title}</Link> </Dropdown.Item>)) }
             </Dropdown>
 
+        </div>
+
+        <div className="mx-3" >
+            <Image  src={"/logo/logo-sti.png"} height={100} width={200}  alt='Logo'    />    
         </div>
 
         <div>

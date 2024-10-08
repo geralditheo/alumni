@@ -1,16 +1,17 @@
 'use client';
 
-import { useCheckDataAlumni } from '@/hooks/dashboard/useStore.hook';
+import { useCheckDataAlumni } from '@/hooks/dashboard/data-alumni/useStore.hook';
 import { formatDate } from '@/helper/formatDate';
 import { HiStar, HiPencilAlt   } from 'react-icons/hi';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function DashboardAlumni(){
 
     const getData = useCheckDataAlumni();
 
-    return <section>
+    return <section className='mb-5' >
 
         <div className="p-3  rounded-md bg-blue-500 h-[200px] mb-3 flex items-center justify-center" ><p className='font-semibold text-5xl text-center text-white' >Portal Alumni</p>  </div>
 
@@ -32,20 +33,18 @@ export default function DashboardAlumni(){
 
                     </div>
 
-                  
-
                 </div>
 
                 <div>
                     { getData.data?.map((item) => {
-                        return <div key={item.key} className='w-full p-3 shadow bg-white mb-1 flex gap-x-3 items-center rounded-md  ' >
+                        return <div key={item.key} className='w-full p-3 shadow bg-white mb-1 flex gap-x-3 items-center rounded-md  hover:bg-gray-50' >
                             { item.isFilled && <HiStar className='text-4xl shrink-0 text-yellow-300 ' />  }
                             { !item.isFilled && <HiStar className='text-4xl shrink-0 text-gray-300 ' />  }
                             <div className='basis-full' >  
                                 <p className='font-semibold' >{item.name}</p>
                                 { item.lastUpdted && <p className='text-xs font-semibold text-gray-400' > Last updated { formatDate(item.lastUpdted)  } </p> } 
                             </div>
-                            <button className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </button>
+                            <Link href="#" className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </Link>
                         </div>
                     }) }
                 </div>

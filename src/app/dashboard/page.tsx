@@ -1,5 +1,6 @@
 
 import DashboardAlumni from "@/components/dashboard/dash-alumni/DashboardAlumni";
+import DashboardLoker from "@/components/dashboard/lowongan-kerja/DashboardLoker";
 import DashboardLogang from "@/components/dashboard/lowongan-magang/DashboardLogang";
 
 export default function Dashboard(){
@@ -10,6 +11,8 @@ export default function Dashboard(){
         <DashboardAlumni />
 
         <DashboardLogang />
+
+        <DashboardLoker />
 
     </main>
 }

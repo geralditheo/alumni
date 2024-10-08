@@ -36,32 +36,24 @@ export default function DashboardLoker(){
 
                     <div className='bg-blue-500 w-full max-w-11  group-hover:bg-blue-400 transition-colors ease-in' />
 
-
                     <div className="shadow p-5 basis-full " >
-
-                        <div className='flex justify-end' >
-                            <div className='flex gap-x-3 items-center mb-1' >
-                                <div className='w-10 border border-blue-500 aspect-square relative rounded-full' >
-                                    <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full rounded-full ' />
-                                </div>
-
-                                <p className='font-semibold'> {item.NamaPerusahaan} </p>
+                        
+                        <div className='flex gap-x-3 items-center mb-1' >
+                            <div className='w-10 border border-blue-500 aspect-square relative rounded-full' >
+                                <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full rounded-full ' />
                             </div>
-                        </div>
 
-                        
-                        <p className='font-semibold text-gray-400 mb-1 text-end ' >{item.Posisi}</p>
-                        
-                        <div className='flex justify-end' >
-                            <button className='text-xs bg-yellow-300 py-1 px-2 rounded-full mb-1'> {item.Tags} </button>
+                            <p className='font-semibold'> {item.NamaPerusahaan} </p>
                         </div>
-
                         
-                        <div className='flex justify-end'  > <span className='flex gap-x-3 text-gray-500'>  <p className='text-xs' >{item.Alamat}</p><HiLocationMarker />  </span> </div>
-                        <div className='flex justify-end'  > <span className='flex gap-x-3 text-gray-500'> <p className='text-xs'>{item.TipeMagang}</p> <HiOfficeBuilding />   </span> </div>
+                        <p className='font-semibold text-gray-400 mb-1 ' >{item.Posisi}</p>
+                        
+                        <button className='text-xs bg-yellow-300 py-1 px-2 rounded-full mb-1'> {item.Tags} </button>
+                        
+                        <div> <span className='flex gap-x-3 text-gray-500'> <HiLocationMarker /> <p className='text-xs' >{item.Alamat}</p>  </span> </div>
+                        <div> <span className='flex gap-x-3 text-gray-500'> <HiOfficeBuilding /> <p className='text-xs'>{item.TipeMagang}</p>   </span> </div>
 
                     </div>
-
 
                 </div>
             })}

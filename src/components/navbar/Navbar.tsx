@@ -2,13 +2,15 @@
 
 import { Avatar, Dropdown } from "flowbite-react";
 import { getMenu } from '@/constant/sidebar/sidebar';
+import { HiMenuAlt3 } from "react-icons/hi";
+import { useRouter } from 'next/navigation'
 import Image from 'next/image';
 import Link from "next/link";
-import { HiMenuAlt3 } from "react-icons/hi";
 
 export default function Navigationbar(){
 
     const menu = getMenu();
+    const router = useRouter()
 
     return <main className="border w-full p-5  flex justify-between bg-white shadow-md items-center" >
 
@@ -40,7 +42,7 @@ export default function Navigationbar(){
                     <span className="block truncate text-sm font-medium">name@flowbite.com</span>
                 </Dropdown.Header>
 
-                <Dropdown.Item>Profile</Dropdown.Item>
+                <Dropdown.Item onClick={() => router.push("/dashboard/profile")} > Profile</Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item>Sign out</Dropdown.Item>
             </Dropdown>

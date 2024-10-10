@@ -13,8 +13,6 @@ export default function DashboardAlumni(){
 
     return <section className='mb-5' >
 
-        <div className="p-3  rounded-md bg-blue-500 h-[200px] mb-3 flex items-center justify-center" ><p className='font-semibold text-5xl text-center text-white' >Portal Alumni</p>  </div>
-
         <div className="flex flex-col md:flex-row gap-5  " >
 
             <div className="basis-full mb-5" >

@@ -18,7 +18,7 @@ export default function DashboardLoker(){
                 <h2 className="font-semibold mb-3" >Explore a World of Job Opportunities</h2> 
 
                 <p className="text-gray-500 text-justify mb-3" >
-                    In today's dynamic job market, opportunities are abundant for those seeking to embark on a new career path or advance in their current one. Whether you're a seasoned professional or just starting out, there are numerous fields and industries actively looking for talented individuals like you. From tech startups to established corporations, the demand for innovative minds is growing.
+                    In today&apos;s dynamic job market, opportunities are abundant for those seeking to embark on a new career path or advance in their current one. Whether you&apos;re a seasoned professional or just starting out, there are numerous fields and industries actively looking for talented individuals like you. From tech startups to established corporations, the demand for innovative minds is growing.
                 </p>
 
                 <p className='text-right font-semibold text-blue-500 mb-3' >

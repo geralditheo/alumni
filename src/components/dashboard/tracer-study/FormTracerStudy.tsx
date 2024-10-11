@@ -371,7 +371,7 @@ export default function FormTracerStudi({ userId }: { userId?: string }){
 
                 </div>
 
-                <div className="md:flex items-center gap-x-5 " >
+                {/* <div className="md:flex items-center gap-x-5 " >
                     
                     <div className="mb-2 block shrink-0 basis-1/4">
 
@@ -395,7 +395,7 @@ export default function FormTracerStudi({ userId }: { userId?: string }){
 
                     </div>
 
-                </div>
+                </div> */}
 
             </section>}
 

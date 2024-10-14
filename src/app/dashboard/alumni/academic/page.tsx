@@ -1,6 +1,6 @@
 
 
-import AcademicTable from "@/components/alumni/AlumniAcademic/AcademicTable"
+import AcademicTable from "@/components/alumni/Academic/AcademicTable"
 
 export default function Academic(){
 

@@ -2,7 +2,7 @@
 
 import { Table } from "flowbite-react";
 import { HiTrash, HiPencilAlt } from 'react-icons/hi';
-import AwardForm from "@/components/alumni/AlumniAward/AwardForm";
+import AwardForm from "@/components/alumni/Award/AwardForm";
 import { useState } from "react";
 
 

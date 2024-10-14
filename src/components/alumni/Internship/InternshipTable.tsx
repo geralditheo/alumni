@@ -2,11 +2,11 @@
 
 import { Table } from "flowbite-react";
 import { HiTrash, HiPencilAlt } from 'react-icons/hi';
-import AcademicForm from "@/components/alumni/AlumniAcademic/AcademicForm";
+import InternshipForm from "@/components/alumni/Internship/InternshipForm";
 import { useState } from "react";
 
 
-export default function AcademicTable({ userId }: { userId?: string }){
+export default function InternshipTable({ userId }: { userId?: string }){
 
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
     const [ thisUuid, setThisUUid ] = useState<null | string>(null);
@@ -28,7 +28,7 @@ export default function AcademicTable({ userId }: { userId?: string }){
     return <main>
 
         <aside>
-            {  openModalForm && <AcademicForm show={openModalForm} hide={onHide}  uuid={thisUuid} /> }
+            {  openModalForm && <InternshipForm show={openModalForm} hide={onHide}  uuid={thisUuid} /> }
             
         </aside>
 
@@ -42,11 +42,9 @@ export default function AcademicTable({ userId }: { userId?: string }){
                 <Table hoverable striped >
 
                     <Table.Head className="text-xs sm:text-sm " >
-                        <Table.HeadCell>Nama Perguruan Tinggi</Table.HeadCell>
-                        <Table.HeadCell>Program Studi</Table.HeadCell>
-                        <Table.HeadCell>IPK</Table.HeadCell>
-                        <Table.HeadCell>Tahun Masuk</Table.HeadCell>
-                        <Table.HeadCell>Tahun Lulus</Table.HeadCell>
+                        <Table.HeadCell>Nama Instansi</Table.HeadCell>
+                        <Table.HeadCell>Periode</Table.HeadCell>
+                        <Table.HeadCell>Jabatan</Table.HeadCell>
                         <Table.HeadCell>Kota</Table.HeadCell>
                         <Table.HeadCell>Negara</Table.HeadCell>
                         <Table.HeadCell>Catatan</Table.HeadCell>
@@ -56,11 +54,9 @@ export default function AcademicTable({ userId }: { userId?: string }){
                     <Table.Body className="divide-y text-xs sm:text-base  ">
                         <Table.Row key={"key"} className="bg-white ">
                             <Table.Cell>Udinus</Table.Cell>
-                            <Table.Cell>S Informatika</Table.Cell>
-                            <Table.Cell>3.00</Table.Cell>
-                            <Table.Cell>2000</Table.Cell>
-                            <Table.Cell>2010</Table.Cell>
-                            <Table.Cell>Smg</Table.Cell>
+                            <Table.Cell>2024</Table.Cell>
+                            <Table.Cell>Web Dev</Table.Cell>
+                            <Table.Cell>Semarang</Table.Cell>
                             <Table.Cell>Indonesia</Table.Cell>
                             <Table.Cell>Notes</Table.Cell>
                             <Table.Cell className="flex gap-3" >

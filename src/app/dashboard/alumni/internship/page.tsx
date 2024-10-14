@@ -1,4 +1,4 @@
-import InternshipTable from "@/components/alumni/AlumniInternship/InternshipTable"
+import InternshipTable from "@/components/alumni/Internship/InternshipTable"
 
 
 export default function Internship(){

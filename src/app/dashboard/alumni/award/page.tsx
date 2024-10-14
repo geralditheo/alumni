@@ -1,4 +1,4 @@
-import AwardTable from "@/components/alumni/AlumniAward/AwardTable"
+import AwardTable from "@/components/alumni/Award/AwardTable"
 
 
 

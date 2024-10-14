@@ -2,11 +2,11 @@
 
 import { Table } from "flowbite-react";
 import { HiTrash, HiPencilAlt } from 'react-icons/hi';
-import OrganizationForm from "@/components/alumni/AlumniOrganization/OrganizationForm";
 import { useState } from "react";
+import JobForm from "@/components/alumni/Job/JobForm";
 
 
-export default function OrganizationTable({ userId }: { userId?: string }){
+export default function JobTable({ userId }: { userId?: string }){
 
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
     const [ thisUuid, setThisUUid ] = useState<null | string>(null);
@@ -28,7 +28,7 @@ export default function OrganizationTable({ userId }: { userId?: string }){
     return <main>
 
         <aside>
-            {  openModalForm && <OrganizationForm show={openModalForm} hide={onHide}  uuid={thisUuid} /> }
+            {  openModalForm && <JobForm show={openModalForm} hide={onHide}  uuid={thisUuid} /> }
             
         </aside>
 
@@ -38,7 +38,7 @@ export default function OrganizationTable({ userId }: { userId?: string }){
                 <button onClick={() => setOpenModalForm(true)} className="bg-orange-400 font-semibold w-full text-sm sm:text-base sm:w-auto text-white shadow py-2 px-5 mb-3 rounded-lg" >Add +</button> 
             </div>
 
-            <div className="overflow-x-auto" >
+            <div className="overflow-x-auto shadow-md ">
                 <Table hoverable striped >
 
                     <Table.Head className="text-xs sm:text-sm " >

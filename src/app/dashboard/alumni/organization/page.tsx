@@ -1,4 +1,4 @@
-import OrganizationTable from "@/components/alumni/AlumniOrganization/OrganizationTable"
+import OrganizationTable from "@/components/alumni/Organization/OrganizationTable"
 
 
 export default function Organization(){

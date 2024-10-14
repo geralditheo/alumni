@@ -2,11 +2,11 @@
 
 import { Table } from "flowbite-react";
 import { HiTrash, HiPencilAlt } from 'react-icons/hi';
-import InternshipForm from "@/components/alumni/AlumniInternship/InternshipForm";
+import OrganizationForm from "@/components/alumni/Organization/OrganizationForm";
 import { useState } from "react";
 
 
-export default function InternshipTable({ userId }: { userId?: string }){
+export default function OrganizationTable({ userId }: { userId?: string }){
 
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
     const [ thisUuid, setThisUUid ] = useState<null | string>(null);
@@ -28,7 +28,7 @@ export default function InternshipTable({ userId }: { userId?: string }){
     return <main>
 
         <aside>
-            {  openModalForm && <InternshipForm show={openModalForm} hide={onHide}  uuid={thisUuid} /> }
+            {  openModalForm && <OrganizationForm show={openModalForm} hide={onHide}  uuid={thisUuid} /> }
             
         </aside>
 

@@ -11,7 +11,7 @@ export default function SidebarComponent(){
     const pathname = usePathname()
     const menu = getMenu();    
 
-    const [isCollapse, setIsCollapse] = useState(true);
+    const [isCollapse, setIsCollapse] = useState(false);
 
     const onCollapseSidebar = () => setIsCollapse(!isCollapse);
 

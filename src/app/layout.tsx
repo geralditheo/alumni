@@ -16,6 +16,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Alumni Udinus",
   description: "",
+  icons: {
+    icon: "/logo/logo-udinus.png"
+  }
 };
 
 export default function RootLayout({

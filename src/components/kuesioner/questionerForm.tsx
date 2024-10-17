@@ -275,7 +275,7 @@ export default function QuestionerForm({ done } : { done?: () => void }){
 
                 </div>
 
-                <div className="flex gap-3" >
+                <div className="flex gap-3 flex-col sm:flex-row " >
 
                     <button type="button" onClick={onBack} className={`${ current === 1 ? "hidden" : "block" } px-5 py-2 border rounded-md bg-white-500  w-full hover:bg-gray-100 active:bg-gray-200`} >Back</button>
                     <button type="button" onClick={onNext} className={`${ current === steps.length ? "hidden" : "block" } px-5 py-2 border rounded-md bg-white  w-full hover:bg-gray-100 active:bg-gray-200`} >Next</button>

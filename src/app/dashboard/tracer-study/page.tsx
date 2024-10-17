@@ -1,4 +1,6 @@
-import FormTracerStudi from "@/components/dashboard/tracer-study/FormTracerStudy"
+import QuestionerForm from "@/components/kuesioner/questionerForm"
+import FormTracerStudi from "@/components/tracer-study/FormTracerStudy"
+
 
 export default function TracerStudy(){
 
@@ -8,7 +10,9 @@ export default function TracerStudy(){
 
         <p className="mb-3 text-gray-500 text-center sm:text-left " >Wajib Mengisi form ini</p>
 
-        <FormTracerStudi  />
+        {/* <QuestionerForm /> */}
+
+        {/* <FormTracerStudi  /> */}
         
     </main>
 }

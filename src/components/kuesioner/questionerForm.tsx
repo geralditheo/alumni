@@ -3,6 +3,8 @@
 import { useState, FormEvent } from "react"
 import { IoIosCheckbox, IoIosContact, IoIosCloudy } from "react-icons/io";
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { register as submitRegistration } from '@/hooks/auth/authClient';
+import { Toaster, toast } from 'sonner'
 
 type Inputs = {
     // * Main
@@ -12,10 +14,10 @@ type Inputs = {
     password: string;
     confirmPassword: string;
 
-    nim: string;
-    yearIn: number;
-    yearOut: number;
-    phone1: string;
+    nim?: string;
+    yearIn?: number;
+    yearOut?: number;
+    phone1?: string;
 
     status: string;
     // * Work
@@ -61,10 +63,40 @@ export default function QuestionerForm({ done } : { done?: () => void }){
     }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        console.log("Data", data);
+        const formData = new FormData();
         
         setStatusField('none');
+        setCurrent(1);
         reset();
+
+        if (data.name) formData.append("name", data.name);
+        if (data.gender) formData.append("jns_kelamin", data.gender);
+        if (data.email) formData.append("email", data.email);
+        if (data.password) formData.append("password", data.password);
+        if (data.confirmPassword) formData.append("password_confirmation", data.confirmPassword);
+
+        if (data.nim) formData.append("nim", data.nim);
+        if (data.yearIn) formData.append("tahun_masuk", String(data.yearIn));
+        if (data.yearOut) formData.append("tahun_lulus", String(data.yearOut));
+        if (data.phone1) formData.append("no_hp", data.phone1);
+
+        if (data.status) formData.append("status", data.status);
+
+        if (data.jobType) formData.append("bidang_job", data.jobType);
+        if (data.jobCategory) formData.append("jns_job", data.jobCategory);
+        if (data.agencyName) formData.append("nama_job", data.agencyName);
+        if (data.jobTitle) formData.append("jabatan_job", data.jobTitle);
+        if (data.jobLevel) formData.append("lingkup_job", data.jobLevel);
+
+        if (data.educationCost) formData.append("biaya_studi", data.educationCost);
+        if (data.educationYearIn) formData.append("jenjang_pendidikan", String(data.educationYearIn) );
+        if (data.educationName) formData.append("universitas", data.educationName);
+        if (data.majorName) formData.append("program_studi", data.majorName);
+
+        const result = await submitRegistration(formData);
+
+        if (result?.error) toast.error("Failed to do registration");
+        if (result?.data) toast.success("Registrated");
 
         if (done) done();
     }
@@ -85,6 +117,8 @@ export default function QuestionerForm({ done } : { done?: () => void }){
     }
 
     return <main className="border border-blue-500 rounded-md max-w-[100em] w-full transition-all ease-in" >
+
+        <Toaster position="top-right"  closeButton duration={5000}  />
 
         <div className="relative mb-20" >
             <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-40 aspect-square rounded-full border-4 border-white overflow-hidden">

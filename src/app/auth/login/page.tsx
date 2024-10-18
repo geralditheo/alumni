@@ -1,25 +1,60 @@
-import Image from 'next/image'
+'use client';
+
+import Image from 'next/image';
 import Link from 'next/link';
-import { login } from '@/app/auth/login/actions';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { Toaster, toast } from 'sonner';
+import { login as submitLogin } from '@/hooks/auth/authClient';
+import { useRouter } from 'next/navigation';
+
+
+type Inputs = {
+    // * Main
+    email: string;
+    password: string;
+}
 
 export default function Login(){
 
+    const router = useRouter();
+    const { register, handleSubmit, reset } = useForm<Inputs>();
+
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        const formData = new FormData();
+
+        reset();
+        
+        if (data.email) formData.append("email", data.email);
+        if (data.password) formData.append("password", data.password);
+
+        const result = await submitLogin(formData);
+
+        if (result?.error) toast.error("Failed to do login");
+        if (result?.data) {
+            toast.success("Log in successfully");
+            return router.push("/dashboard");
+        } 
+    }
+
+
     return <main className='py-5 px-8 rounded-lg shadow flex w-full max-w-2xl mx-10 gap-x-3 ' >
+
+        <Toaster closeButton position='top-right' duration={5000} />
 
         <div className='w-full flex-initial p-3' >
 
             <h2 className="text-2xl font-semibold mb-5" >Login</h2>
             
-            <form action={login} className="mx-auto">
+            <form onSubmit={handleSubmit(onSubmit)} className="mx-auto">
 
                 <div className="mb-5">
                     <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-900 ">Your email</label>
-                    <input type="email" id="email" name='email' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="alumni@mhs.co.id" required />
+                    <input {...register('email')} type="email" id="email" name='email' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="alumni@mhs.co.id" required />
                 </div>
 
                 <div className="mb-5">
                     <label htmlFor="password" className="block mb-1 text-sm font-medium text-gray-900 ">Your password</label>
-                    <input type="password" id="password" name='password' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder='xxxxxxxxx' required />
+                    <input {...register('password')} type="password" id="password" name='password' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder='xxxxxxxxx' required />
                 </div>
 
                 <p className='text-xs mb-5' >Dont have an account ? you can <span className='text-blue-800' > <Link  href={"/auth/register"} >register</Link> </span>  first</p>

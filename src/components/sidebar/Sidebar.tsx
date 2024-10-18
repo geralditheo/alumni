@@ -1,25 +1,34 @@
 'use client';
 
-import { getMenu } from '@/constant/sidebar/sidebar';
+import { getMenu, MenuItem } from '@/constant/sidebar/sidebar';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HiChevronDoubleLeft, HiChevronDoubleRight  } from "react-icons/hi";
 
 export default function SidebarComponent(){
     const pathname = usePathname()
-    const menu = getMenu();    
 
+    const [menu, setMenu] = useState<MenuItem[]>([]); 
     const [isCollapse, setIsCollapse] = useState(false);
 
     const onCollapseSidebar = () => setIsCollapse(!isCollapse);
+
+    const fetchMenu = async () => {
+        const menuItems = await getMenu();
+        setMenu(menuItems);
+    };
+
+    useEffect(() => {
+        fetchMenu();
+    }, [])
 
     return <main className='hidden shrink-0 sm:flex' >
 
         <div className='sm:h-screen sm:bg-blue-500 py-3 shrink-0 bg-white transition-all ease-in' >
 
-            <div className='hidden  mb-5 py-5 sm:flex items-center gap-x-3 justify-center' >
+            <div className='hidden  mb-5 py-5 sm:flex items-center gap-x-3 justify-center px-4' >
                 <Image  src={"/logo/logo-udinus.png"} width={40} height={40} alt='Logo' />    
                 <p className={`text-xl font-semibold text-white ${ isCollapse ? 'hidden' : 'block'}`} >Alumni</p>
             </div>

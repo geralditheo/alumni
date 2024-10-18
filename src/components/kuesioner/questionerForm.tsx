@@ -7,14 +7,17 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 type Inputs = {
     // * Main
     name: string;
+    email: string;
     gender: string;
+    password: string;
+    confirmPassword: string;
+
     nim: string;
     yearIn: number;
     yearOut: number;
-    email: string;
     phone1: string;
-    status: string;
 
+    status: string;
     // * Work
     jobType?: string;
     jobCategory?: string;
@@ -133,20 +136,35 @@ export default function QuestionerForm({ done } : { done?: () => void }){
                             <label htmlFor="gender" className="text-xs sm:text-sm" >Jenis Kelamin</label>
                             <select { ...register("gender") } id="gender" name='gender' about="Jenis Kelamin" className="text-xs" >
                                 <option value="" >-none-</option>
-                                <option value="L" >Laki - Laki</option>
-                                <option value="P">Perempuan</option>
+                                <option value="Laki-Laki" >Laki - Laki</option>
+                                <option value="Perempuan">Perempuan</option>
                             </select>
                         </div>
 
                         <div className="flex flex-col gap-1 mb-5">
-                            <label htmlFor="nim" className="text-xs sm:text-sm" >NIM</label>
-                            <input  {...register('nim')} name="nim" id="nim" type="text" className="text-xs text-blue-500" placeholder="Nomor Induk Mahasiswa" />
+                            <label htmlFor="email" className="text-xs sm:text-sm" >Email</label>
+                            <input  {...register('email')} name="email" id="email" type="email" className="text-xs text-blue-500" placeholder="mhs@mhs.com" />
+                        </div>
+
+                        <div className="flex flex-col gap-1 mb-5">
+                            <label htmlFor="password" className="text-xs sm:text-sm" >Password</label>
+                            <input  {...register('password')} name="password" id="password" type="password" className="text-xs text-blue-500" placeholder="8 Characters" />
+                        </div>
+
+                        <div className="flex flex-col gap-1 mb-5">
+                            <label htmlFor="confirmPassword" className="text-xs sm:text-sm" >Konfirmasi Password</label>
+                            <input  {...register('confirmPassword')} name="confirmPassword" id="confirmPassword" type="password" className="text-xs text-blue-500" placeholder="8 Characters" />
                         </div>
 
                     </div>
                     
                     {/* Step 2 */}
                     <div className={`${ current === 2 ? "block" : "hidden" }`} >
+
+                        <div className="flex flex-col gap-1 mb-5">
+                            <label htmlFor="nim" className="text-xs sm:text-sm" >NIM</label>
+                            <input  {...register('nim')} name="nim" id="nim" type="text" className="text-xs text-blue-500" placeholder="Nomor Induk Mahasiswa" />
+                        </div>
 
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="yearIn" className="text-xs sm:text-sm" >Tahun Masuk</label>
@@ -156,11 +174,6 @@ export default function QuestionerForm({ done } : { done?: () => void }){
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="yearOut" className="text-xs sm:text-sm" >Tahun Lulus</label>
                             <input  {...register('yearOut')} name="yearOut" id="yearOut" type="number" min={0} className="text-xs text-blue-500" placeholder="2024" />
-                        </div>
-
-                        <div className="flex flex-col gap-1 mb-5">
-                            <label htmlFor="email" className="text-xs sm:text-sm" >Email</label>
-                            <input  {...register('email')} name="email" id="email" type="email" className="text-xs text-blue-500" placeholder="mhs@mhs.com" />
                         </div>
 
                         <div className="flex flex-col gap-1 mb-5">

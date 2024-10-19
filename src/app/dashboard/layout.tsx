@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import Sidebar from "@/components/sidebar/Sidebar";
 import Navigationbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
+import AuthInitializer from "@/components/auth/AuthInitializer";
+
 
 
 export const metadata: Metadata = {
@@ -14,6 +16,8 @@ export default function DashboardLayout({ children, }: Readonly<{ children: Reac
     <Sidebar/>
 
     <main className="w-full overflow-y-auto flex flex-col min-h-screen" >
+
+      <AuthInitializer />
 
       <Navigationbar />
 

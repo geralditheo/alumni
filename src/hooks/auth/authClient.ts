@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setCookie, getCookie } from 'cookies-next';
+import { setCookie, getCookie, deleteCookie } from 'cookies-next';
 
 type Sign = {
     error?: any, 
@@ -30,7 +30,7 @@ export const getUser = (): User | null => {
     return null;
 }
 
-export const getTokenServer = (): string | null => {
+export const getToken = (): string | null => {
     const token = getCookie('next-token');
 
     if (token) return token;
@@ -65,10 +65,10 @@ export const register = async (formData: FormData): Promise<Sign | undefined > =
 
         const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/register`, formData);
 
-        if (data?.token) localStorage.setItem('next-token', data.token);
-        if (data?.user) localStorage.setItem('next-user', JSON.stringify(data.user));
+        if (data?.token) setCookie('next-token', data.token);
+        if (data?.user) setCookie('next-user', JSON.stringify(data.user));
 
-        return data;
+        return { data };
 
     } catch (error) {
 
@@ -80,7 +80,7 @@ export const register = async (formData: FormData): Promise<Sign | undefined > =
 }
 
 export const logout = async () => {
-    localStorage.removeItem("next-token");
-    localStorage.removeItem("next-user");
+    deleteCookie('next-token');
+    deleteCookie('next-user');
 }
 

@@ -95,10 +95,13 @@ export default function QuestionerForm({ done } : { done?: () => void }){
 
         const result = await submitRegistration(formData);
 
-        if (result?.error) toast.error("Failed to do registration");
-        if (result?.data) toast.success("Registrated");
-
+        if (result?.error) return toast.error("Failed to do registration");
+        
+        toast.success("Registrated");
         if (done) done();
+        
+        return
+
     }
 
     // * Functions

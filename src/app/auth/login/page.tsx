@@ -29,11 +29,13 @@ export default function Login(){
 
         const result = await submitLogin(formData);
 
-        if (result?.error) toast.error("Failed to do login");
-        if (result?.data) {
-            toast.success("Log in successfully");
-            return router.push("/dashboard");
-        } 
+        if (result?.error) return toast.error("Failed to do login");
+        
+        toast.success("Log in successfully");
+        router.replace("/dashboard");
+
+        return
+        
     }
 
 

@@ -3,24 +3,44 @@
 import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useAward } from '@/hooks/alumni/award/useStore.hook';
+
 
 type Inputs = {
     awardName: string;
     awardAgency: string;
     awardLevel: string;
-    year: number;
+    year: number | null;
     note: string;
 };
 
 
 export default function AwardForm({ show, hide, uuid }: { show?: boolean , hide?: () => void, uuid?: string | null }){
 
+    const { detailAward, updateAward, postAward } = useAward();
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        console.log("Data", data);
+        const formData = new FormData();
+
+        if (data.awardName) formData.append("nama_award", String(data.awardName));
+        if (data.awardAgency) formData.append("institusi_award", String(data.awardAgency));
+        if (data.awardLevel) formData.append("tingkat_award", String(data.awardLevel));
+        if (data.year) formData.append("tahun_award", String(data.year));
+        if (data.note) formData.append("deskripsi_award", String(data.note));
         
+        if (!uuid) {
+
+            await postAward(formData);
+
+        }
+
+        if (uuid) {
+
+            await updateAward(formData, uuid);
+
+        }
         
         reset();
         if (hide) hide();
@@ -29,12 +49,17 @@ export default function AwardForm({ show, hide, uuid }: { show?: boolean , hide?
     useEffect(() => {
 
         if (uuid) {
+
+            detailAward(uuid)
+                .then((item) => {
+                    
+                    setValue("awardName", item?.nama_award ? item?.nama_award : "");
+                    setValue("awardAgency", item?.institusi_award ? item?.institusi_award : "");
+                    setValue("awardLevel", item?.tingkat_award ? item?.tingkat_award : "");
+                    setValue("year", item?.tahun_award ? Number(item?.tahun_award)  : null);
+                    setValue("note", item?.deskripsi_award ? item?.deskripsi_award : "");
+                })
             
-            setValue("awardName", "Majesty");
-            setValue("awardAgency", "Master Duel");
-            setValue("awardLevel", "nasional");
-            setValue("year", 2020);
-            setValue("note", "Notes");
 
         }
 

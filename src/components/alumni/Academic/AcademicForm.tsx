@@ -3,13 +3,16 @@
 import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useAcademic } from '@/hooks/alumni/academic/useStore.hook';
+import { Toaster, toast } from 'sonner';
+
 
 type Inputs = {
     universityName: string;
     majorStudi: string;
-    gpa: number;
-    yearIn: number;
-    yearOut: number;
+    gpa: number | null;
+    yearIn: number | null;
+    yearOut: number | null;
     city: string;
     country: string;
     note: string;
@@ -18,30 +21,63 @@ type Inputs = {
 
 export default function AcademicForm({ show, hide, uuid }: { show?: boolean , hide?: () => void, uuid?: string | null }){
 
+    const {  error: academicError, success: academicSuccess,  detailAcademic, postAcademic, updateAcademic } = useAcademic();
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        console.log("Data", data);
-        
+        const formData = new FormData();
+
+        if (data.universityName) formData.append("nama_studi", data.universityName);
+        if (data.majorStudi) formData.append("prodi", data.majorStudi);
+        if (data.gpa) formData.append("ipk", String(data.gpa));
+        if (data.yearIn) formData.append("tahun_masuk", String(data.yearIn));
+        if (data.yearOut) formData.append("tahun_lulus", String(data.yearOut));
+        if (data.city) formData.append("kota", data.city);
+        if (data.country) formData.append("negara", data.country);
+        if (data.note) formData.append("catatan", data.note);
+
+        if (!uuid) {
+
+            await postAcademic(formData);
+
+        }
+
+        if (uuid) {
+
+            await updateAcademic(formData, uuid);
+
+        }
+
+        if (academicError) toast.error(academicError);
+        if (academicSuccess) toast.error(academicSuccess);
         
         reset();
         if (hide) hide();
     }
 
-    useEffect(() => {
+    useEffect( () => {
 
         if (uuid) {
-            
-            setValue("universityName", "Kampus Udinus");
-            setValue("majorStudi", "Informatics");
-            setValue("gpa", 3);
-            setValue("yearIn", 2020);
-            setValue("yearOut", 2024);
-            setValue("city", "Semarang");
-            setValue("country", "Indonesia");
-            setValue("note", "Notes");
 
+            detailAcademic(uuid)
+                .then((result) => {
+
+                    setValue("universityName", result?.nama_studi ? result.nama_studi : "" );
+                    setValue("majorStudi", result?.prodi ? result?.prodi : "" );
+                    setValue("gpa", result?.ipk ? Number(result?.ipk)  : null );
+                    setValue("yearIn", result?.tahun_masuk ? result?.tahun_masuk : null);
+                    setValue("yearOut", result?.tahun_lulus ? result?.tahun_lulus : null);
+                    setValue("city", result?.kota ? result.kota : "");
+                    setValue("country", result?.negara ? result.negara : "");
+                    setValue("note", result?.catatan ? result.catatan : "");
+                    
+                    toast.success("Berhasil Mendapatkan Data");
+
+                })
+                .catch(() => {
+                    toast.error("Gagal Mendapatkan Data");
+                })
             
         }
 
@@ -49,6 +85,9 @@ export default function AcademicForm({ show, hide, uuid }: { show?: boolean , hi
     
 
     return <Modal show={show} onClose={hide} className="overflow-y-auto">
+
+        <Toaster closeButton position='top-right' duration={3000} />
+
         <Modal.Header > <p className="text-blue-500 text-base"> Form Academic</p></Modal.Header>
 
         <Modal.Body>

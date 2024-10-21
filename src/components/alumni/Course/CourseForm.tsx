@@ -3,22 +3,42 @@
 import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useCourse } from '@/hooks/alumni/course/useStore.hook';
+
 
 type Inputs = {
     courseName: string;
     courseAgency: string;
     courseLevel: string;
-    year: number;
+    year: number | null;
 };
 
 
 export default function AwardForm({ show, hide, uuid }: { show?: boolean , hide?: () => void, uuid?: string | null }){
 
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
+    const { detailCourse, postCourse, updateCourse } = useCourse();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        console.log("Data", data);
+        const formData = new FormData();
+
+        if (data.courseName) formData.append("nama_course", String(data.courseName));
+        if (data.courseAgency) formData.append("institusi_course", String(data.courseAgency));
+        if (data.courseLevel) formData.append("tingkat_course", String(data.courseLevel));
+        if (data.year) formData.append("tahun_course", String(data.year));
+        
+        if (!uuid) {
+
+            await postCourse(formData);
+
+        }
+
+        if (uuid) {
+
+            await updateCourse(formData, uuid);
+
+        }
         
         
         reset();
@@ -28,11 +48,16 @@ export default function AwardForm({ show, hide, uuid }: { show?: boolean , hide?
     useEffect(() => {
 
         if (uuid) {
+
+            detailCourse(uuid)
+                .then((item) => {
+                    
+                    setValue("courseName", item?.nama_course ? item?.nama_course : "" );
+                    setValue("courseAgency", item?.institusi_course ? item.institusi_course : "");
+                    setValue("courseLevel", item?.tingkat_course ? item.tingkat_course : "");
+                    setValue("year", item?.tahun_course ? item?.tahun_course : null);
+                })
             
-            setValue("courseName", "Majesty");
-            setValue("courseAgency", "Master Duel");
-            setValue("courseLevel", "nasional");
-            setValue("year", 2020);
 
         }
 

@@ -3,11 +3,13 @@
 import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useInternship } from '@/hooks/alumni/internship/useStore.hook';
+
 
 type Inputs = {
     agency: string; // Nama Instansi
-    periodStart: number; // Periode Mulai
-    periodEnd: number; // Periode Akhir
+    periodStart: number | null; // Periode Mulai
+    periodEnd: number | null; // Periode Akhir
     jobTitle: string; // Jabatan Pekerjaan
     city: string; // Jabatan Kota
     country: string; // Jabatan negara
@@ -18,10 +20,31 @@ type Inputs = {
 export default function InternshipForm({ show, hide, uuid }: { show?: boolean , hide?: () => void, uuid?: string | null }){
 
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
+    const { detailInternship, postInternship, updateInternship } = useInternship();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        console.log("Data", data);
+        const formData = new FormData();
+
+        if (data.agency) formData.append("nama_intern", String(data.agency));
+        if (data.periodStart) formData.append("periode_masuk_intern", String(data.periodStart));
+        if (data.periodEnd) formData.append("periode_keluar_intern", String(data.periodEnd));
+        if (data.jobTitle) formData.append("jabatan_intern", String(data.jobTitle));
+        if (data.city) formData.append("kota", String(data.city));
+        if (data.country) formData.append("negara", String(data.country));
+        if (data.note) formData.append("catatan", String(data.note));
+        
+        if (!uuid) {
+
+            await postInternship(formData);
+
+        }
+
+        if (uuid) {
+
+            await updateInternship(formData, uuid);
+
+        }
         
         
         reset();
@@ -31,14 +54,20 @@ export default function InternshipForm({ show, hide, uuid }: { show?: boolean , 
     useEffect(() => {
 
         if (uuid) {
+
+            detailInternship(uuid)
+                .then((item) => {
+                    
+                    setValue("agency", item?.nama_intern ? item?.nama_intern : "");
+                    setValue("periodStart", item?.periode_masuk_intern ? item?.periode_masuk_intern : null);
+                    setValue("periodEnd", item?.periode_keluar_intern ? item?.periode_keluar_intern : null);
+                    setValue("jobTitle", item?.jabatan_intern ? item?.jabatan_intern : "");
+                    setValue("city", item?.kota ? item?.kota : "");
+                    setValue("country", item?.negara ? item?.negara : "");
+                    setValue("note", item?.catatan ? item?.catatan : "");
+                })
+                
             
-            setValue("agency", "Udinus");
-            setValue("periodStart", 2020);
-            setValue("periodEnd", 2021);
-            setValue("jobTitle", "Developer");
-            setValue("city", "Semarang");
-            setValue("country", "Indonesia");
-            setValue("note", "Notes");
 
             
         }

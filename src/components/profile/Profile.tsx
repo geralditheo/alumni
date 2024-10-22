@@ -1,14 +1,14 @@
 'use client';
 
-import { useState } from "react";
 import Image from "next/image"
 import ModalProfile from "@/components/profile/ModalProfile";
 import ModalChangePassword from "./ModalChangePassword";
+import { useEffect, useState } from "react";
+import { useProfile } from '@/hooks/profile/alumni/useStore.hook';
 
+export default function Profile({}: { uuid?: string }){
 
-
-
-export default function Profile({ uuid }: { uuid?: string }){
+    const { data, getData } = useProfile();
 
     const [openModalPhoto ,setOpenModalPhoto] = useState(false);
     const [openModalPassword, setOpenModalPassword] = useState(false);
@@ -17,6 +17,10 @@ export default function Profile({ uuid }: { uuid?: string }){
         setOpenModalPhoto(false);
         setOpenModalPassword(false);
     }
+
+    useEffect(() => {
+        getData();
+    }, [])
 
 
     return <main>
@@ -42,9 +46,9 @@ export default function Profile({ uuid }: { uuid?: string }){
 
                     <div className="w-fit px-3 py-1 bg-orange-300  text-xs shadow -left-14 mb-3" >Alumni</div>
 
-                    <div className="font-semibold" >Jane Doe</div>
+                    <div className="font-semibold" >{ data?.name ?? "" }</div>
 
-                    <div className="mb-3" >janedoe@unknown.com</div>
+                    <div className="mb-3" >{ data?.email ?? "" }</div>
 
                     <div className="flex gap-3">
                         <button onClick={() => setOpenModalPhoto(true)} className="bg-blue-500 shadow-sm px-3 py-1 text-sm rounded-md text-white hover:bg-blue-600 active:bg-blue-700 w-full" >Update Photo Profile</button>

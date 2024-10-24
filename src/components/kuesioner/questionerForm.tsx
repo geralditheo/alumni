@@ -4,7 +4,7 @@ import { useState, FormEvent } from "react"
 import { IoIosCheckbox, IoIosContact, IoIosCloudy } from "react-icons/io";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { register as submitRegistration } from '@/hooks/auth/authClient';
-import { Toaster, toast } from 'sonner'
+import { toast } from 'sonner'
 
 type Inputs = {
     // * Main
@@ -120,8 +120,6 @@ export default function QuestionerForm({ done } : { done?: () => void }){
     }
 
     return <main className="border border-blue-500 rounded-md max-w-[100em] w-full transition-all ease-in" >
-
-        <Toaster position="top-right"  closeButton duration={5000}  />
 
         <div className="relative mb-20" >
             <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-40 aspect-square rounded-full border-4 border-white overflow-hidden">

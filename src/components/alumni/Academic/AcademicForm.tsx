@@ -4,7 +4,7 @@ import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAcademic } from '@/hooks/alumni/academic/useStore.hook';
-import { Toaster, toast } from 'sonner';
+import { toast } from 'sonner';
 
 
 type Inputs = {
@@ -85,8 +85,6 @@ export default function AcademicForm({ show, hide, uuid }: { show?: boolean , hi
     
 
     return <Modal show={show} onClose={hide} className="overflow-y-auto">
-
-        <Toaster closeButton position='top-right' duration={3000} />
 
         <Modal.Header > <p className="text-blue-500 text-base"> Form Academic</p></Modal.Header>
 

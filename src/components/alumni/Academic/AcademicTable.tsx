@@ -5,7 +5,7 @@ import { Table, Pagination } from "flowbite-react";
 import { HiTrash, HiPencilAlt } from 'react-icons/hi';
 import { useEffect, useState } from "react";
 import { useAcademic } from '@/hooks/alumni/academic/useStore.hook';
-import { Toaster, toast } from 'sonner';
+import { toast } from 'sonner';
 
 
 
@@ -65,7 +65,6 @@ export default function AcademicTable({ userId }: { userId?: string }){
     return <main>
 
         <aside>
-            <Toaster closeButton position='top-right' duration={3000} />
             
             {  openModalForm && <AcademicForm show={openModalForm} hide={onHide}  uuid={thisUuid} /> }
             

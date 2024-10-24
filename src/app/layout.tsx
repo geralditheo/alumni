@@ -26,7 +26,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
   return ( 
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} >
-          <Toaster position='top-right' duration={5000} closeButton   />
+          <Toaster position='top-right' duration={5000} closeButton richColors  />
           {children}
       </body>
     </html>

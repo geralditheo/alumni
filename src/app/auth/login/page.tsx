@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Toaster, toast } from 'sonner';
+import { toast } from 'sonner';
 import { login as submitLogin } from '@/hooks/auth/authClient';
 import { useRouter } from 'next/navigation';
 
@@ -39,9 +39,7 @@ export default function Login(){
     }
 
 
-    return <main className='py-5 px-8 rounded-lg shadow flex w-full max-w-2xl mx-10 gap-x-3 ' >
-
-        <Toaster closeButton position='top-right' duration={5000} />
+    return <main className='py-5 sm:px-8 rounded-lg shadow flex w-full max-w-2xl mx-10 gap-x-3 ' >
 
         <div className='w-full flex-initial p-3' >
 
@@ -59,12 +57,13 @@ export default function Login(){
                     <input {...register('password')} type="password" id="password" name='password' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder='xxxxxxxxx' required />
                 </div>
 
-                <p className='text-xs mb-5' >Dont have an account ? you can <span className='text-blue-800' > <Link  href={"/auth/register"} >register</Link> </span>  first</p>
+                <p className='text-xs my-3 text-blue-800 ' > <Link  href={"/auth/forgot-password"} >Forgot your   password ?</Link></p>
 
                 <div className="flex justify-end" >
-                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Submit</button>
+                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center ">Submit</button>
                 </div>
 
+                <p className='text-xs my-5 text-center' >Dont have an account ? you can <span className='text-blue-800' > <Link  href={"/auth/register"} >register</Link> </span>  first</p>
 
             </form>
 

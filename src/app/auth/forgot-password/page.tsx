@@ -1,10 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { forgotPassword } from '@/hooks/auth/forgotPassword';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
-
-import { forgotPassword } from '@/hooks/auth/forgotPassword';
 
 type Inputs = {
     // * Main
@@ -17,7 +18,9 @@ type Inputs = {
 export default function ForgotPassword(){
 
     // * Initialization
-    const { sendOtp, verifyOtp, resetPassword, otp, verified } = forgotPassword();
+    const router = useRouter();
+
+    const { sendOtp, verifyOtp, resetPassword, isOtpSend, isVerified } = forgotPassword();
     const { register, handleSubmit, reset } = useForm<Inputs>();
     const [ status, setStatus ] = useState<'sendOtp' | 'verifyOtp' | 'resetPassword'>('sendOtp');
 
@@ -26,30 +29,71 @@ export default function ForgotPassword(){
         
         const formData = new FormData();
         if (data.email) formData.append('email', data.email);
+        if (data.formOtp) formData.append('otp', data.formOtp);
         if (data.password) formData.append('password', data.password);
-        if (otp) formData.append('otp', otp);
+        if (data.rePassword) formData.append('password_confirmation', data.rePassword);
 
         if (status === 'sendOtp') {
 
-            // await sendOtp(formData);
+            sendOtp(formData)
+                .then(() => {
 
-            return setStatus('verifyOtp');
+                    setStatus('verifyOtp');
+
+                    toast.success("OTP has been sent into yout mail! Please check.");
+
+
+                })
+                .catch(() => {
+
+                    toast.error("Failed to send OTP");
+                    
+                })
+            
+            return;
+            
         }
 
-        if (status === 'verifyOtp' && otp) {
+        if (status === 'verifyOtp' && isOtpSend) {
 
-            // await verifyOtp(formData);
+            await verifyOtp(formData)
+                .then(() => {
+                    
+                    setStatus('resetPassword');
 
-            return setStatus('resetPassword');
+                    toast.success("OTP has been verified!");
+
+                })
+                .catch(() => {
+
+                    toast.error("Failed to verify OTP!");
+
+                    
+                });
+
+            return;
         }
 
-        if (status === 'resetPassword' && verified ) {
-
-            // await resetPassword(formData);
+        if (status === 'resetPassword' && isVerified ) {
 
             if (data.password !== data.rePassword) return toast.error("Your password doesnt match");
 
-            return setStatus('sendOtp');
+            resetPassword(formData)
+                .then(() => {
+
+                    reset();
+
+                    toast.success("Password has been reset!");
+
+                    router.replace('/auth/login');
+                    
+                }).catch(() => {
+
+                    toast.error("Failed to reset password");
+                    
+                });
+
+            return 
 
         }
         
@@ -59,7 +103,7 @@ export default function ForgotPassword(){
         <main className='py-5 sm:px-8 rounded-lg shadow w-full max-w-lg mx-10 ' >
             <h3 className='font-semibold text-center text-blue-500 my-8' >Alumni Udinus</h3>
             <p className='mb-8' >Enter the email associated with your account and we will send you a code to reset your password</p>
-            <form onSubmit={handleSubmit(onSubmit)} className="mx-auto">
+            <form onSubmit={handleSubmit(onSubmit)} className="mx-auto mb-3">
 
                 {status === 'sendOtp' && (
                     <div className="mb-5">
@@ -67,15 +111,15 @@ export default function ForgotPassword(){
                         <input {...register('email')} type="email" id="email" name='email' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="alumni@mhs.co.id" required />
                     </div>
                 )}
-
-                {status === 'verifyOtp' && (
+ 
+                {status === 'verifyOtp' && isOtpSend && (
                     <div className="mb-5">
                         <label htmlFor="formOtp" className="block mb-1 text-sm font-medium text-gray-900 ">Your OTP</label>
                         <input {...register('formOtp')} type="text" id="formOtp" name='formOtp' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " maxLength={6} placeholder="135246" required />
                     </div>
                 )}
 
-                {status === 'resetPassword' && (
+                {status === 'resetPassword' && isVerified && (
                     <div>
 
                         <div className="mb-5">
@@ -97,6 +141,8 @@ export default function ForgotPassword(){
                 </button>
 
             </form>
+
+            <Link href="/auth/login" className='text-center text-xs text-blue-500 ' > <p>Return to login</p> </Link>
 
         </main>
     )

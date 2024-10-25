@@ -65,8 +65,22 @@ export const register = async (formData: FormData): Promise<Sign | undefined > =
 
         const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/register`, formData);
 
-        if (data?.token) setCookie('next-token', data.token, { maxAge: 60 * 60 });
-        if (data?.user) setCookie('next-user', JSON.stringify(data.user), { maxAge: 60 * 60 });
+        return { data };
+
+    } catch (error) {
+
+        console.log(error);
+
+        throw new Error("Failed to register");
+        
+    }
+}
+
+export const verifyOtpRegister = async (formData: FormData): Promise<Sign | undefined > => {
+
+    try {
+
+        const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/verify-otp-email`, formData);
 
         return { data };
 
@@ -74,7 +88,7 @@ export const register = async (formData: FormData): Promise<Sign | undefined > =
 
         console.log(error);
 
-        return {  error: error };
+        throw new Error("Failed to verify OTP");
         
     }
 }

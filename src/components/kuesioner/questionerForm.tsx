@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, FormEvent } from "react"
-import { IoIosCheckbox, IoIosContact, IoIosCloudy } from "react-icons/io";
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { register as submitRegistration } from '@/hooks/auth/authClient';
+import { IoIosCheckbox, IoIosContact, IoIosCloudy, IoIosAirplane } from "react-icons/io";
+import { useForm, SubmitHandler, FieldErrors } from 'react-hook-form';
+import { register as submitRegistration, verifyOtpRegister } from '@/hooks/auth/authClient';
 import { toast } from 'sonner'
 
 type Inputs = {
@@ -32,42 +32,50 @@ type Inputs = {
     educationName?: string;
     majorName?: string;
     educationYearIn?: number
+
+    // * One Time Password
+    otp?: string;
 }
 
 export default function QuestionerForm({ done } : { done?: () => void }){
 
-    const { register, handleSubmit, reset, control, formState: { errors }, } = useForm<Inputs>();
+    const { register, handleSubmit, reset, formState: { errors }, } = useForm<Inputs>();
 
     const [steps] = useState([
         { key: 1, icon: IoIosContact  },
         { key: 2, icon: IoIosCloudy  },
         { key: 3, icon: IoIosCheckbox  },
+        { key: 4, icon: IoIosAirplane  },
     ]);
     const [current, setCurrent] = useState(1);
-    const [statusField, setStatusField] = useState< "none" | "plane1" | "plane2" | null | undefined >("none");
+    const [statusField, setStatusField] = useState< "none" | "plane1" | "plane2" | "plane3">("none");
+    const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
 
     const onNext =(event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-
         if (current - 1 !== steps.length - 1) return setCurrent(current + 1);
-        
     }
 
     const onBack = (event: React.MouseEvent<HTMLButtonElement>) => {
-
         event.preventDefault();
-
         if (current !== 1) return setCurrent(current - 1);
+    }
+
+    const onError = (errors: FieldErrors<Inputs>) => {
+        Object.entries(errors).forEach(([field, error]) => {
+            toast.error(`Field: ${field}, Error type: ${error?.type}, Message: ${error?.message}`);
+        })
         
     }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+
+        if (data.password !== data.confirmPassword) return toast.error("Both password doesnt match");
+
+        setIsDisabled(true);
+
         const formData = new FormData();
-        
-        setStatusField('none');
-        setCurrent(1);
-        reset();
 
         if (data.name) formData.append("name", data.name);
         if (data.gender) formData.append("jns_kelamin", data.gender);
@@ -93,20 +101,37 @@ export default function QuestionerForm({ done } : { done?: () => void }){
         if (data.educationName) formData.append("universitas", data.educationName);
         if (data.majorName) formData.append("program_studi", data.majorName);
 
-        const result = await submitRegistration(formData);
+        if (data.otp) formData.append("otp", data.otp);
 
-        if (result?.error) return toast.error("Failed to do registration");
+        if (statusField !== 'plane3') submitRegistration(formData)
+            .then(() => {
+                toast.success("Registrated");
+                setStatusField('plane3');
+                setCurrent(4);
+            })
+            .catch((err) => {
+                toast.error("Failed to do registration");
+                setStatusField('none');
+                setCurrent(1);
+                reset();
+            })
         
-        toast.success("Registrated");
-        if (done) done();
-        
-        return
-
+        if (statusField === 'plane3') verifyOtpRegister(formData)
+            .then(() => {
+                toast.success("Verification Success");
+                if (done) done();            })
+            .catch((err) => {
+                toast.error("Verification Failed");
+                setStatusField('none');
+                setCurrent(1);
+                reset();
+            })
+            
+        setIsDisabled(false);
     }
 
     // * Functions
     const onChangeStatus = (event: FormEvent<HTMLSelectElement>) => {
-
         const value = event.currentTarget.value;
 
         if (value === "Bekerja Full Time" || value === "Bekerja Part Time" || value === "Wiraswasta"){
@@ -116,8 +141,8 @@ export default function QuestionerForm({ done } : { done?: () => void }){
         }else {
             setStatusField("none");
         }
+    }    
 
-    }
 
     return <main className="border border-blue-500 rounded-md max-w-[100em] w-full transition-all ease-in" >
 
@@ -156,7 +181,7 @@ export default function QuestionerForm({ done } : { done?: () => void }){
         {/* Question */}
         <div className="p-3" >
 
-            <form onSubmit={handleSubmit(onSubmit)} >
+            <form onSubmit={handleSubmit(onSubmit, onError)} >
                 <div className="mb-3" >
 
                     {/* Step 1 */}
@@ -164,7 +189,7 @@ export default function QuestionerForm({ done } : { done?: () => void }){
 
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="name" className="text-xs sm:text-sm" >Nama</label>
-                            <input  {...register('name')} name="name" id="name" type="text" className="text-xs text-blue-500" placeholder="Jane Doe" />
+                            <input  {...register('name')} name="name" id="name" type="text" className="text-xs " placeholder="Jane Doe" />
                         </div>
 
                         <div className="flex flex-col gap-1 mb-5">
@@ -178,49 +203,47 @@ export default function QuestionerForm({ done } : { done?: () => void }){
 
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="email" className="text-xs sm:text-sm" >Email</label>
-                            <input  {...register('email')} name="email" id="email" type="email" className="text-xs text-blue-500" placeholder="mhs@mhs.com" />
+                            <input  {...register('email', { required: { value: true, message: "This field is required" } })} name="email" id="email" type="email" className="text-xs " placeholder="mhs@mhs.com" />
+                            {errors.email &&  errors.email.types && <p>{errors.email.types.required}</p>}
                         </div>
 
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="password" className="text-xs sm:text-sm" >Password</label>
-                            <input  {...register('password')} name="password" id="password" type="password" className="text-xs text-blue-500" placeholder="8 Characters" />
+                            <input  {...register('password', { required: { value: true, message: "This field is required" }, minLength: { value: 8, message: "Minimum 8 characters" } })} name="password" id="password" type="password" className="text-xs " placeholder="8 Characters" />
                         </div>
 
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="confirmPassword" className="text-xs sm:text-sm" >Konfirmasi Password</label>
-                            <input  {...register('confirmPassword')} name="confirmPassword" id="confirmPassword" type="password" className="text-xs text-blue-500" placeholder="8 Characters" />
+                            <input  {...register('confirmPassword', { required: { value: true, message: "This field is required" }, minLength: { value: 8, message: "Minumum 8 characters" } })} name="confirmPassword" id="confirmPassword" type="password" className="text-xs " placeholder="8 Characters" />
                         </div>
 
                     </div>
                     
                     {/* Step 2 */}
                     <div className={`${ current === 2 ? "block" : "hidden" }`} >
-
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="nim" className="text-xs sm:text-sm" >NIM</label>
-                            <input  {...register('nim')} name="nim" id="nim" type="text" className="text-xs text-blue-500" placeholder="Nomor Induk Mahasiswa" />
+                            <input  {...register('nim')} name="nim" id="nim" type="text" className="text-xs " placeholder="Nomor Induk Mahasiswa" />
                         </div>
 
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="yearIn" className="text-xs sm:text-sm" >Tahun Masuk</label>
-                            <input  {...register('yearIn')} name="yearIn" id="yearIn" type="number" min={0} className="text-xs text-blue-500" placeholder="2020" />
+                            <input  {...register('yearIn')} name="yearIn" id="yearIn" type="number" min={0} className="text-xs " placeholder="2020" />
                         </div>
 
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="yearOut" className="text-xs sm:text-sm" >Tahun Lulus</label>
-                            <input  {...register('yearOut')} name="yearOut" id="yearOut" type="number" min={0} className="text-xs text-blue-500" placeholder="2024" />
+                            <input  {...register('yearOut')} name="yearOut" id="yearOut" type="number" min={0} className="text-xs " placeholder="2024" />
                         </div>
 
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="phone1" className="text-xs sm:text-sm" >Nomor Telephone</label>
-                            <input  {...register('phone1')} name="phone1" id="phone1" type="text" className="text-xs text-blue-500" placeholder="xxxxxxxxxxxx" />
+                            <input  {...register('phone1')} name="phone1" id="phone1" type="text" className="text-xs " placeholder="xxxxxxxxxxxx" />
                         </div>
-
                     </div>
 
                     {/* Step 3 */}
                     <div className={`${ current === 3 ? "block" : "hidden" }`} >
-
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="status" className="text-xs sm:text-sm" >Status Saat Ini</label>
                             <select { ...register("status") } id="status" name='status' about="status" className="text-xs" onChange={onChangeStatus} >
@@ -235,7 +258,6 @@ export default function QuestionerForm({ done } : { done?: () => void }){
                             </select>
                         </div>
 
-                        
                         {/* Work */}
                         { statusField === "plane1" && <section className="flex flex-col gap-4">
 
@@ -318,7 +340,14 @@ export default function QuestionerForm({ done } : { done?: () => void }){
                             </div>
 
                         </section> }
+                    </div>
 
+                    {/* Step 4 */}
+                    <div className={`${ current === 4 ? "block" : "hidden" }`} >
+                        <div className="flex flex-col gap-1 mb-5">
+                            <label htmlFor="otp" className="text-xs sm:text-sm" >One Time Password</label>
+                            <input  {...register('otp')} name="otp" id="otp" type="text" className="text-xs " placeholder="123456" />
+                        </div>
                     </div>
 
                 </div>
@@ -326,8 +355,8 @@ export default function QuestionerForm({ done } : { done?: () => void }){
                 <div className="flex gap-3 flex-col sm:flex-row " >
 
                     <button type="button" onClick={onBack} className={`${ current === 1 ? "hidden" : "block" } px-5 py-2 border rounded-md bg-white-500  w-full hover:bg-gray-100 active:bg-gray-200`} >Back</button>
-                    <button type="button" onClick={onNext} className={`${ current === steps.length ? "hidden" : "block" } px-5 py-2 border rounded-md bg-white  w-full hover:bg-gray-100 active:bg-gray-200`} >Next</button>
-                    <button type="submit" className={`${ current === steps.length ? "block" : "hidden" } px-5 py-2 border rounded-md bg-blue-500 text-white w-full hover:bg-blue-500 active:bg-blue-600`} >Submit</button>
+                    <button type="button" onClick={onNext} className={`${ current <= 2 ? "block" : "hidden" } px-5 py-2 border rounded-md bg-white  w-full hover:bg-gray-100 active:bg-gray-200`} >Next</button>
+                    <button type="submit" className={`${ current >= 3 ? "block" : "hidden" } px-5 py-2 border rounded-md bg-blue-500 text-white w-full hover:bg-blue-500 active:bg-blue-600`} disabled={isDisabled} >Submit</button>
 
                 </div>
 

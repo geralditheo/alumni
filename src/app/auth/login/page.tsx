@@ -6,6 +6,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 import { login as submitLogin } from '@/hooks/auth/authClient';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 
 type Inputs = {
@@ -18,24 +19,25 @@ export default function Login(){
 
     const router = useRouter();
     const { register, handleSubmit, reset } = useForm<Inputs>();
+    const [isDisabled, setIsDisabled] = useState(false);
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const formData = new FormData();
-
-        reset();
+        setIsDisabled(true);
         
         if (data.email) formData.append("email", data.email);
         if (data.password) formData.append("password", data.password);
 
-        const result = await submitLogin(formData);
+        await submitLogin(formData)
+            .then(() => {
+                toast.success("Log in successfully");
+                router.replace("/dashboard");
+            }).catch((err: Error) => {
+                toast.error( err.message ? err.message : "Login Failed");
+            });
 
-        if (result?.error) return toast.error("Failed to do login");
-        
-        toast.success("Log in successfully");
-        router.replace("/dashboard");
-
-        return
-        
+        setIsDisabled(false);
+        reset();        
     }
 
 
@@ -57,10 +59,10 @@ export default function Login(){
                     <input {...register('password')} type="password" id="password" name='password' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder='xxxxxxxxx' required />
                 </div>
 
-                <p className='text-xs my-3 text-blue-800 ' > <Link  href={"/auth/forgot-password"} >Forgot your   password ?</Link></p>
+                <p className='text-xs my-3 text-blue-800 ' > <Link  href={"/auth/forgot-password"} >Forgot your password ?</Link></p>
 
                 <div className="flex justify-end" >
-                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center ">Submit</button>
+                    <button disabled={isDisabled} type="submit" className=" disabled:bg-gray-400 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center "  >Submit</button>
                 </div>
 
                 <p className='text-xs my-5 text-center' >Dont have an account ? you can <span className='text-blue-800' > <Link  href={"/auth/register"} >register</Link> </span>  first</p>

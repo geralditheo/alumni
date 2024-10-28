@@ -49,12 +49,11 @@ export const login = async (formData: FormData): Promise<Sign | undefined > => {
 
         return { data };
 
-    } catch (error) {
+    } catch (error: any) {
+        const message = error?.response?.data?.error ?? "";
 
-        console.log(error);
+        throw new Error(message);
 
-        return { error: error };
-        
     }
 
 }

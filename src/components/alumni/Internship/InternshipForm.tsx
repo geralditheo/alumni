@@ -4,7 +4,7 @@ import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useInternship } from '@/hooks/alumni/internship/useStore.hook';
-
+import { toast } from 'sonner';
 
 type Inputs = {
     agency: string; // Nama Instansi
@@ -24,7 +24,7 @@ export default function InternshipForm({ show, hide, uuid }: { show?: boolean , 
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        const formData = new FormData();
+        const formData = uuid ? new URLSearchParams() : new FormData();
 
         if (data.agency) formData.append("nama_intern", String(data.agency));
         if (data.periodStart) formData.append("periode_masuk_intern", String(data.periodStart));
@@ -34,18 +34,22 @@ export default function InternshipForm({ show, hide, uuid }: { show?: boolean , 
         if (data.country) formData.append("negara", String(data.country));
         if (data.note) formData.append("catatan", String(data.note));
         
-        if (!uuid) {
+        if (!uuid) await postInternship(formData)
+            .then(() => {
+                toast.success("Success post data");
+            })
+            .catch(() => {
+                toast.error("Failed post data");
+            });
 
-            await postInternship(formData);
 
-        }
-
-        if (uuid) {
-
-            await updateInternship(formData, uuid);
-
-        }
-        
+        if (uuid) await updateInternship(formData, uuid)
+            .then(() => {
+                toast.success("Success update data");
+            })
+            .catch(() => {
+                toast.error("Failed update data");
+            });
         
         reset();
         if (hide) hide();

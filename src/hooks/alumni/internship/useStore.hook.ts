@@ -66,6 +66,7 @@ export function useInternship() {
 
             setError("Error fetching internships");
             
+            throw new Error("Error fetch internship");
         }
     }
 
@@ -88,6 +89,7 @@ export function useInternship() {
 
             setError("Error delete internships");
             
+            throw new Error("Error delete internship");
         }
 
     }
@@ -116,6 +118,7 @@ export function useInternship() {
 
             setError("Error show internships");
             
+            throw new Error("Error show internship");
         }
 
     }
@@ -138,7 +141,8 @@ export function useInternship() {
             console.log("Error", error);
 
             setError("Error update internships");
-            
+         
+            throw new Error("Error udpate internship");
         }
     }
 
@@ -160,6 +164,8 @@ export function useInternship() {
             console.log("Error", error);
 
             setError("Error create internships");
+
+            throw new Error("Error create internship");
         }
 
     }

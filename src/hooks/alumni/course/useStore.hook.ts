@@ -63,6 +63,7 @@ export function useCourse() {
 
             setError("Error fetching course");
             
+            throw new Error("Error fetch course");
         }
     }
 
@@ -85,6 +86,7 @@ export function useCourse() {
 
             setError("Error delete course");
             
+            throw new Error("Error delete course");
         }
 
     }
@@ -113,6 +115,7 @@ export function useCourse() {
 
             setError("Error show courses");
             
+            throw new Error("Error show course");
         }
 
     }
@@ -136,6 +139,7 @@ export function useCourse() {
 
             setError("Error update courses");
             
+            throw new Error("Error update course");
         }
     }
 
@@ -157,6 +161,8 @@ export function useCourse() {
             console.log("Error", error);
 
             setError("Error create courses");
+
+            throw new Error("Error create course");
         }
 
     }

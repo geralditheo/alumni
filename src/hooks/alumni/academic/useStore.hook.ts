@@ -82,6 +82,8 @@ export const useAcademic = create<State & Action>((set) => ({
 
             set({ error: "Error fetching academics" });
 
+            throw new Error("Error fetch academic");
+
         }
     },
 
@@ -107,6 +109,8 @@ export const useAcademic = create<State & Action>((set) => ({
             console.error("Error deleting academic:", error);
 
             set({ error: "Error deleting academic" });
+
+            throw new Error("Error delete academic");
             
         }
     },
@@ -138,6 +142,8 @@ export const useAcademic = create<State & Action>((set) => ({
             console.error("Error get academic:", error);
 
             set({ error: "Error get academic" });
+
+            throw new Error("Error get academic");
             
         }
 
@@ -164,6 +170,7 @@ export const useAcademic = create<State & Action>((set) => ({
 
             set({ error: "Error create academic" });
             
+            throw new Error("Error post academic");
         }
     },
 
@@ -188,6 +195,7 @@ export const useAcademic = create<State & Action>((set) => ({
 
             set({ error: "Error updating academic" });
             
+            throw new Error("Error update academic");
         }
 
     }

@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 
 export default function AcademicTable({ userId }: { userId?: string }){
 
-    const { academics, pagination, error: academicError, success: academicSuccess, getAcademics, deleteAcademic } = useAcademic();
+    const { academics, pagination, getAcademics, deleteAcademic } = useAcademic();
 
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
     const [ thisUuid, setThisUUid ] = useState<null | string>(null);
@@ -40,11 +40,12 @@ export default function AcademicTable({ userId }: { userId?: string }){
     }
 
     const onDelete = async (uuid: string) => {
-
-        await deleteAcademic(uuid);
-
-        if (academicError) toast.error(academicError);
-        if (academicSuccess) toast.success(academicSuccess);
+        await deleteAcademic(uuid)
+            .then(() => {
+                toast.success("Success delete data") ;
+            }).catch(() => {
+                toast.error("failed delete data") ;
+            });
 
         setRefresh(!refresh);
     }

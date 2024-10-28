@@ -26,7 +26,7 @@ export default function AcademicForm({ show, hide, uuid }: { show?: boolean , hi
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        const formData = new FormData();
+        const formData = uuid ? new URLSearchParams()  : new FormData() ;
 
         if (data.universityName) formData.append("nama_studi", data.universityName);
         if (data.majorStudi) formData.append("prodi", data.majorStudi);
@@ -38,19 +38,28 @@ export default function AcademicForm({ show, hide, uuid }: { show?: boolean , hi
         if (data.note) formData.append("catatan", data.note);
 
         if (!uuid) {
-
-            await postAcademic(formData);
+            await postAcademic(formData)
+                .then(() => {
+                    toast.success("Success post data");
+                })
+                .catch(() => {
+                    toast.error("Failed post data");
+                });
 
         }
 
         if (uuid) {
-
-            await updateAcademic(formData, uuid);
+            await updateAcademic(formData, uuid)
+                .then(() => {
+                    toast.success("Success update data");
+                })
+                .catch(() => {
+                    toast.error("Failed udpate data");
+                });
 
         }
 
-        if (academicError) toast.error(academicError);
-        if (academicSuccess) toast.error(academicSuccess);
+        
         
         reset();
         if (hide) hide();

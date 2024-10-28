@@ -93,6 +93,25 @@ export const verifyOtpRegister = async (formData: FormData): Promise<Sign | unde
 }
 
 export const logout = async () => {
+
+    const token = getToken();
+
+    try {
+
+        await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/logout`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        throw new Error("Failed to logout");
+        
+    }
+
     deleteCookie('next-token');
     deleteCookie('next-user');
 }

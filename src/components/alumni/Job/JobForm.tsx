@@ -24,7 +24,7 @@ export default function JobForm({ show, hide, uuid }: { show?: boolean , hide?: 
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        const formData = new FormData();
+        const formData = uuid ? new URLSearchParams() : new FormData();
 
         if (data.agency) formData.append("nama_job", String(data.agency));
         if (data.periodStart) formData.append("periode_masuk_job", String(data.periodStart));

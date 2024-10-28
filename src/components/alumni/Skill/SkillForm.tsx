@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useSkill } from '@/hooks/alumni/skill/useStore.hook';
 import { getTingkatKemampuan } from '@/constant/skill/tingkatKemampuan';
-
+import { toast } from 'sonner';
 
 type Inputs = {
     teamwork: string; 
@@ -26,7 +26,7 @@ export default function OrganizationForm({ show, hide, uuid }: { show?: boolean 
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        const formData = new FormData();
+        const formData = uuid ? new URLSearchParams() : new FormData();
 
         if (data.teamwork) formData.append("kerjasama_skill", String(data.teamwork));
         if (data.expertiseIt) formData.append("ahli_skill", String(data.expertiseIt));
@@ -36,19 +36,22 @@ export default function OrganizationForm({ show, hide, uuid }: { show?: boolean 
         if (data.leadership) formData.append("kepemimpinan_skill", String(data.leadership));
         if (data.workEtnic) formData.append("etoskerja_skill", String(data.workEtnic));
         
-        if (!uuid) {
+        if (!uuid) await postSkill(formData)
+            .then(() => {
+                toast.success("Success post data");
+            })
+            .catch(() => {
+                toast.error("Failed post data");
+            });
 
-            await postSkill(formData);
+        if (uuid)await updateSkill(formData, uuid)
+            .then(() => {
+                toast.success("Success update data");
+            })
+            .catch(() => {
+                toast.error("Failed update data");
+            });
 
-        }
-
-        if (uuid) {
-
-            await updateSkill(formData, uuid);
-
-        }
-        
-        
         reset();
         if (hide) hide();
     }

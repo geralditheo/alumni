@@ -66,6 +66,7 @@ export function useSkill() {
 
             setError("Error fetching skills");
             
+            throw new Error("Error fetch skill");
         }
     }
 
@@ -88,6 +89,7 @@ export function useSkill() {
 
             setError("Error delete skills");
             
+            throw new Error("Error delete skill");
         }
 
     }
@@ -116,6 +118,7 @@ export function useSkill() {
 
             setError("Error show skills");
             
+            throw new Error("Error show skill");
         }
 
     }
@@ -138,7 +141,8 @@ export function useSkill() {
             console.log("Error", error);
 
             setError("Error update skills");
-            
+         
+            throw new Error("Error update skill");
         }
     }
 
@@ -160,6 +164,8 @@ export function useSkill() {
             console.log("Error", error);
 
             setError("Error create skills");
+
+            throw new Error("Error create skill");
         }
 
     }

@@ -62,6 +62,8 @@ export function useAward(){
             console.log("Error", error);
 
             setError("Error fetching awards");
+
+            throw new Error("Error fetch awards");
             
         }
 
@@ -87,6 +89,7 @@ export function useAward(){
 
             setError("Error delete award");
             
+            throw new Error("Error delete awards");
         }
 
     }
@@ -115,6 +118,7 @@ export function useAward(){
 
             setError("Error show award");
             
+            throw new Error("Error show awards");
         }
 
     }
@@ -138,6 +142,7 @@ export function useAward(){
 
             setError("Error update award");
             
+            throw new Error("Error update awards");
         }
     }
 
@@ -159,6 +164,8 @@ export function useAward(){
             console.log("Error", error);
 
             setError("Error create award");
+
+            throw new Error("Error create awards");
         }
 
     }

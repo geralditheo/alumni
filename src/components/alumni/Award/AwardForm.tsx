@@ -4,7 +4,7 @@ import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAward } from '@/hooks/alumni/award/useStore.hook';
-
+import { toast } from 'sonner';
 
 type Inputs = {
     awardName: string;
@@ -22,7 +22,7 @@ export default function AwardForm({ show, hide, uuid }: { show?: boolean , hide?
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        const formData = new FormData();
+        const formData = uuid ? new URLSearchParams() :  new FormData();
 
         if (data.awardName) formData.append("nama_award", String(data.awardName));
         if (data.awardAgency) formData.append("institusi_award", String(data.awardAgency));
@@ -30,17 +30,23 @@ export default function AwardForm({ show, hide, uuid }: { show?: boolean , hide?
         if (data.year) formData.append("tahun_award", String(data.year));
         if (data.note) formData.append("deskripsi_award", String(data.note));
         
-        if (!uuid) {
+        if (!uuid) await postAward(formData)
+            .then(() => {
+                toast.success("Success post data");
+            })
+            .catch(() => {
+                toast.error("Failed post data");
+            });
 
-            await postAward(formData);
+        
 
-        }
-
-        if (uuid) {
-
-            await updateAward(formData, uuid);
-
-        }
+        if (uuid) await updateAward(formData, uuid)
+            .then((result) => {
+                toast.success("Success update data");
+            })
+            .catch((err) => {
+                toast.error("Failed update data");
+            });
         
         reset();
         if (hide) hide();

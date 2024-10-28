@@ -4,7 +4,7 @@ import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useJob } from '@/hooks/alumni/job/useStore.hook';
-
+import { toast } from 'sonner';
 
 type Inputs = {
     agency: string; // Nama Instansi
@@ -34,18 +34,21 @@ export default function JobForm({ show, hide, uuid }: { show?: boolean , hide?: 
         if (data.country) formData.append("negara", String(data.country));
         if (data.note) formData.append("catatan", String(data.note));
         
-        if (!uuid) {
-
-            await postJob(formData);
-
-        }
-
-        if (uuid) {
-
-            await updateJob(formData, uuid);
-
-        }
+        if (!uuid) await postJob(formData)
+            .then(() => {
+                toast.success("Success post data");
+            })
+            .catch(() => {
+                toast.error("Failed post data");
+            });
         
+
+        if (uuid) await updateJob(formData, uuid)
+            .then(() => {
+                toast.success("Success update data");
+            }).catch((err) => {
+                toast.error("Failed update data");
+            });
         
         reset();
         if (hide) hide();

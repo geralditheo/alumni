@@ -66,6 +66,7 @@ export function useJob() {
 
             setError("Error fetching jobs");
             
+            throw new Error("Error fetch jobs");
         }
     }
 
@@ -88,6 +89,7 @@ export function useJob() {
 
             setError("Error delete job");
             
+            throw new Error("Error delete jobs");
         }
 
     }
@@ -116,6 +118,7 @@ export function useJob() {
 
             setError("Error show jobs");
             
+            throw new Error("Error show jobs");
         }
 
     }
@@ -139,6 +142,7 @@ export function useJob() {
 
             setError("Error update job");
             
+            throw new Error("Error update jobs");
         }
     }
 
@@ -160,6 +164,8 @@ export function useJob() {
             console.log("Error", error);
 
             setError("Error create jobs");
+
+            throw new Error("Error create jobs");
         }
 
     }

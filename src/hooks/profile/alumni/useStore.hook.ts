@@ -46,9 +46,27 @@ export function useProfile(){
             console.log(error);
             
             setError("Failed to get profile");
+
+            throw new Error("Failed to get profile");
         }
     }
 
-    return { data, error, getData };
+    const changePassword = async (data: FormData): Promise<void> => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/change-password`, data, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+            
+        } catch (error) {
+            
+            throw new Error("Failed to change password");
+        }
+    }
+
+    return { data, error, getData, changePassword };
 
 }

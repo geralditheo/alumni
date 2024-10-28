@@ -4,7 +4,7 @@ import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useOrganization } from '@/hooks/alumni/organization/useStore.hook';
-
+import { toast } from 'sonner';
 
 type Inputs = {
     agency: string; // Nama Instansi
@@ -24,7 +24,7 @@ export default function OrganizationForm({ show, hide, uuid }: { show?: boolean 
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        const formData = new FormData();
+        const formData = uuid ? new URLSearchParams() : new FormData();
 
         if (data.agency) formData.append("nama_org", String(data.agency));
         if (data.periodStart) formData.append("periode_masuk_org", String(data.periodStart));
@@ -34,19 +34,24 @@ export default function OrganizationForm({ show, hide, uuid }: { show?: boolean 
         if (data.country) formData.append("negara", String(data.country));
         if (data.note) formData.append("catatan", String(data.note));
         
-        if (!uuid) {
+        if (!uuid) await postOrganization(formData)
+            .then(() => {
+                toast.success("Success post data");
+            })
+            .catch(() => {
+                toast.error("Failed post data");
+            });
 
-            await postOrganization(formData);
-
-        }
-
-        if (uuid) {
-
-            await updateOrganization(formData, uuid);
-
-        }
         
-        
+
+        if (uuid) await updateOrganization(formData, uuid)
+            .then(() => {
+                toast.success("Success update data");
+            })
+            .catch(() => {
+                toast.error("Failed update data");
+            });
+
         reset();
         if (hide) hide();
     }

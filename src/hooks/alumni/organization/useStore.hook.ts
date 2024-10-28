@@ -66,6 +66,7 @@ export function useOrganization() {
 
             setError("Error fetching organizations");
             
+            throw new Error("Error fetch organizations")
         }
     }
 
@@ -88,6 +89,7 @@ export function useOrganization() {
 
             setError("Error delete organizations");
             
+            throw new Error("Error delete organizations")
         }
 
     }
@@ -116,6 +118,7 @@ export function useOrganization() {
 
             setError("Error show organizations");
             
+            throw new Error("Error show organizations")
         }
 
     }
@@ -139,6 +142,7 @@ export function useOrganization() {
 
             setError("Error update organizations");
             
+            throw new Error("Error update organizations")
         }
     }
 
@@ -160,6 +164,8 @@ export function useOrganization() {
             console.log("Error", error);
 
             setError("Error create organizations");
+
+            throw new Error("Error create organizations")
         }
 
     }

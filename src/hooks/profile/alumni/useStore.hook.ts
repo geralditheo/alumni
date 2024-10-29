@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react"
 import { getToken } from '@/hooks/auth/authClient';
 
-type Alumni = {
+export type Alumni = {
     'name': string;
     'email': string;
     'foto_profil': string;

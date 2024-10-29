@@ -33,13 +33,13 @@ export function getMenu(): MenuItem[] {
             icon: HiChartPie,
             condition: roleAdmin,
         },
-        {
-            key: 'tracerStudy',
-            title: "Tracer Study",
-            path: '/dashboard/tracer-study',
-            icon: HiInbox,
-            condition: roleAdmin || roleAlumni,
-        },
+        // {
+        //     key: 'tracerStudy',
+        //     title: "Tracer Study",
+        //     path: '/dashboard/tracer-study',
+        //     icon: HiInbox,
+        //     condition: roleAdmin || roleAlumni,
+        // },
         {
             key: 'alumni',
             title: "Alumni",

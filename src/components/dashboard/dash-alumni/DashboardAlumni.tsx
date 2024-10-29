@@ -3,6 +3,7 @@
 import { useCheckDataAlumni } from '@/hooks/dashboard/data-alumni/useStore.hook';
 import { formatDate } from '@/helper/formatDate';
 import { HiStar, HiPencilAlt, HiChip } from 'react-icons/hi';
+import { generateCV } from '@/hooks/dashboard/generate-cv/useStore.hook';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -56,7 +57,7 @@ export default function DashboardAlumni(){
 
                         <div className='basis-full' >
                             <p className='font-semibold mb-3 text-justify' >You can create your own Curriculum Vitae by just clicking button.</p>
-                            <button className='transition-colors ease-in hover:bg-blue-600 px-5 py-2 shadow rounded-md bg-blue-500 text-white flex items-center gap-x-3' > <HiChip /> Generate CV</button>
+                            <button onClick={generateCV} className='transition-colors ease-in hover:bg-blue-600 px-5 py-2 shadow rounded-md bg-blue-500 text-white flex items-center gap-x-3' > <HiChip /> Generate CV</button>
                         </div>
 
                         <div className='basis-28 aspect-square relative rounded-full' >

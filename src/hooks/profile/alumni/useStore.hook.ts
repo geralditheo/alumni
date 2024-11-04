@@ -67,6 +67,22 @@ export function useProfile(){
         }
     }
 
-    return { data, error, getData, changePassword };
+    const uploadPhoto = async (data: FormData): Promise<void> => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/profilealumni`, data, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            return response.data;
+            
+        } catch (error) {
+            
+            throw new Error("Failed to upload photo");
+        }
+    }
+
+    return { data, error, getData, changePassword, uploadPhoto };
 
 }

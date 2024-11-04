@@ -5,13 +5,13 @@ import ModalProfile from "@/components/profile/ModalProfile";
 import ModalChangePassword from "./ModalChangePassword";
 import { useEffect, useState } from "react";
 import { useProfile } from '@/hooks/profile/alumni/useStore.hook';
-import { getUser } from '@/hooks/auth/authClient';
+import { getUser, User } from '@/hooks/auth/authClient';
 
 export default function Profile({}: { uuid?: string }){
 
     const { data, getData } = useProfile();
-    const user = getUser();
 
+    const [user, setUser] = useState<User | null>(null);
     const [openModalPhoto ,setOpenModalPhoto] = useState(false);
     const [openModalPassword, setOpenModalPassword] = useState(false);
 
@@ -22,10 +22,9 @@ export default function Profile({}: { uuid?: string }){
 
     useEffect(() => {
         getData();
-    }, [])
-
-    console.log("Profile", data);
-    
+        const fetchedUser = getUser();
+        setUser(fetchedUser);
+    }, [])    
 
     return <main>
         <aside>
@@ -55,7 +54,7 @@ export default function Profile({}: { uuid?: string }){
                 <div className="basis-full" >
                     <h3 className="font-semibold text-gray-500 mb-3" >Personal Information</h3>
 
-                    { user?.roles.map((item) => {
+                    { user?.roles?.map((item) => {
                             return (
                                 <div key={item} className="w-fit px-3 py-1 bg-orange-300  text-xs shadow -left-14 mb-3" >{item}</div>
                             )

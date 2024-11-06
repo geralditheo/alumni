@@ -6,7 +6,7 @@ import { HiChevronDoubleRight } from "react-icons/hi";
 
 export default function TracerStudyIndex(){
 
-    const listIndex = [1,2,3,4,5,6,7,8,9];
+    const listIndex = [1,2,3,4,5,6,7];
 
     return (
         <main className="flex flex-wrap" >

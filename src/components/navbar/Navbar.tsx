@@ -15,8 +15,8 @@ export default function Navigationbar(){
     const router = useRouter()
     const user = getUser();
 
-    const onLogOut = () => {
-        logout();
+    const onLogOut = async () => {
+        await logout();
         router.replace("/");
 
         return

@@ -32,8 +32,8 @@ interface Action {
     getAcademics: (filter?: Filter) => Promise<void>;
     deleteAcademic: (uuid: string) => Promise<void>;
     detailAcademic: (uuid: string) => Promise<Academic | undefined | void>;
-    postAcademic: (data: Academic | FormData | any ) => Promise<void>;
-    updateAcademic: (data: Academic | FormData | any , uuid: string) => Promise<void>;
+    postAcademic: (data: Academic | FormData | unknown ) => Promise<void>;
+    updateAcademic: (data: Academic | FormData | unknown , uuid: string) => Promise<void>;
 }
 
 interface Filter {

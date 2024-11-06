@@ -123,7 +123,7 @@ export function useSkill() {
 
     }
 
-    const updateSkill = async (data: Skill | FormData | any, uuid: string): Promise<void> => {
+    const updateSkill = async (data: Skill | FormData | unknown, uuid: string): Promise<void> => {
 
 
         try {
@@ -146,7 +146,7 @@ export function useSkill() {
         }
     }
 
-    const postSkill = async(data: Skill | FormData | any): Promise<void> => {
+    const postSkill = async(data: Skill | FormData | unknown): Promise<void> => {
 
         try {
 

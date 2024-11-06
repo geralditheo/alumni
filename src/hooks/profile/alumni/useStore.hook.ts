@@ -44,9 +44,7 @@ export function useProfile(){
             
         } catch (error) {
             console.log(error);
-            
             setError("Failed to get profile");
-
             throw new Error("Failed to get profile");
         }
     }
@@ -62,7 +60,8 @@ export function useProfile(){
             return response.data;
             
         } catch (error) {
-            
+            console.log(error);
+            setError("Failed to change password");
             throw new Error("Failed to change password");
         }
     }
@@ -78,7 +77,8 @@ export function useProfile(){
             return response.data;
             
         } catch (error) {
-            
+            console.log(error);
+            setError("Failed to upload photo");
             throw new Error("Failed to upload photo");
         }
     }
@@ -98,9 +98,7 @@ export function useProfile(){
             
         } catch (error) {
             console.log(error);
-            
             setError("Failed to get profile");
-
             throw new Error("Failed to get profile");
         }
     }
@@ -116,7 +114,8 @@ export function useProfile(){
             return response.data;
             
         } catch (error) {
-            
+            console.log(error);
+            setError("Failed to change password");
             throw new Error("Failed to change password");
         }
     }
@@ -132,7 +131,8 @@ export function useProfile(){
             return response.data;
             
         } catch (error) {
-            
+            console.log(error);
+            setError("Failed to upload photo");           
             throw new Error("Failed to upload photo");
         }
     }

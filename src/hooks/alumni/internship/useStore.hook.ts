@@ -123,7 +123,7 @@ export function useInternship() {
 
     }
 
-    const updateInternship = async (data: Internship | FormData | any, uuid: string): Promise<void> => {
+    const updateInternship = async (data: Internship | FormData | unknown, uuid: string): Promise<void> => {
 
 
         try {
@@ -146,7 +146,7 @@ export function useInternship() {
         }
     }
 
-    const postInternship = async(data: Internship | FormData | any): Promise<void> => {
+    const postInternship = async(data: Internship | FormData | unknown): Promise<void> => {
 
         try {
 

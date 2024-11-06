@@ -6,7 +6,7 @@ type ForgotPassword = {
     message?: string;
 }
 
-export const forgotPassword = () => {
+export const useForgotPassword = () => {
 
     const [isOtpSend, setIsOtpSend] = useState<boolean>(false);
     const [isVerified, setIsVerifed] = useState<boolean>(true);

@@ -91,7 +91,7 @@ export function useLoker(){
 
     }
 
-    const post = async (formData : FormData | URLSearchParams | any ): Promise<void> => {
+    const post = async (formData : FormData | URLSearchParams): Promise<void> => {
         try {
 
             const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/loker`, formData , {
@@ -111,7 +111,7 @@ export function useLoker(){
 
     }
 
-    const update = async (uuid: string, formData : FormData | URLSearchParams | any ): Promise<void> => {
+    const update = async (uuid: string, formData : FormData | URLSearchParams): Promise<void> => {
         try {
 
             const { data } = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/loker/${uuid}`, formData , {

@@ -120,7 +120,7 @@ export function useCourse() {
 
     }
 
-    const updateCourse = async (data: Course | FormData | any, uuid: string): Promise<void> => {
+    const updateCourse = async (data: Course | FormData | unknown, uuid: string): Promise<void> => {
 
 
         try {
@@ -143,7 +143,7 @@ export function useCourse() {
         }
     }
 
-    const postCourse = async(data: Course | FormData | any): Promise<void> => {
+    const postCourse = async(data: Course | FormData | unknown): Promise<void> => {
 
         try {
 

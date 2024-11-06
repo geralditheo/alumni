@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { forgotPassword } from '@/hooks/auth/forgotPassword';
+import { useForgotPassword } from '@/hooks/auth/forgotPassword';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -20,7 +20,7 @@ export default function ForgotPassword(){
     // * Initialization
     const router = useRouter();
 
-    const { sendOtp, verifyOtp, resetPassword, isOtpSend, isVerified } = forgotPassword();
+    const { sendOtp, verifyOtp, resetPassword, isOtpSend, isVerified } = useForgotPassword();
     const { register, handleSubmit, reset } = useForm<Inputs>();
     const [ status, setStatus ] = useState<'sendOtp' | 'verifyOtp' | 'resetPassword'>('sendOtp');
 

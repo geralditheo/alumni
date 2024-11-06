@@ -123,7 +123,7 @@ export function useJob() {
 
     }
 
-    const updateJob = async (data: Job | FormData | any, uuid: string): Promise<void> => {
+    const updateJob = async (data: Job | FormData | unknown, uuid: string): Promise<void> => {
 
 
         try {
@@ -146,7 +146,7 @@ export function useJob() {
         }
     }
 
-    const postJob = async(data: Job | FormData | any): Promise<void> => {
+    const postJob = async(data: Job | FormData | unknown): Promise<void> => {
 
         try {
 

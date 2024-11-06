@@ -123,7 +123,7 @@ export function useOrganization() {
 
     }
 
-    const updateOrganization = async (data: Organization | FormData | any, uuid: string): Promise<void> => {
+    const updateOrganization = async (data: Organization | FormData | unknown, uuid: string): Promise<void> => {
 
 
         try {
@@ -146,7 +146,7 @@ export function useOrganization() {
         }
     }
 
-    const postOrganization = async(data: Organization | FormData | any): Promise<void> => {
+    const postOrganization = async(data: Organization | FormData | unknown): Promise<void> => {
 
         try {
 

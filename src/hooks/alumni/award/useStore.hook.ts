@@ -123,7 +123,7 @@ export function useAward(){
 
     }
 
-    const updateAward = async (data: Award | FormData | any, uuid: string): Promise<void> => {
+    const updateAward = async (data: Award | FormData | unknown, uuid: string): Promise<void> => {
 
 
         try {
@@ -146,7 +146,7 @@ export function useAward(){
         }
     }
 
-    const postAward = async(data: Award | FormData | any): Promise<void> => {
+    const postAward = async(data: Award | FormData | unknown): Promise<void> => {
 
         try {
 

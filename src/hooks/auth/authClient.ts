@@ -4,7 +4,7 @@ import axios from "axios";
 import { setCookie, getCookie, deleteCookie } from 'cookies-next';
 
 export type Sign = {
-    error?: any, 
+    error?: unknown, 
     data?: { 
         expires_in?: number, 
         message?: string, 
@@ -50,10 +50,15 @@ export const login = async (formData: FormData): Promise<Sign | undefined> => {
 
         return { data };
 
-    } catch (error: any) {
-        const message = error?.response?.data?.error ?? "Login failed";
-        console.error("Login error:", message);
-        throw new Error(message);
+    } catch (error: unknown ) {
+        if (axios.isAxiosError(error)) {
+            const message = error.response?.data?.error ?? "Login failed";
+            console.error("Login error:", message);
+            throw new Error(message);
+        } else {
+            console.error("An unexpected error occurred");
+            throw new Error("An unexpected error occurred");
+        }
     }
 }
 

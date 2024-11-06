@@ -11,7 +11,8 @@ export default function StatistikTable(){
     const data = [{ tahun: '2024', total: 10, deteksi: 1, id: 1 }];
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
     const [ thisUuid, setThisUUid ] = useState<null | string>(null);
-
+    const [ filter, setFilter] = useState({ currentPage: 1, lastPage:  1, });
+    const [ refresh, setRefresh ] = useState<boolean>(true);
 
 
     const onEdit = (uuid: string) => {
@@ -28,8 +29,12 @@ export default function StatistikTable(){
         setThisUUid(null);
         setOpenModalForm(false);
         // setRefresh(!refresh);
-
     }
+
+    const onPageChange = (page: number) => {
+        setFilter({ ...filter, currentPage: page });
+        setRefresh(!refresh);
+    } 
 
     return (
         <main>
@@ -69,6 +74,9 @@ export default function StatistikTable(){
                         </Table.Body>
                     </Table>
                 </div>
+
+                <Pagination layout="pagination" currentPage={filter.currentPage} totalPages={filter.lastPage} onPageChange={onPageChange} />
+
 
             </section>
         </main>

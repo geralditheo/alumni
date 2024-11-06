@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Table, Pagination } from "flowbite-react";
 import { HiTrash, HiPencilAlt } from 'react-icons/hi';
+import AnnouncementForm from "@/components/announcement/AnnouncementForm";
+
 
 export default function AnnouncementTable(){
 
@@ -36,7 +38,7 @@ export default function AnnouncementTable(){
     return (
         <main>
             <aside>
-                {/* {  openModalForm && <StatistikForm show={openModalForm} done={onDone}  uuid={thisUuid} /> } */}
+                {  openModalForm && <AnnouncementForm show={openModalForm} done={onDone}  uuid={thisUuid} /> }
             </aside>
 
             <section>

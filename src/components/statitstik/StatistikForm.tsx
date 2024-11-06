@@ -50,13 +50,13 @@ export default function StatistikForm({ show, done, uuid }: { show?: boolean , d
 
         if (uuid) {
 
-            detailAward(uuid)
-                .then((item) => {
+            // detailAward(uuid)
+            //     .then((item) => {
                     
-                    // setValue("graduateYear", item?.nama_award ? item?.nama_award : "");
-                    // setValue("totalAlumni", item?.institusi_award ? item?.institusi_award : "");
+            //         // setValue("graduateYear", item?.nama_award ? item?.nama_award : "");
+            //         // setValue("totalAlumni", item?.institusi_award ? item?.institusi_award : "");
                     
-                })
+            //     })
             
 
         }
@@ -65,7 +65,7 @@ export default function StatistikForm({ show, done, uuid }: { show?: boolean , d
     
 
     return <Modal show={show} onClose={done} className="overflow-y-auto">
-        <Modal.Header > <p className="text-blue-500 text-base"> Form Award</p></Modal.Header>
+        <Modal.Header > <p className="text-blue-500 text-base"> Form Statistik</p></Modal.Header>
 
         <Modal.Body>
             <form onSubmit={handleSubmit(onSubmit)} >

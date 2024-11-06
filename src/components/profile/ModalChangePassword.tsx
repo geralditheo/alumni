@@ -3,7 +3,9 @@
 import { Modal } from "flowbite-react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useProfile } from '@/hooks/profile/alumni/useStore.hook';
+import { getUser} from '@/hooks/auth/authClient';
 import { toast } from 'sonner';
+
 
 type Inputs = {
     oldPassword: string;
@@ -15,19 +17,28 @@ type Inputs = {
 export default function ModalChangePassword({ show, hide, uuid }: { show: boolean , hide?: () => void, uuid?: string }){
 
     const { register, handleSubmit, reset } = useForm<Inputs>();
-    const { changePassword } = useProfile();
+    const { changePasswordAlumni, changePasswordAdmin } = useProfile();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
         if (data.confirmPassword !== data.newPassword) return toast.error("Password doesnt match");
 
+        const fetchedUser = getUser();
         const formData = new FormData()
 
         if (data.oldPassword) formData.append("current_password", data.oldPassword);
         if (data.newPassword) formData.append("new_password", data.newPassword);
         if (data.confirmPassword) formData.append("new_password_confirmation", data.confirmPassword);
 
-        await changePassword(formData)
+        if (fetchedUser?.roles.includes('alumni')) await changePasswordAlumni(formData)
+            .then(() => {
+                toast.success("Passwordd changed succesfully");
+            })
+            .catch(() => {
+                toast.error("Failed");
+            });
+
+        if (fetchedUser?.roles.includes('admin')) await changePasswordAdmin(formData)
             .then(() => {
                 toast.success("Passwordd changed succesfully");
             })

@@ -9,7 +9,7 @@ import { getUser, User } from '@/hooks/auth/authClient';
 
 export default function Profile({}: { uuid?: string }){
 
-    const { data, getData } = useProfile();
+    const { data, getDataAlumni, getDataAdmin } = useProfile();
 
     const [user, setUser] = useState<User | null>(null);
     const [openModalPhoto ,setOpenModalPhoto] = useState(false);
@@ -21,16 +21,19 @@ export default function Profile({}: { uuid?: string }){
     }
 
     useEffect(() => {
-        getData();
         const fetchedUser = getUser();
         setUser(fetchedUser);
+
+        if (fetchedUser?.roles.includes('alumni')) getDataAlumni();
+        if (fetchedUser?.roles.includes('admin')) getDataAdmin();
+
     }, [])    
 
     return <main>
         <aside>
-            { openModalPhoto && <ModalProfile show={openModalPhoto} hide={hide} uuid="ansda" /> } 
+            { openModalPhoto && <ModalProfile show={openModalPhoto} hide={hide} /> } 
 
-            { openModalPassword && <ModalChangePassword show={openModalPassword} hide={hide} uuid="ansda"/> }
+            { openModalPassword && <ModalChangePassword show={openModalPassword} hide={hide} /> }
 
         </aside>
 

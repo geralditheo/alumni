@@ -73,7 +73,7 @@ export function getMenu(): MenuItem[] {
             title: "Pengumuman",
             path: '/dashboard/announcement',
             icon: HiViewBoards,
-            condition: roleAlumni || roleAdmin || roleMahasiswa,
+            condition: roleAdmin ,
         },
     ];
 

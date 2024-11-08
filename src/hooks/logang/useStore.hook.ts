@@ -36,7 +36,7 @@ export function useLogang(){
                 }
             });
 
-            setManageDta(data);
+            if (Array.isArray(data)) setManageDta(data);
 
             return data;
             
@@ -58,7 +58,7 @@ export function useLogang(){
                 }
             });
 
-            setData(data);
+            if (Array.isArray(data)) setData(data);
 
             return data;
             

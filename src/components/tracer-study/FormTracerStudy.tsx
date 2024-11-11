@@ -1,11 +1,10 @@
 'use client';
 
-import { Label, TextInput, Select, Button, Datepicker } from "flowbite-react";
+import { Label, TextInput, Select, Button} from "flowbite-react";
 import { FormEvent } from 'react'
 import { HiMail } from "react-icons/hi";
-import { useForm, SubmitHandler, Controller } from "react-hook-form"
+import { useForm, SubmitHandler } from "react-hook-form"
 import { useState } from "react";
-import moment from 'moment';
 
 type Inputs = {
     // * Main
@@ -32,10 +31,10 @@ type Inputs = {
     eduationYearIn?: Date
 }
 
-export default function FormTracerStudi({ userId }: { userId?: string }){
+export default function FormTracerStudi({}: { userId?: string }){
 
     // * Initiations
-    const { register, handleSubmit, reset, control, formState: { errors }, } = useForm<Inputs>();
+    const { register, handleSubmit, reset } = useForm<Inputs>();
 
     const [statusField, setStatusField] = useState< "none" | "plane1" | "plane2" >("plane2");
 

@@ -1,14 +1,15 @@
 'use client';
 
+import Image from 'next/image';
 import { getPengalamanMagang } from "@/constant/internship/pengalamanMagang";
 import { getTipeMagang } from "@/constant/internship/tipeMagang";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Accordion } from "flowbite-react";
 import { HiPlus, HiCog, HiLocationMarker, HiBriefcase, HiDesktopComputer,HiCurrencyDollar   } from 'react-icons/hi';
 import { useRouter } from 'next/navigation'
-import Image from 'next/image';
-
+import { useLoker } from '@/hooks/loker/useStore.hook';
+import { rupiahFormat } from '@/helper/formatRupiah';
 
 type Inputs = {
     internshipExperience: string;
@@ -17,13 +18,14 @@ type Inputs = {
 
 export default function LokerIndex(){
 
-    const router = useRouter()
-    const many = [1,2,3,4,5,6,7,8,9];
+    const router = useRouter();
 
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
     const { data: dataPengalamanMagang } = getPengalamanMagang();
     const { data: dataTipeMagang } = getTipeMagang();
+    const [ refresh, setRefresh ] = useState<boolean>(true);
     const [ filter, setFilter ] = useState({});
+    const { data: dataLokers, index } = useLoker();
     
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
@@ -31,6 +33,10 @@ export default function LokerIndex(){
         console.log("Data", data);
         
     }
+
+    useEffect(() => {
+        index();
+    },[refresh])
 
     return <main className="flex flex-col sm:flex-row gap-5 container" >
 
@@ -80,32 +86,33 @@ export default function LokerIndex(){
 
             {/* Data */}
             <div>
-                { many.map((item, index) => {
+                { dataLokers.map((item, index) => {
+                    const tags = item.Tags.split(',');
+
                     return (
-
-                    <div key={index} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3" >
-                        <div className="flex justify-center"  >
-                            <div className='w-52 aspect-square relative border' >
-                                <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
-                            </div>
-                        </div>
-
-                        <div>
-                            <p className="font-semibold" >Developer</p>
-                            <p>Udinus</p>
-
-                            <div className="flex gap-3 my-3" >
-                                <div className="text-xs bg-blue-800 py-1 px-3 rounded-full text-white text-center" >nodejs</div>
-                                <div className="text-xs bg-blue-800 py-1 px-3 rounded-full text-white text-center" >web</div>
+                        <div key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3" >
+                            <div className="flex justify-center"  >
+                                <div className='w-52 aspect-square relative border' >
+                                    <Image priority src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
+                                </div>
                             </div>
 
-                            <p className="flex items-center gap-3"> <HiLocationMarker />   Semarang  </p>  
-                            <p className="flex items-center gap-3"> <HiDesktopComputer /> Fresh Graduate</p>
-                            <p className="flex items-center gap-3"> <HiBriefcase /> Fulltime</p>
-                            <p className="flex items-center gap-3"> <HiCurrencyDollar /> Rp, 3.000.000</p>
-                        </div>
-                    </div>
+                            <div>
+                                <p className="font-semibold" >{item.Posisi ?? "~"}</p>
+                                <p>{item.NamaPerusahaan ?? "~"}</p>
 
+                                <div className="flex gap-3 my-3" >
+                                    { tags.map((e, index) => {
+                                        return <div key={index} className="text-xs bg-blue-800 py-1 px-3 rounded-full text-white text-center" >{e}</div>
+                                    })}
+                                </div>
+
+                                <p className="flex items-center gap-3"> <HiLocationMarker />{item.Alamat}</p>  
+                                <p className="flex items-center gap-3"> <HiDesktopComputer />{item.Pengalaman}</p>
+                                <p className="flex items-center gap-3"> <HiBriefcase /> {item.TipeKerja}</p>
+                                <p className="flex items-center gap-3"> <HiCurrencyDollar /> {item.Gaji ? rupiahFormat(Number(item.Gaji)) : "~"}</p>
+                            </div>
+                        </div>
                     )
                 })}
 

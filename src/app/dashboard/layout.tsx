@@ -4,7 +4,6 @@ import Sidebar from "@/components/sidebar/Sidebar";
 import Navigationbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 
-
 export const metadata: Metadata = {
   title: "Dashboard",
 };

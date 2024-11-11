@@ -2,7 +2,9 @@
 
 import { Modal } from "flowbite-react";
 import { useForm, SubmitHandler } from 'react-hook-form';
-
+import { useProfile } from '@/hooks/profile/alumni/useStore.hook';
+import { getUser} from '@/hooks/auth/authClient';
+import { toast } from 'sonner';
 
 type Inputs = {
     pProfile: FileList;
@@ -12,10 +14,31 @@ type Inputs = {
 export default function ModalProfile({show, hide, uuid}: { show?: boolean , hide?: () => void, uuid?: string }){
 
     const { register, handleSubmit, reset } = useForm<Inputs>();
+    const { uploadPhotoAdmin, uploadPhotoAlumni } = useProfile();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
         const file = data.pProfile[0];
+        const formData = new FormData()
+        const fetchedUser = getUser();
+
+        if (file) formData.append('foto_profil', file);
+
+        if (fetchedUser?.roles.includes('alumni')) await uploadPhotoAlumni(formData)
+            .then(() => {
+                toast.success("Passwordd changed succesfully");
+            })
+            .catch(() => {
+                toast.error("Failed");
+            });
+
+        if (fetchedUser?.roles.includes('admin')) await uploadPhotoAdmin(formData)
+            .then(() => {
+                toast.success("Passwordd changed succesfully");
+            })
+            .catch(() => {
+                toast.error("Failed");
+            });
         
         reset();
         if (hide) hide();

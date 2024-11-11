@@ -1,19 +1,33 @@
 'use client';
 
-import { Table } from "flowbite-react";
-import { HiTrash, HiPencilAlt } from 'react-icons/hi';
 import FormCourse from "@/components/alumni/Course/CourseForm";
-import { useState } from "react";
+import { Table, Pagination } from "flowbite-react";
+import { HiTrash, HiPencilAlt } from 'react-icons/hi';
+import { useState, useEffect } from "react";
+import { useCourse } from '@/hooks/alumni/course/useStore.hook';
 
 
 export default function CourseTable({ userId }: { userId?: string }){
 
+    const { data, pagination, getCourses, deleteCourse } = useCourse();
+
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
     const [ thisUuid, setThisUUid ] = useState<null | string>(null);
+    const [ refresh, setRefresh ] = useState<boolean>(true);
+    const [ filter, setFilter] = useState({
+        currentPage: 1,
+        lastPage:  1,
+    })
+
+    const onPageChange = (page: number) => {
+        setFilter({ ...filter, currentPage: page });
+        setRefresh(!refresh);
+    } 
 
     const onHide = () => {
         setThisUUid(null);
         setOpenModalForm(false);
+        setRefresh(!refresh);
     }
 
     const onEdit = (uuid: string) => {
@@ -22,8 +36,21 @@ export default function CourseTable({ userId }: { userId?: string }){
     }
 
     const onDelete = async (uuid: string) => {
-
+        await deleteCourse(uuid);
+        setRefresh(!refresh);
     }
+
+    useEffect(() => {
+        
+        getCourses(filter);
+
+    }, [refresh])
+
+    useEffect(() => {
+
+        setFilter({  ...filter, lastPage: pagination?.lastPage ? pagination?.lastPage : 1 });
+        
+    }, [pagination])
 
     return <main>
 
@@ -50,21 +77,28 @@ export default function CourseTable({ userId }: { userId?: string }){
                     </Table.Head>
 
                     <Table.Body className="divide-y text-xs sm:text-base  ">
-                        <Table.Row key={"key"} className="bg-white ">
-                            <Table.Cell>Majestic</Table.Cell>
-                            <Table.Cell>Master Duel</Table.Cell>
-                            <Table.Cell>Regional</Table.Cell>
-                            <Table.Cell>2024</Table.Cell>
-                            <Table.Cell className="flex gap-3" >
-                                <button onClick={() => onEdit("32")} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
-                                <button onClick={() => onDelete("32")} className="bg-red-500 px-5 py-3 text-white hover:bg-red-600" ><HiTrash/></button>
-                            </Table.Cell>
-                        </Table.Row>
+                        { data.map((item) => {
+                            return (
+                                <Table.Row key={item.id} className="bg-white ">
+                                    <Table.Cell>{item.nama_course}</Table.Cell>
+                                    <Table.Cell>{item.institusi_course}</Table.Cell>
+                                    <Table.Cell>{item.tingkat_course}</Table.Cell>
+                                    <Table.Cell>{item.tahun_course}</Table.Cell>
+                                    <Table.Cell className="flex gap-3" >
+                                        <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
+                                        <button onClick={() => onDelete(String(item.id))} className="bg-red-500 px-5 py-3 text-white hover:bg-red-600" ><HiTrash/></button>
+                                    </Table.Cell>
+                                </Table.Row>
+                            )
+                        })}
                         
                     </Table.Body>
 
                 </Table>
             </div>
+
+            <Pagination layout="pagination" currentPage={filter.currentPage} totalPages={filter.lastPage} onPageChange={onPageChange} />
+
         </section>
 
     </main>

@@ -1,19 +1,35 @@
 'use client';
 
-import { Table } from "flowbite-react";
-import { HiTrash, HiPencilAlt } from 'react-icons/hi';
 import AwardForm from "@/components/alumni/Award/AwardForm";
-import { useState } from "react";
-
+import { Table, Pagination } from "flowbite-react";
+import { HiTrash, HiPencilAlt } from 'react-icons/hi';
+import { useEffect, useState } from "react";
+import { useAward } from '@/hooks/alumni/award/useStore.hook';
 
 export default function AwardTable({ userId }: { userId?: string }){
 
+    const { data, pagination, getAwards, deleteAward } = useAward();
+
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
     const [ thisUuid, setThisUUid ] = useState<null | string>(null);
+    const [ refresh, setRefresh ] = useState<boolean>(true);
+    const [ filter, setFilter] = useState({
+        currentPage: 1,
+        lastPage:  1,
+    })
+
+    const onPageChange = (page: number) => {
+
+        setFilter({ ...filter, currentPage: page });
+        setRefresh(!refresh);
+
+    } 
 
     const onHide = () => {
         setThisUUid(null);
         setOpenModalForm(false);
+        setRefresh(!refresh);
+
     }
 
     const onEdit = (uuid: string) => {
@@ -22,8 +38,21 @@ export default function AwardTable({ userId }: { userId?: string }){
     }
 
     const onDelete = async (uuid: string) => {
-
+        await deleteAward(uuid);
+        setRefresh(!refresh);
     }
+
+    useEffect(() => {
+
+        getAwards(filter);
+        
+    }, [refresh])
+
+    useEffect(() => {
+
+        setFilter({  ...filter, lastPage: pagination?.lastPage ? pagination?.lastPage : 1 });
+        
+    }, [pagination])
 
     return <main>
 
@@ -51,22 +80,31 @@ export default function AwardTable({ userId }: { userId?: string }){
                     </Table.Head>
 
                     <Table.Body className="divide-y text-xs sm:text-base  ">
-                        <Table.Row key={"key"} className="bg-white ">
-                            <Table.Cell>Majestic</Table.Cell>
-                            <Table.Cell>Master Duel</Table.Cell>
-                            <Table.Cell>Regional</Table.Cell>
-                            <Table.Cell>2024</Table.Cell>
-                            <Table.Cell>Notes</Table.Cell>
-                            <Table.Cell className="flex gap-3" >
-                                <button onClick={() => onEdit("32")} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
-                                <button onClick={() => onDelete("32")} className="bg-red-500 px-5 py-3 text-white hover:bg-red-600" ><HiTrash/></button>
-                            </Table.Cell>
-                        </Table.Row>
+                        { data.map((item) => {
+
+                            return (
+                                <Table.Row key={item.id} className="bg-white ">
+                                    <Table.Cell>{item.nama_award}</Table.Cell>
+                                    <Table.Cell>{item.institusi_award}</Table.Cell>
+                                    <Table.Cell>{item.tingkat_award}</Table.Cell>
+                                    <Table.Cell>{item.tahun_award}</Table.Cell>
+                                    <Table.Cell>{item.deskripsi_award}</Table.Cell>
+                                    <Table.Cell className="flex gap-3" >
+                                        <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
+                                        <button onClick={() => onDelete(String(item.id))} className="bg-red-500 px-5 py-3 text-white hover:bg-red-600" ><HiTrash/></button>
+                                    </Table.Cell>
+                                </Table.Row>
+
+                            )
+                        })}
                         
                     </Table.Body>
 
                 </Table>
             </div>
+
+            <Pagination layout="pagination" currentPage={filter.currentPage} totalPages={filter.lastPage} onPageChange={onPageChange} />
+
         </section>
 
     </main>

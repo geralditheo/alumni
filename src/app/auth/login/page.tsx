@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 import { login as submitLogin } from '@/hooks/auth/authClient';
-import { useRouter, useSearchParams  } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { HiAdjustments } from "react-icons/hi";
 import { FaGoogle } from "react-icons/fa";
@@ -28,8 +28,6 @@ export default function Login({ searchParams }: { searchParams: { type: LoginTyp
     const [isDisabled, setIsDisabled] = useState(false);
     
     const { type: loginType } = searchParams;
-
-    console.log("Sear", loginType);
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const formData = new FormData();

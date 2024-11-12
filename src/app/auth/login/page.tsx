@@ -21,14 +21,15 @@ enum LoginType {
     coordinator
 }
 
-export default function Login(){
+export default function Login({ searchParams }: { searchParams: { type: LoginType }}){
 
     const router = useRouter();
-    const searchParams = useSearchParams()
     const { register, handleSubmit, reset } = useForm<Inputs>();
     const [isDisabled, setIsDisabled] = useState(false);
+    
+    const { type: loginType } = searchParams;
 
-    const loginType = searchParams.get('type') as keyof typeof LoginType | null ;
+    console.log("Sear", loginType);
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const formData = new FormData();
@@ -79,7 +80,7 @@ export default function Login(){
                 <button disabled={isDisabled} type="submit" className=" disabled:bg-gray-400 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center mb-3"  >Submit</button>
 
                 {
-                    (loginType === 'student') && (
+                    (loginType === LoginType.student) && (
                         <button disabled={isDisabled} type="button" className=" disabled:bg-gray-400  hover:bg-gray-100 focus:ring-1 border focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center flex items-center justify-center gap-3"  >
                             <FaGoogle/>
                             Login By Google
@@ -88,7 +89,7 @@ export default function Login(){
                 }
                 
                 {
-                    (loginType === 'alumni') && (
+                    (loginType === LoginType.alumni) && (
                         <p className='text-xs my-5 text-center' >Dont have an account ? you can <span className='text-blue-800' > <Link  href={"/auth/register"} >register</Link> </span>  first</p>
                     )
                 }

@@ -58,7 +58,7 @@ export const useAcademic = create<State & Action>((set) => ({
 
         try {
 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academics`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicAlumni`, {
                 params: {
                     page: filter?.currentPage ? filter.currentPage : currentPage,
                 },
@@ -94,7 +94,7 @@ export const useAcademic = create<State & Action>((set) => ({
 
         try {
 
-            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academics/${uuid}`, {
+            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicAlumni/${uuid}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -122,7 +122,7 @@ export const useAcademic = create<State & Action>((set) => ({
 
         try {
 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academics/${uuid}`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicAlumni/${uuid}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -156,7 +156,7 @@ export const useAcademic = create<State & Action>((set) => ({
 
         try {            
 
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academics`, data, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicAlumni`, data, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -181,7 +181,7 @@ export const useAcademic = create<State & Action>((set) => ({
 
         try {            
 
-            const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academics/${uuid}`, data, {
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicAlumni/${uuid}`, data, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }

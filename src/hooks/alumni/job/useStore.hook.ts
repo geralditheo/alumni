@@ -43,7 +43,7 @@ export function useJob() {
 
         try {
 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/jobs`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/jobAlumni`, {
                 params: {
                     page: filter?.currentPage ? filter.currentPage : pagination.currentPage,
                 },
@@ -74,7 +74,7 @@ export function useJob() {
 
         try {
 
-            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/jobs/${uuid}`, {
+            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/jobAlumni/${uuid}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -98,7 +98,7 @@ export function useJob() {
 
         try {
 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/jobs/${uuid}`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/jobAlumni/${uuid}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -128,7 +128,7 @@ export function useJob() {
 
         try {
 
-            const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/jobs/${uuid}`, data , {
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/jobAlumni/${uuid}`, data , {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -150,7 +150,7 @@ export function useJob() {
 
         try {
 
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/jobs`, data , {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/jobAlumni`, data , {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }

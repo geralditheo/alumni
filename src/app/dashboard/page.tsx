@@ -21,7 +21,7 @@ export default async function Dashboard(){
         <div className="p-3  rounded-md bg-blue-500 h-[200px] mb-3 flex items-center justify-center" ><p className='font-semibold text-5xl text-center text-white' >Portal Alumni</p>  </div>
 
         { ( roleAdmin ) && <DashboardStatistikAlumni /> }
-        { ( roleAlumni || roleMahasiswa ) && <DashboardAlumni /> }
+        { ( roleAlumni ) && <DashboardAlumni /> }
         { ( roleAlumni || roleMahasiswa ) && <DashboardLogang /> }
         { ( roleAlumni || roleMahasiswa ) && <DashboardLoker /> }
 

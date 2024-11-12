@@ -16,9 +16,9 @@ type Inputs = {
 }
 
 enum LoginType {
-    student,
-    alumni,
-    coordinator
+    student = "student",
+    alumni = "alumni" ,
+    coordinator =  "coordinator", 
 }
 
 export default function Login({ searchParams }: { searchParams: { type: LoginType }}){
@@ -51,6 +51,7 @@ export default function Login({ searchParams }: { searchParams: { type: LoginTyp
     useEffect(() => {
         if (!loginType || !(loginType in LoginType)) router.push('/');
     }, [loginType, router]);
+    
 
     return <main className='py-5 px-3 sm:px-8 rounded-lg shadow flex w-full max-w-2xl mx-10 gap-x-3 ' >
 

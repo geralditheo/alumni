@@ -3,11 +3,13 @@
 import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useOrganization } from '@/hooks/alumni/organization/useStore.hook';
+import { toast } from 'sonner';
 
 type Inputs = {
     agency: string; // Nama Instansi
-    periodStart: number; // Periode Mulai
-    periodEnd: number; // Periode Akhir
+    periodStart: number | null; // Periode Mulai
+    periodEnd: number | null; // Periode Akhir
     jobTitle: string; // Jabatan Pekerjaan
     city: string; // Jabatan Kota
     country: string; // Jabatan negara
@@ -18,12 +20,38 @@ type Inputs = {
 export default function OrganizationForm({ show, hide, uuid }: { show?: boolean , hide?: () => void, uuid?: string | null }){
 
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
+    const { detailOrganization, postOrganization, updateOrganization } = useOrganization();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        console.log("Data", data);
+        const formData = uuid ? new URLSearchParams() : new FormData();
+
+        if (data.agency) formData.append("nama_org", String(data.agency));
+        if (data.periodStart) formData.append("periode_masuk_org", String(data.periodStart));
+        if (data.periodEnd) formData.append("periode_keluar_org", String(data.periodEnd));
+        if (data.jobTitle) formData.append("jabatan_org", String(data.jobTitle));
+        if (data.city) formData.append("kota", String(data.city));
+        if (data.country) formData.append("negara", String(data.country));
+        if (data.note) formData.append("catatan", String(data.note));
         
+        if (!uuid) await postOrganization(formData)
+            .then(() => {
+                toast.success("Success post data");
+            })
+            .catch(() => {
+                toast.error("Failed post data");
+            });
+
         
+
+        if (uuid) await updateOrganization(formData, uuid)
+            .then(() => {
+                toast.success("Success update data");
+            })
+            .catch(() => {
+                toast.error("Failed update data");
+            });
+
         reset();
         if (hide) hide();
     }
@@ -31,15 +59,18 @@ export default function OrganizationForm({ show, hide, uuid }: { show?: boolean 
     useEffect(() => {
 
         if (uuid) {
-            
-            setValue("agency", "Udinus");
-            setValue("periodStart", 2020);
-            setValue("periodEnd", 2021);
-            setValue("jobTitle", "Developer");
-            setValue("city", "Semarang");
-            setValue("country", "Indonesia");
-            setValue("note", "Notes");
 
+            detailOrganization(uuid)
+                .then((item) => {
+                    
+                    setValue("agency", item?.nama_org ? item?.nama_org : "");
+                    setValue("periodStart", item?.periode_masuk_org ? item?.periode_masuk_org : null);
+                    setValue("periodEnd", item?.periode_keluar_org ? item?.periode_keluar_org : null);
+                    setValue("jobTitle", item?.jabatan_org ? item?.jabatan_org : "");
+                    setValue("city", item?.kota ? item?.kota : "");
+                    setValue("country", item?.negara ? item?.negara : "");
+                    setValue("note", item?.catatan ? item?.catatan : "");
+                })
             
         }
 

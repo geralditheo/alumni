@@ -4,13 +4,23 @@ import { Avatar, Dropdown } from "flowbite-react";
 import { getMenu } from '@/constant/sidebar/sidebar';
 import { HiMenuAlt3 } from "react-icons/hi";
 import { useRouter } from 'next/navigation'
+import { logout, getUser } from '@/hooks/auth/authClient';
 import Image from 'next/image';
 import Link from "next/link";
+
 
 export default function Navigationbar(){
 
     const menu = getMenu();
     const router = useRouter()
+    const user = getUser();
+
+    const onLogOut = async () => {
+        await logout();
+        router.replace("/");
+
+        return
+    }
 
     return <main className="border w-full p-5  flex justify-between bg-white shadow-md items-center" >
 
@@ -38,13 +48,13 @@ export default function Navigationbar(){
                 label={ <Avatar alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />}
             >
                 <Dropdown.Header>
-                    <span className="block text-sm">Bonnie Green</span>
-                    <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+                    <span className="block text-sm">{ user?.name ? user.name : "~" }</span>
+                    <span className="block truncate text-sm font-medium">{ user?.email ? user.email : "~" }</span>
                 </Dropdown.Header>
 
                 <Dropdown.Item onClick={() => router.push("/dashboard/profile")} > Profile</Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item>Sign out</Dropdown.Item>
+                <Dropdown.Item onClick={onLogOut} >Sign out</Dropdown.Item>
             </Dropdown>
 
         </div>

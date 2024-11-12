@@ -3,11 +3,13 @@
 import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useJob } from '@/hooks/alumni/job/useStore.hook';
+import { toast } from 'sonner';
 
 type Inputs = {
     agency: string; // Nama Instansi
-    periodStart: number; // Periode Mulai
-    periodEnd: number; // Periode Akhir
+    periodStart: number | null; // Periode Mulai
+    periodEnd: number | null; // Periode Akhir
     jobTitle: string; // Jabatan Pekerjaan
     city: string; // Jabatan Kota
     country: string; // Jabatan negara
@@ -18,11 +20,35 @@ type Inputs = {
 export default function JobForm({ show, hide, uuid }: { show?: boolean , hide?: () => void, uuid?: string | null }){
 
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
+    const { detailJob, postJob, updateJob } = useJob();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        console.log("Data", data);
+        const formData = uuid ? new URLSearchParams() : new FormData();
+
+        if (data.agency) formData.append("nama_job", String(data.agency));
+        if (data.periodStart) formData.append("periode_masuk_job", String(data.periodStart));
+        if (data.periodEnd) formData.append("periode_keluar_job", String(data.periodEnd));
+        if (data.jobTitle) formData.append("jabatan_job", String(data.jobTitle));
+        if (data.city) formData.append("kota", String(data.city));
+        if (data.country) formData.append("negara", String(data.country));
+        if (data.note) formData.append("catatan", String(data.note));
         
+        if (!uuid) await postJob(formData)
+            .then(() => {
+                toast.success("Success post data");
+            })
+            .catch(() => {
+                toast.error("Failed post data");
+            });
+        
+
+        if (uuid) await updateJob(formData, uuid)
+            .then(() => {
+                toast.success("Success update data");
+            }).catch((err) => {
+                toast.error("Failed update data");
+            });
         
         reset();
         if (hide) hide();
@@ -31,15 +57,18 @@ export default function JobForm({ show, hide, uuid }: { show?: boolean , hide?: 
     useEffect(() => {
 
         if (uuid) {
-            
-            setValue("agency", "Udinus");
-            setValue("periodStart", 2020);
-            setValue("periodEnd", 2021);
-            setValue("jobTitle", "Developer");
-            setValue("city", "Semarang");
-            setValue("country", "Indonesia");
-            setValue("note", "Notes");
 
+            detailJob(uuid)
+                .then((item) => {
+                    
+                    setValue("agency", item?.nama_job ? item?.nama_job : "");
+                    setValue("periodStart", item?.periode_masuk_job ? item?.periode_masuk_job : null);
+                    setValue("periodEnd", item?.periode_keluar_job ? item?.periode_keluar_job : null);
+                    setValue("jobTitle", item?.jabatan_job ? item?.jabatan_job : "");
+                    setValue("city", item?.kota ? item?.kota : "");
+                    setValue("country", item?.negara ? item?.negara : "");
+                    setValue("note", item?.catatan ? item?.catatan : "");
+                })
             
         }
 

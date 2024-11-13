@@ -36,13 +36,13 @@ export default function Login({ searchParams }: { searchParams: { type: LoginTyp
         if (data.email) formData.append("email", data.email);
         if (data.password) formData.append("password", data.password);
 
-        await submitLogin(formData)
-            .then(() => {
-                toast.success("Log in successfully");
-                router.replace("/dashboard");
-            }).catch((err: Error) => {
-                toast.error( err.message ? err.message : "Login Failed");
-            });
+        try {
+            await submitLogin(formData);
+            toast.success("Log in successfully");
+            return router.replace("/dashboard");
+        } catch (error: Error | any) {
+            toast.error( error.message ? error.message : "Login Failed");
+        }
 
         setIsDisabled(false);
         reset();        

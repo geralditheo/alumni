@@ -1,18 +1,26 @@
+'use client';
+
+import { useState, useEffect } from "react";
+import { getUser, User } from '@/hooks/auth/authClient';
 
 import DashboardAlumni from "@/components/dashboard/dash-alumni/DashboardAlumni";
 import DashboardLoker from "@/components/dashboard/lowongan-kerja/DashboardLoker";
 import DashboardLogang from "@/components/dashboard/lowongan-magang/DashboardLogang";
 import DashboardStatistikAlumni from '@/components/dashboard/statistik-alumni/DashboardStatistikAlumni';
 
-import { getUserServer } from '@/hooks/auth/authServer';
 
-export default async function Dashboard(){
+export default function Dashboard(){
 
-    const user = await getUserServer();
+    const [user, setUser] = useState<User>();
 
     const roleAlumni: boolean | undefined = user?.roles?.includes('alumni');
     const roleAdmin: boolean | undefined = user?.roles?.includes('admin');
     const roleMahasiswa: boolean | undefined = user?.roles?.includes('mahasiswa');
+
+    useEffect(() => {
+        const result = getUser();
+        if (result) setUser(result);
+    }, [])
 
     return <main className="container mx-auto lg:px-32 " >
 

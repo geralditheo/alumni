@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
         profile: {},
         academic: [],
     }
-
+    
     try {
 
         const { data: profile } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/profilealumni`, {
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const { data: academic } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academics`, {
+        const { data: academic } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicAlumni`, {
             params: {
                 page: 1,
             },  
@@ -50,9 +50,7 @@ export async function GET(request: NextRequest) {
     console.log("Data", data);
 
     const stream = await renderToStream(
-        <DocumentCV 
-            profile={data.profile as any} 
-        />
+        <DocumentCV profile={data.profile as any} />
     )
 
     return new NextResponse(stream as unknown as ReadableStream );

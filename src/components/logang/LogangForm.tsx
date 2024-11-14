@@ -1,13 +1,13 @@
 'use client'
 
 import { Modal } from "flowbite-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { getPengalamanMagang } from '@/constant/internship/pengalamanMagang';
 import { getTipeMagang } from '@/constant/internship/tipeMagang';
-import { getUser } from '@/hooks/auth/authClient';
+import { getUser, User } from '@/hooks/auth/authClient';
 import { toast } from 'sonner';
-import { useLogang } from '@/hooks/logang/useStore.hook';
+import { useLogangAlumni, useLogangAdmin } from '@/hooks/logang/useStore.hook';
 import moment from "moment";
 
 type Inputs = {
@@ -25,19 +25,23 @@ type Inputs = {
     validPeriod: Date | null | string;
 };
 
-
 export default function LogangForm({ show, hide, uuid }: { show?: boolean , hide?: () => void, uuid?: string | null }){
-    const user = getUser();
 
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
+    const [ user, setUser] = useState<User>();
+    const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
+
     const { data: optionsInternExp } = getPengalamanMagang();
     const { data: optionsInternType } = getTipeMagang();
-    const { post: postLogang, show: showLogang, update: updateLogang } = useLogang();
+    const { post: postLogangAlumni, show: showLogangAlumni, update: updateLogangAlumni } = useLogangAlumni();
+    const { post: postLogangAdmin, show: showLogangAdmin, update: updateLogangAdmin } = useLogangAdmin();
 
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
         const file = data.logoFile?.[0] ?? null;
         const formData = uuid ? new URLSearchParams() : new FormData();
+
+        const date = new Date(String(data.validPeriod));        
 
         if (user?.id) formData.append('user_id', user.id);
         if (data.agencyName) formData.append('NamaPerusahaan', data.agencyName);
@@ -50,13 +54,19 @@ export default function LogangForm({ show, hide, uuid }: { show?: boolean , hide
         if (data.url) formData.append('Website', data.url);
         if (data.email) formData.append('Email', data.email);
         if (data.tags) formData.append('Tags', data.tags);
-        formData.append('Verify', String("pending"));
         if (formData instanceof FormData) if (file) formData.append('Logo', file);
-        if (data.validPeriod) formData.append('MasaBerlaku', moment(data.validPeriod).format('YYYY-MM-DD'));
+        if (!isNaN(date.getTime())) formData.append('MasaBerlaku', moment(data.validPeriod).format('YYYY-MM-DD'));
 
-        if (!uuid) await postLogang(formData);
+        if (!uuid) {
+            formData.append('Verify', String("pending"));
+            if (role === 'alumni') await postLogangAlumni(formData);
+            if (role === 'admin') await postLogangAdmin(formData);
+        } 
 
-        if (uuid) await updateLogang(uuid, formData);
+        if (uuid) {
+            if (role === 'alumni') await updateLogangAlumni(uuid, formData);
+            if (role === 'admin') await updateLogangAdmin(uuid, formData);
+        } 
         
         reset();
         if (hide) hide();
@@ -64,30 +74,73 @@ export default function LogangForm({ show, hide, uuid }: { show?: boolean , hide
 
     useEffect(() => {
 
-        if (uuid) {
-            showLogang(uuid)
-                .then((result) => {
-                    const newDate = result?.MasaBerlaku ? moment(result?.MasaBerlaku).format("YYYY-MM-DD") : null;
+        if (uuid && user) {
 
-                    setValue("agencyName", result?.NamaPerusahaan ? result?.NamaPerusahaan : "" );
-                    setValue("position", result?.Posisi ? result?.Posisi : "" );
-                    setValue("address", result?.Alamat ? result?.Alamat : "" );
-                    setValue("email", result?.Email ? result?.Email : "" );
-                    setValue("intershipExperience", result?.Pengalaman ? result?.Pengalaman : "");
-                    setValue("wages", result?.Gaji ? Number(result?.Gaji)  : null);
-                    setValue("intershipType", result?.TipeMagang ? result?.TipeMagang : "");
-                    setValue("description", result?.Deskripsi ? result?.Deskripsi : "");
-                    setValue("url", result?.Website ? result?.Website : "");
-                    setValue("tags", result?.Tags ? result?.Tags : "");
-                    setValue("validPeriod", newDate );
+            if (role === 'alumni'){
+                showLogangAlumni(uuid)
+                    .then((result) => {
+                        const newDate = result?.MasaBerlaku ? moment(result?.MasaBerlaku).format("YYYY-MM-DD") : null;
+    
+                        setValue("agencyName", result?.NamaPerusahaan ? result?.NamaPerusahaan : "" );
+                        setValue("position", result?.Posisi ? result?.Posisi : "" );
+                        setValue("address", result?.Alamat ? result?.Alamat : "" );
+                        setValue("email", result?.Email ? result?.Email : "" );
+                        setValue("intershipExperience", result?.Pengalaman ? result?.Pengalaman : "");
+                        setValue("wages", result?.Gaji ? Number(result?.Gaji)  : null);
+                        setValue("intershipType", result?.TipeMagang ? result?.TipeMagang : "");
+                        setValue("description", result?.Deskripsi ? result?.Deskripsi : "");
+                        setValue("url", result?.Website ? result?.Website : "");
+                        setValue("tags", result?.Tags ? result?.Tags : "");
+                        setValue("validPeriod", newDate );
+    
+                    })
+                    .catch(() => {
+                        toast.error("Failed to show!");
+                    });
+            }
 
-                })
-                .catch(() => {
-                    toast.error("Failed to show!");
-                });
+            if (role === 'admin'){
+                showLogangAdmin(uuid)
+                    .then((result) => {
+                        const newDate = result?.MasaBerlaku ? moment(result?.MasaBerlaku).format("YYYY-MM-DD") : null;
+    
+                        setValue("agencyName", result?.NamaPerusahaan ? result?.NamaPerusahaan : "" );
+                        setValue("position", result?.Posisi ? result?.Posisi : "" );
+                        setValue("address", result?.Alamat ? result?.Alamat : "" );
+                        setValue("email", result?.Email ? result?.Email : "" );
+                        setValue("intershipExperience", result?.Pengalaman ? result?.Pengalaman : "");
+                        setValue("wages", result?.Gaji ? Number(result?.Gaji)  : null);
+                        setValue("intershipType", result?.TipeMagang ? result?.TipeMagang : "");
+                        setValue("description", result?.Deskripsi ? result?.Deskripsi : "");
+                        setValue("url", result?.Website ? result?.Website : "");
+                        setValue("tags", result?.Tags ? result?.Tags : "");
+                        setValue("validPeriod", newDate );
+    
+                    })
+                    .catch(() => {
+                        toast.error("Failed to show!");
+                    });
+            }
+            
         }
 
-    }, [uuid])
+    }, [uuid, user])
+
+    useEffect(() => {
+        const result = getUser();
+        if (result) {
+
+            const roleAlumni: boolean | undefined = result?.roles?.includes('alumni');
+            const roleAdmin: boolean | undefined = result?.roles?.includes('admin');
+            const roleMahasiswa: boolean | undefined = result?.roles?.includes('mahasiswa');
+
+            if (roleAlumni) setRole('alumni');
+            if (roleAdmin) setRole('admin');
+            if (roleMahasiswa) setRole('mahasiswa');
+
+            setUser(result);
+        } 
+    }, [])   
     
 
     return <Modal show={show} onClose={hide} className="overflow-y-auto">

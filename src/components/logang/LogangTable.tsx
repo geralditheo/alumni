@@ -4,15 +4,19 @@ import LogangForm from "@/components/logang/LogangForm";
 import { Table, Popover } from "flowbite-react";
 import { HiTrash, HiPencilAlt, HiAdjustments } from 'react-icons/hi';
 import { useState, useEffect } from "react";
-import { useLogang } from '@/hooks/logang/useStore.hook';
+import { useLogangAlumni, useLogangAdmin } from '@/hooks/logang/useStore.hook';
+import { getUser, User } from '@/hooks/auth/authClient';
 
-
-export default function LogangTable({ userId }: { userId?: string }){
+export default function LogangTable(){
 
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
     const [ thisUuid, setThisUUid ] = useState<null | string>(null);
     const [ refresh, setRefresh] = useState<boolean>(true);
-    const { manageData, manage, remove } = useLogang();
+    const [ user, setUser] = useState<User>();
+    const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
+
+    const { manageData: manageDataAlumni, manage: manageAlumni, remove: removeAlumni } = useLogangAlumni();
+    const { manageData: manageDataAdmin, manage: manageAdmin, remove: removeAdmin } = useLogangAdmin();
 
     const onHide = () => {
         setThisUUid(null);
@@ -26,13 +30,34 @@ export default function LogangTable({ userId }: { userId?: string }){
     }
 
     const onDelete = async (uuid: string) => {
-        await remove(uuid);
+        await removeAlumni(uuid);
         setRefresh(!refresh);
     }
 
     useEffect(() => {
-        manage();
-    }, [refresh])
+        
+        if (user) {
+            if (role === 'alumni') manageAlumni();
+            if (role === 'admin') manageAdmin();
+        }
+
+    }, [refresh, user])
+
+    useEffect(() => {
+        const result = getUser();
+        if (result) {
+
+            const roleAlumni: boolean | undefined = result?.roles?.includes('alumni');
+            const roleAdmin: boolean | undefined = result?.roles?.includes('admin');
+            const roleMahasiswa: boolean | undefined = result?.roles?.includes('mahasiswa');
+
+            if (roleAlumni) setRole('alumni');
+            if (roleAdmin) setRole('admin');
+            if (roleMahasiswa) setRole('mahasiswa');
+
+            setUser(result);
+        } 
+    }, [])     
 
     return <main>
 
@@ -57,7 +82,7 @@ export default function LogangTable({ userId }: { userId?: string }){
                     </Table.Head>
 
                     <Table.Body className="divide-y text-xs sm:text-base  ">
-                        { manageData.map((item) => {
+                        { role === 'alumni' && manageDataAlumni.map((item) => {
                             return (
                                 <Table.Row key={item.id} className="bg-white ">
                                     <Table.Cell>{item.NamaPerusahaan}</Table.Cell>
@@ -83,7 +108,34 @@ export default function LogangTable({ userId }: { userId?: string }){
                                 </Table.Row>
                             )
                         })}
-                        
+
+                        { role === 'admin' && manageDataAdmin.map((item) => {
+                            return (
+                                <Table.Row key={item.id} className="bg-white ">
+                                    <Table.Cell>{item.NamaPerusahaan}</Table.Cell>
+                                    <Table.Cell>{item.Posisi}</Table.Cell>
+                                    <Table.Cell className="flex gap-3" >
+                                        <button  className="bg-yellow-300 px-5 py-3 text-white hover:bg-yellow-400" ><HiAdjustments /></button>
+                                        <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
+                                        <Popover 
+                                            trigger="click"
+                                            placement="top-end"
+                                            content={
+                                                <div className="w-auto text-xs h-auto p-2 flex items-center gap-1" >
+                                                    <p>Remove this ?</p> 
+                                                    
+                                                    <button onClick={() => onDelete(String(item.id))} className="bg-red-500 px-3 text-white" >sure</button>
+                                                    
+                                                </div>
+                                            }
+                                        >
+                                            <button className="bg-red-500 px-5 py-3 text-white hover:bg-red-600" ><HiTrash/></button>
+                                        </Popover>
+                                    </Table.Cell>
+                                </Table.Row>
+                            )
+                        })}
+
                     </Table.Body>
 
                 </Table>

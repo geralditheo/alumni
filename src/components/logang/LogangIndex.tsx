@@ -65,7 +65,7 @@ export default function LogangIndex(){
 
     return <main className="flex flex-col sm:flex-row gap-5 container" >
 
-        <div className="basis-1/4 shrink-0 hidden" >
+        <div className="basis-1/4 shrink-0" >
             <div className="bg-gray-100 rounded-md p-3 border border-blue-500" >
                 <p className="mb-3" >Filter By</p>
 

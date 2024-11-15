@@ -58,7 +58,6 @@ export default function LogangForm({ show, hide, uuid }: { show?: boolean , hide
         if (!isNaN(date.getTime())) formData.append('MasaBerlaku', moment(data.validPeriod).format('YYYY-MM-DD'));
 
         if (!uuid) {
-            formData.append('Verify', String("pending"));
             if (role === 'alumni') await postLogangAlumni(formData);
             if (role === 'admin') await postLogangAdmin(formData);
         } 

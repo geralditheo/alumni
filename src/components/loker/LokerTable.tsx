@@ -96,7 +96,7 @@ export default function LokerTable({ userId }: { userId?: string }){
                                     <Table.Cell>{item.NamaPerusahaan}</Table.Cell>
                                     <Table.Cell>{item.Posisi}</Table.Cell>
                                     <Table.Cell>
-                                        <div className={`${ item?.Verify === "pending" ? "bg-lime-500" : item?.Verify === "verified" ? "bg-green-500" : "" } shadow px-3 py-1 text-center rounded-lg  text-white`} > {item.Verify} </div>
+                                        <div className={`${ item?.Verify ? "bg-lime-500" : "bg-green-500" } shadow px-3 py-1 text-center rounded-lg  text-white`} > {item.Verify ? "true" : "false"} </div>
                                     </Table.Cell>
                                     <Table.Cell className="flex gap-3" >
                                         <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
@@ -125,7 +125,7 @@ export default function LokerTable({ userId }: { userId?: string }){
                                     <Table.Cell>{item.NamaPerusahaan}</Table.Cell>
                                     <Table.Cell>{item.Posisi}</Table.Cell>
                                     <Table.Cell>
-                                        <div className={`${ item?.Verify === "pending" ? "bg-lime-500" : item?.Verify === "verified" ? "bg-green-500" : "" } shadow px-3 py-1 text-center rounded-lg  text-white`} > {item.Verify} </div>
+                                        <div className={`${ item?.Verify ? "bg-lime-500" : "bg-green-500" } shadow px-3 py-1 text-center rounded-lg  text-white`} > {item.Verify ? "true" : "false"} </div>
                                     </Table.Cell>
                                     <Table.Cell className="flex gap-3" >
                                         <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>

@@ -1,18 +1,19 @@
 'use client';
 
-import { useState } from "react";
-import { Table, Pagination } from "flowbite-react";
-import { HiTrash, HiPencilAlt } from 'react-icons/hi';
 import AnnouncementForm from "@/components/announcement/AnnouncementForm";
 
+import { useState, useEffect } from "react";
+import { Table, Pagination, Popover } from "flowbite-react";
+import { HiTrash, HiPencilAlt } from 'react-icons/hi';
+import { useAnnouncement } from '@/hooks/announcement/announcement.hook';
 
 export default function AnnouncementTable(){
 
-    const data = [{ no: '1', title: 'Pengumuman Event', content: "Pargrap yang cukup panjang da asdaas ad ad ad sad ad asd ad sad asdan jaknsd kajsnd kjand jkasn", id: 1 }];
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
     const [ thisUuid, setThisUUid ] = useState<null | string>(null);
     const [ filter, setFilter] = useState({ currentPage: 1, lastPage:  1, });
     const [ refresh, setRefresh ] = useState<boolean>(true);
+    const {  data, index, remove: removeAnnouncement } = useAnnouncement();
 
     const onEdit = (uuid: string) => {
         setThisUUid(uuid);
@@ -20,7 +21,7 @@ export default function AnnouncementTable(){
     }
 
     const onDelete = async (uuid: string) => {
-        // await deleteAward(uuid);
+        await removeAnnouncement(uuid);
         setRefresh(!refresh);
     }
 
@@ -34,6 +35,10 @@ export default function AnnouncementTable(){
         setFilter({ ...filter, currentPage: page });
         setRefresh(!refresh);
     } 
+
+    useEffect(() => {
+        index();
+    } ,[refresh])
 
     return (
         <main>
@@ -60,12 +65,25 @@ export default function AnnouncementTable(){
                             { data.map((item, index) => {
                                 return (
                                     <Table.Row key={`${index}-stats`} className="bg-white ">
-                                        <Table.Cell>{item.no}</Table.Cell>
-                                        <Table.Cell>{item.title}</Table.Cell>
-                                        <Table.Cell>{item.content.length > 50 ? `${item.content.slice(0, 50)}...` : item.content}</Table.Cell>
+                                        <Table.Cell>{index + 1}</Table.Cell>
+                                        <Table.Cell>{item.judul}</Table.Cell>
+                                        <Table.Cell>{item.isi.length > 50 ? `${item.isi.slice(0, 50)}...` : item.isi}</Table.Cell>
                                         <Table.Cell className="flex gap-3" >
                                             <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
-                                            <button onClick={() => onDelete(String(item.id))} className="bg-red-500 px-5 py-3 text-white hover:bg-red-600" ><HiTrash/></button>
+                                            <Popover 
+                                                trigger="click"
+                                                placement="top-end"
+                                                content={
+                                                    <div className="w-auto text-xs h-auto p-2 flex items-center gap-1" >
+                                                        <p>Remove this ?</p> 
+                                                        
+                                                        <button onClick={() => onDelete(String(item.id))} className="bg-red-500 px-3 text-white" >sure</button>
+                                                        
+                                                    </div>
+                                                }
+                                            >
+                                                <button className="bg-red-500 px-5 py-3 text-white hover:bg-red-600" ><HiTrash/></button>
+                                            </Popover>
                                         </Table.Cell>
                                     </Table.Row>
                                 )

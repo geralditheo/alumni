@@ -1,13 +1,14 @@
 'use client'
 
 import { Modal } from "flowbite-react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { getPengalamanMagang } from '@/constant/internship/pengalamanMagang';
 import { getTipeMagang } from '@/constant/internship/tipeMagang';
-import { getUser } from '@/hooks/auth/authClient';
-import { useLoker } from '@/hooks/loker/useStore.hook';
+import { getUser, User } from '@/hooks/auth/authClient';
+import { useLokerAlumni, useLokerAdmin } from '@/hooks/loker/useStore.hook';
 import { toast } from 'sonner';
+
 import moment from "moment";
 
 
@@ -30,11 +31,13 @@ type Inputs = {
 
 export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?: () => void, uuid?: string | null }){
 
-    const user = getUser();
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
+    const [ user, setUser] = useState<User>();
+    const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
     const { data: optionsInternExp } = getPengalamanMagang();
     const { data: optionsInternType } = getTipeMagang();
-    const { post: postLoker, show: showLoker, update: updateLoker } = useLoker();
+    const { post: postLokerAlumni, show: showLokerAlumni, update: updateLokerAlumni } = useLokerAlumni();
+    const { post: postLokerAdmin, show: showLokerAdmin, update: updateLokerAdmin } = useLokerAdmin();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
         const file = data.logoFile?.[0] ?? null;
@@ -51,13 +54,18 @@ export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?
         if (data.url) formData.append('Website', data.url);
         if (data.email) formData.append('Email', data.email);
         if (data.tags) formData.append('Tags', data.tags);
-        formData.append('Verify', String("pending"));
         if (formData instanceof FormData) if (file) formData.append('Logo', file);
         if (data.validPeriod) formData.append('MasaBerlaku', moment(data.validPeriod).format('YYYY-MM-DD'));
 
-        if (!uuid) await postLoker(formData);
+        if (!uuid) {
+            if (role === 'alumni') await postLokerAlumni(formData);
+            if (role === 'admin') await postLokerAdmin(formData);
+        }
 
-        if (uuid) await updateLoker(uuid, formData);
+        if (uuid) {
+            if (role === 'alumni') await updateLokerAlumni(uuid, formData);
+            if (role === 'admin') await updateLokerAdmin(uuid, formData);
+        } 
         
         reset();
         if (hide) hide();
@@ -65,31 +73,74 @@ export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?
 
     useEffect(() => {
 
-        if (uuid) {
-            showLoker(uuid)
-                .then((result) => {
+        if (uuid && role) {
 
-                    const newDate = result?.MasaBerlaku ? moment(result?.MasaBerlaku).format("YYYY-MM-DD") : null;
+            if (role === 'alumni'){
+                showLokerAlumni(uuid)
+                    .then((result) => {
+    
+                        const newDate = result?.MasaBerlaku ? moment(result?.MasaBerlaku).format("YYYY-MM-DD") : null;
+    
+                        setValue("agencyName", result?.NamaPerusahaan ? result?.NamaPerusahaan : "" );
+                        setValue("position", result?.Posisi ? result?.Posisi : "" );
+                        setValue("address", result?.Alamat ? result?.Alamat : "" );
+                        setValue("email", result?.Email ? result?.Email : "" );
+                        setValue("intershipExperience", result?.Pengalaman ? result?.Pengalaman : "");
+                        setValue("wages", result?.Gaji ? Number(result?.Gaji)  : null);
+                        setValue("workType", result?.TipeKerja ? result?.TipeKerja : "");
+                        setValue("description", result?.Deskripsi ? result?.Deskripsi : "");
+                        setValue("url", result?.Website ? result?.Website : "");
+                        setValue("tags", result?.Tags ? result?.Tags : "");
+                        setValue("validPeriod", newDate );
+    
+                    })
+                    .catch(() => {
+                        toast.error("Failed to show!");
+                    });
+            }
 
-                    setValue("agencyName", result?.NamaPerusahaan ? result?.NamaPerusahaan : "" );
-                    setValue("position", result?.Posisi ? result?.Posisi : "" );
-                    setValue("address", result?.Alamat ? result?.Alamat : "" );
-                    setValue("email", result?.Email ? result?.Email : "" );
-                    setValue("intershipExperience", result?.Pengalaman ? result?.Pengalaman : "");
-                    setValue("wages", result?.Gaji ? Number(result?.Gaji)  : null);
-                    setValue("workType", result?.TipeKerja ? result?.TipeKerja : "");
-                    setValue("description", result?.Deskripsi ? result?.Deskripsi : "");
-                    setValue("url", result?.Website ? result?.Website : "");
-                    setValue("tags", result?.Tags ? result?.Tags : "");
-                    setValue("validPeriod", newDate );
-
-                })
-                .catch(() => {
-                    toast.error("Failed to show!");
-                });
+            if (role === 'admin'){
+                showLokerAdmin(uuid)
+                    .then((result) => {
+    
+                        const newDate = result?.MasaBerlaku ? moment(result?.MasaBerlaku).format("YYYY-MM-DD") : null;
+    
+                        setValue("agencyName", result?.NamaPerusahaan ? result?.NamaPerusahaan : "" );
+                        setValue("position", result?.Posisi ? result?.Posisi : "" );
+                        setValue("address", result?.Alamat ? result?.Alamat : "" );
+                        setValue("email", result?.Email ? result?.Email : "" );
+                        setValue("intershipExperience", result?.Pengalaman ? result?.Pengalaman : "");
+                        setValue("wages", result?.Gaji ? Number(result?.Gaji)  : null);
+                        setValue("workType", result?.TipeKerja ? result?.TipeKerja : "");
+                        setValue("description", result?.Deskripsi ? result?.Deskripsi : "");
+                        setValue("url", result?.Website ? result?.Website : "");
+                        setValue("tags", result?.Tags ? result?.Tags : "");
+                        setValue("validPeriod", newDate );
+    
+                    })
+                    .catch(() => {
+                        toast.error("Failed to show!");
+                    });
+            }
         }
 
-    }, [uuid])
+    }, [uuid, role])
+
+    useEffect(() => {
+        const result = getUser();
+        if (result) {
+
+            const roleAlumni: boolean | undefined = result?.roles?.includes('alumni');
+            const roleAdmin: boolean | undefined = result?.roles?.includes('admin');
+            const roleMahasiswa: boolean | undefined = result?.roles?.includes('mahasiswa');
+
+            setUser(result);
+
+            if (roleAlumni) setRole('alumni');
+            if (roleAdmin) setRole('admin');
+            if (roleMahasiswa) setRole('mahasiswa');
+        } 
+    }, [])  
     
 
     return <Modal show={show} onClose={hide} className="overflow-y-auto">

@@ -98,7 +98,6 @@ export default function LogangTable(){
                                         <div className={`${ item?.Verify === "pending" ? "bg-lime-500" : item?.Verify === "verified" ? "bg-green-500" : "" } shadow px-3 py-1 text-center rounded-lg  text-white`} > {item.Verify} </div>
                                     </Table.Cell>
                                     <Table.Cell className="flex gap-3" >
-                                        <button  className="bg-yellow-300 px-5 py-3 text-white hover:bg-yellow-400" ><HiAdjustments /></button>
                                         <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
                                         <Popover 
                                             trigger="click"

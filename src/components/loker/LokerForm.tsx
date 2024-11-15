@@ -58,6 +58,7 @@ export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?
         if (data.validPeriod) formData.append('MasaBerlaku', moment(data.validPeriod).format('YYYY-MM-DD'));
 
         if (!uuid) {
+            formData.append('Verify', String("pending"));
             if (role === 'alumni') await postLokerAlumni(formData);
             if (role === 'admin') await postLokerAdmin(formData);
         }

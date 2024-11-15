@@ -45,8 +45,8 @@ export const login = async (formData: FormData): Promise<Sign | undefined> => {
     try {
         const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/login`, formData);
 
-        if (data?.token) setCookie('next-token', data.token, { maxAge: 60 * 60 });
-        if (data?.user) setCookie('next-user', JSON.stringify(data.user), { maxAge: 60 * 60 });
+        if (data?.token) await setCookie('next-token', data.token, { maxAge: 60 * 60 });
+        if (data?.user) await setCookie('next-user', JSON.stringify(data.user), { maxAge: 60 * 60 });
 
         return { data };
 

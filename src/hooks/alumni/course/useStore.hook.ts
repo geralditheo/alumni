@@ -40,7 +40,7 @@ export function useCourse() {
 
         try {
 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/courses`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/courseAlumni`, {
                 params: {
                     page: filter?.currentPage ? filter.currentPage : pagination.currentPage,
                 },
@@ -71,7 +71,7 @@ export function useCourse() {
 
         try {
 
-            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/courses/${uuid}`, {
+            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/courseAlumni/${uuid}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -95,7 +95,7 @@ export function useCourse() {
 
         try {
 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/courses/${uuid}`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/courseAlumni/${uuid}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -125,7 +125,7 @@ export function useCourse() {
 
         try {
 
-            const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/courses/${uuid}`, data , {
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/courseAlumni/${uuid}`, data , {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -147,7 +147,7 @@ export function useCourse() {
 
         try {
 
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/courses`, data , {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/courseAlumni`, data , {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }

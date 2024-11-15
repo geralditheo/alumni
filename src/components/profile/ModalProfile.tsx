@@ -26,7 +26,7 @@ export default function ModalProfile({show, hide, uuid}: { show?: boolean , hide
 
         if (fetchedUser?.roles.includes('alumni')) await uploadPhotoAlumni(formData)
             .then(() => {
-                toast.success("Passwordd changed succesfully");
+                toast.success("Photo updated succesfully");
             })
             .catch(() => {
                 toast.error("Failed");
@@ -34,7 +34,7 @@ export default function ModalProfile({show, hide, uuid}: { show?: boolean , hide
 
         if (fetchedUser?.roles.includes('admin')) await uploadPhotoAdmin(formData)
             .then(() => {
-                toast.success("Passwordd changed succesfully");
+                toast.success("Photo updated succesfully");
             })
             .catch(() => {
                 toast.error("Failed");

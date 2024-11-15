@@ -40,7 +40,7 @@ export function useAward(){
 
         try {
 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/awards`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/awardAlumni`, {
                 params: {
                     page: filter?.currentPage ? filter.currentPage : pagination.currentPage,
                 },
@@ -74,7 +74,7 @@ export function useAward(){
 
         try {
 
-            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/awards/${uuid}`, {
+            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/awardAlumni/${uuid}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -98,7 +98,7 @@ export function useAward(){
 
         try {
 
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/awards/${uuid}`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/awardAlumni/${uuid}`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -128,7 +128,7 @@ export function useAward(){
 
         try {
 
-            const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/awards/${uuid}`, data , {
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/awardAlumni/${uuid}`, data , {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -150,7 +150,7 @@ export function useAward(){
 
         try {
 
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/awards`, data , {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/awardAlumni`, data , {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }

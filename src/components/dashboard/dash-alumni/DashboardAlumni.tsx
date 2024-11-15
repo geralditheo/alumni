@@ -1,16 +1,25 @@
 'use client';
 
+import Image from 'next/image';
+import Link from 'next/link';
+
 import { useCheckDataAlumni } from '@/hooks/dashboard/data-alumni/useStore.hook';
 import { formatDate } from '@/helper/formatDate';
 import { HiStar, HiPencilAlt, HiChip } from 'react-icons/hi';
 import { generateCV } from '@/hooks/dashboard/generate-cv/useStore.hook';
+import { useEffect } from 'react';
+import { useDashboardAlumni } from '@/hooks/dashboard/alumni/useStore.hook';
 
-import Image from 'next/image';
-import Link from 'next/link';
 
 export default function DashboardAlumni(){
 
     const getData = useCheckDataAlumni();
+
+    const { getDashboardAlumni, dataDashboardAlumni } = useDashboardAlumni();
+
+    useEffect(() => {
+        getDashboardAlumni();
+    }, [])
 
     return <section className='mb-5' >
 

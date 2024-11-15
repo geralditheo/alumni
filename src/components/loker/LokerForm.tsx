@@ -22,7 +22,6 @@ type Inputs = {
     description: string;
     url: string;
     tags: string;
-    isPublic: boolean;
     logoFile: FileList;
     validPeriod: Date | null | string;
     
@@ -52,7 +51,7 @@ export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?
         if (data.url) formData.append('Website', data.url);
         if (data.email) formData.append('Email', data.email);
         if (data.tags) formData.append('Tags', data.tags);
-        if (data.isPublic) formData.append('Verify', String(data.isPublic));
+        formData.append('Verify', String("pending"));
         if (formData instanceof FormData) if (file) formData.append('Logo', file);
         if (data.validPeriod) formData.append('MasaBerlaku', moment(data.validPeriod).format('YYYY-MM-DD'));
 
@@ -70,7 +69,6 @@ export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?
             showLoker(uuid)
                 .then((result) => {
 
-                    const isPulicated = result?.Verify === "true" ? true : result?.Verify === "false" ? false : false;
                     const newDate = result?.MasaBerlaku ? moment(result?.MasaBerlaku).format("YYYY-MM-DD") : null;
 
                     setValue("agencyName", result?.NamaPerusahaan ? result?.NamaPerusahaan : "" );
@@ -83,7 +81,6 @@ export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?
                     setValue("description", result?.Deskripsi ? result?.Deskripsi : "");
                     setValue("url", result?.Website ? result?.Website : "");
                     setValue("tags", result?.Tags ? result?.Tags : "");
-                    setValue("isPublic", isPulicated);
                     setValue("validPeriod", newDate );
 
                 })
@@ -159,14 +156,6 @@ export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?
                 <div className="flex flex-col gap-1 mb-5">
                     <label htmlFor="tags" className="text-sm sm:text-base" >Tags</label>
                     <input  {...register('tags')} name="tags" id="tags" type="text" className="text-sm" placeholder="nodejs, web" />
-                </div>
-
-                <div className="flex flex-col gap-1 mb-5">
-                    <label htmlFor="isPublic" className="text-sm sm:text-base" >Publikasikan</label>
-                    <div className="flex items-center gap-3" >
-                        <input  {...register('isPublic')} name="isPublic" id="isPublic" type="checkbox" className="text-sm"  /> 
-                        <label htmlFor="isPublic" className="text-sm sm:text-base" >Setuju</label>
-                    </div>
                 </div>
 
                 <div className="flex flex-col gap-1 mb-5">

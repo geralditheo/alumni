@@ -1,10 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    eslint: {
+        ignoreDuringBuilds: true
+    },
+    reactStrictMode: false,
     async redirects(){
         return [
             {
                 source: '/',
-                destination: '/auth/login',
+                destination: '/auth',
                 permanent: true
             }
         ]

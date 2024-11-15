@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
              
     } catch (error) {
         console.log(error);
-        throw new Error("Failed fetch profile");
+        return NextResponse.json({ message: "There is something wrong when fetching profile alumni! hehe" }); 
     }
 
     try {
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
         
     } catch (error) {
         console.log(error);
-        throw new Error("Failed fetch academic");
+        return NextResponse.json({ message: "There is something wrong when fetching academics! hehe" }); 
     }
 
     console.log("Data", data);

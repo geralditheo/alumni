@@ -2,9 +2,16 @@
 
 import Image from 'next/image';
 
+import { useDataAlumni } from '@/hooks/data/dataAlumni.hooks';
+import { useEffect } from 'react';
 
 export default function AlumniList(){
-    const data = [1,2,3,4,5,6,7,6,7,1,20];
+
+    const { data, getDataAlumni } = useDataAlumni();
+
+    useEffect(() => {
+        getDataAlumni();
+    }, [])
 
     return (
         <main>
@@ -19,8 +26,8 @@ export default function AlumniList(){
                                 </div>
 
                                 <div className='px-3 text-sm items-center' >
-                                    <p>Nama</p>
-                                    <p>Email</p>
+                                    <p>{item.name ? item.name : "" }</p>
+                                    <p>{item.email ? item.email : ""}</p>
                                 </div>
                             </div>
                         </div>

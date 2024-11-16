@@ -7,8 +7,8 @@ const PieChart = dynamic(() => import('@/components/chart/PieChart'), { ssr: fal
 
 export default function TracerStudyChart(){
     return (
-        <main className="mb-5" >
-            <div className="w-full h-96 grow-0 flex justify-center" >
+        <main className="mb-5 grow-0 flex justify-center " >
+            <div className="aspect-square h-96 " >
                 <Suspense fallback={<div>Loading...</div>} >
                     <PieChart />
                 </Suspense>

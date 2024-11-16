@@ -1,19 +1,19 @@
 'use client';
 
-import { useState } from "react";
-import { Table, Pagination } from "flowbite-react";
-import { HiTrash, HiPencilAlt } from 'react-icons/hi';
 import StatistikForm from "@/components/statitstik/StatistikForm";
 
+import { useState, useEffect } from "react";
+import { Table, Pagination, Popover } from "flowbite-react";
+import { HiTrash, HiPencilAlt } from 'react-icons/hi';
+import { useStatistik } from '@/hooks/statistik/statikstik.hook';
 
 export default function StatistikTable(){
 
-    const data = [{ tahun: '2024', total: 10, deteksi: 1, id: 1 }];
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
     const [ thisUuid, setThisUUid ] = useState<null | string>(null);
     const [ filter, setFilter] = useState({ currentPage: 1, lastPage:  1, });
     const [ refresh, setRefresh ] = useState<boolean>(true);
-
+    const { data: dataStatistik, index: indexStatistik, remove: removeStatistik, pagination } = useStatistik();
 
     const onEdit = (uuid: string) => {
         setThisUUid(uuid);
@@ -21,20 +21,29 @@ export default function StatistikTable(){
     }
 
     const onDelete = async (uuid: string) => {
-        // await deleteAward(uuid);
-        // setRefresh(!refresh);
+        await removeStatistik(uuid);
+        setRefresh(!refresh);
     }
 
     const onDone = () => {
         setThisUUid(null);
         setOpenModalForm(false);
-        // setRefresh(!refresh);
+        setRefresh(!refresh);
     }
 
     const onPageChange = (page: number) => {
         setFilter({ ...filter, currentPage: page });
         setRefresh(!refresh);
     } 
+
+    useEffect(() => {
+        indexStatistik(filter);
+    }, [refresh])
+
+    useEffect(() => {
+        setFilter({  ...filter, lastPage: pagination?.lastPage ? pagination?.lastPage : 1 });
+    }, [pagination])
+
 
     return (
         <main>
@@ -58,15 +67,26 @@ export default function StatistikTable(){
                         </Table.Head>
 
                         <Table.Body className="divide-y text-xs sm:text-base  ">
-                            { data.map((item, index) => {
+                            { dataStatistik.map((item, index) => {
                                 return (
                                     <Table.Row key={`${index}-stats`} className="bg-white ">
-                                        <Table.Cell>{item.tahun}</Table.Cell>
-                                        <Table.Cell>{item.total}</Table.Cell>
-                                        <Table.Cell>{item.deteksi}</Table.Cell>
+                                        <Table.Cell>{item.tahun_lulus}</Table.Cell>
+                                        <Table.Cell>{item.alumni_total}</Table.Cell>
+                                        <Table.Cell>{item.alumni_terlacak}</Table.Cell>
                                         <Table.Cell className="flex gap-3" >
                                             <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
-                                            <button onClick={() => onDelete(String(item.id))} className="bg-red-500 px-5 py-3 text-white hover:bg-red-600" ><HiTrash/></button>
+                                            <Popover 
+                                                trigger="click"
+                                                placement="top-end"
+                                                content={
+                                                    <div className="w-auto text-xs h-auto p-2 flex items-center gap-1" >
+                                                        <p>Delete This Item ?</p> 
+                                                        <button onClick={() => onDelete(String(item.id))} className="bg-red-500 px-3 text-white py-1" >sure</button>
+                                                    </div>
+                                                }
+                                            >
+                                                <button className="bg-red-500 px-5 py-3 text-white hover:bg-red-600" ><HiTrash/></button>
+                                            </Popover>
                                         </Table.Cell>
                                     </Table.Row>
                                 )

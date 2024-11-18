@@ -4,8 +4,7 @@ import CvAlumni from '@/components/cv-alumni/cvAlumni';
 
 export default function Alumni(){
     return <section>
-        <DataAlumniPage />
+        {/* <DataAlumniPage /> */}
         <CvAlumni /> 
-        <div></div>
     </section>
 }

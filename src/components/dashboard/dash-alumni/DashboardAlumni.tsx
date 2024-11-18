@@ -9,6 +9,7 @@ import { HiStar, HiPencilAlt, HiChip } from 'react-icons/hi';
 import { generateCV } from '@/hooks/dashboard/generate-cv/useStore.hook';
 import { useEffect } from 'react';
 import { useDashboardAlumni } from '@/hooks/dashboard/alumni/useStore.hook';
+import { useCvAlumni } from '@/hooks/cv/cvAlumni.hook';
 
 
 export default function DashboardAlumni(){
@@ -16,9 +17,11 @@ export default function DashboardAlumni(){
     const getData = useCheckDataAlumni();
 
     const { getDashboardAlumni, dataDashboardAlumni } = useDashboardAlumni();
+    const { getDataCvAlumni } = useCvAlumni();
 
     useEffect(() => {
         getDashboardAlumni();
+        getDataCvAlumni();
     }, [])
 
     return <section className='mb-5' >

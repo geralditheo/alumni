@@ -1,6 +1,7 @@
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
 import { Alumni } from '@/hooks/profile/alumni/useStore.hook';
+import { GET } from '@/app/api/generate-cv/pdf/route';
 
 const styles = StyleSheet.create({
     page: {
@@ -21,8 +22,9 @@ export const DocumentCV = ({ profile }: { profile?: Alumni }) => (
                 <Text>{profile?.email}</Text>
             </View>
             <View style={styles.section}>
-                <Text>Section #2</Text>
+                <Text>{profile?.name}</Text>
             </View>
         </Page>
   </Document>
 );
+

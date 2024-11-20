@@ -5,14 +5,52 @@ import { DocumentCV } from '@/components/cv/DocumentCV';
 import { renderToStream } from '@react-pdf/renderer';
 
 export type cvAlumni = {
-    profile: {
-        name?: string;
-        email?: string;
-        no_hp?: string;
-    },
-    academics: [],
-    jobs: [],
+    profile?: CVProfile
+    academics: CVAcademics[],
+    jobs: CVJobs[],
     internships: [],
+    organizations: [],
+    awards: [],
+    courses: [],
+    skills: [],
+}
+
+export type CVProfile = {
+    name?: string;
+    email?: string;
+    no_hp?: string;
+}
+
+
+export type CVAcademics = {
+    nama_studi: string;
+    prodi: string;
+    ipk: string;
+    tahun_masuk: number;
+    tahun_lulus: number;
+    kota: string;
+    negara: string;
+    catatan: string;
+}
+
+export type CVJobs = {
+    nama_job: string;
+    periode_masuk_job: string;
+    periode_keluar_job: string;
+    jabatan_job: string;
+    kota: string;
+    negara: string;
+    catatan: string;
+}
+
+export type CVInternsip = {
+    nama_intern: string;
+    periode_masuk_intern: string;
+    periode_keluar_intern: string;
+    jabatan_intern: string;
+    kota: string;
+    negara: string;
+    catatan: string;
 }
 
 export async function GET(request: NextRequest) {
@@ -24,6 +62,10 @@ export async function GET(request: NextRequest) {
         academics: [],
         jobs: [],
         internships: [],
+        organizations: [],
+        awards: [],
+        courses: [],
+        skills: []
     }
 
     try {
@@ -32,22 +74,28 @@ export async function GET(request: NextRequest) {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
-        });
+        });        
+
+        console.log("Data", data);
 
         if (data.alumni) temp.profile = data.alumni;
         if (data.academics) temp.academics = data.academics;
-        if (data.jobs) temp.academics = data.jobs;
-        if (data.internships) temp.academics = data.internships;
+        if (data.jobs) temp.jobs = data.jobs;
+        if (data.internships) temp.internships = data.internships;
+        if (data.organizations) temp.organizations = data.organizations;
+        if (data.awards) temp.awards = data.awards;
+        if (data.courses) temp.courses = data.courses;
+        if (data.skills) temp.skills = data.skills;        
         
     } catch (error) {
 
         console.log("Error", error);
         
-        throw new Error("Error get announecement");
+        throw new Error("Error creating cv");
     }
 
     const stream = await renderToStream(
-        <DocumentCV profile={temp.profile as any } />
+        <DocumentCV profile={temp.profile} academics={temp.academics} jobs={temp.jobs} internships={temp.internships} />
     )
 
     return new NextResponse(stream as unknown as ReadableStream );

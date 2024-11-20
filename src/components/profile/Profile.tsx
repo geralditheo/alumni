@@ -3,12 +3,12 @@
 import Image from "next/image"
 import ModalProfile from "@/components/profile/ModalProfile";
 import ModalChangePassword from "./ModalChangePassword";
-import QuestionerForm from '@/components/kuesioner/questionerForm';
 import { useEffect, useState } from "react";
 import { useProfile } from '@/hooks/profile/alumni/useStore.hook';
 import { getUser, User } from '@/hooks/auth/authClient';
 import { HiPencilAlt, HiAcademicCap } from 'react-icons/hi';
 import { Accordion } from "flowbite-react";
+import { ProfileForm } from '@/components/profile/ProfileForm';
 
 export default function Profile({}: { uuid?: string }){
 
@@ -84,9 +84,9 @@ export default function Profile({}: { uuid?: string }){
 
             <Accordion collapseAll >
                 <Accordion.Panel>
-                    <Accordion.Title>Edit Something</Accordion.Title>
-                    <Accordion.Content className="" >
-                        Subject to edit something
+                    <Accordion.Title>Edit Profile</Accordion.Title>
+                    <Accordion.Content>
+                        <ProfileForm profileAlumni={data} />
                     </Accordion.Content>
                 </Accordion.Panel>
             </Accordion>

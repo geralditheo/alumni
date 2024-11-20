@@ -84,7 +84,7 @@ export default function DashboardAlumni(){
                         <div className='basis-full' >
                             <p className='font-semibold text-justify' >Improve your profile here.</p>
                             <p className='mb-3' >Every profile has its own story.</p>
-                            <button className='transition-colors ease-in hover:bg-gray-300 px-5 py-2 shadow rounded-md flex items-center gap-x-3' > <HiPencilAlt /> Profile</button>
+                            <Link href={"/dashboard/profile"} className='transition-colors ease-in hover:bg-gray-300 px-5 py-2 w-fit shadow rounded-md flex items-center gap-x-3' > <HiPencilAlt /> Profile</Link>
                         </div>
 
                         <div className='basis-28 aspect-square relative rounded-full' >

@@ -17,6 +17,7 @@ export default function Profile({}: { uuid?: string }){
     const [user, setUser] = useState<User | null>(null);
     const [openModalPhoto ,setOpenModalPhoto] = useState(false);
     const [openModalPassword, setOpenModalPassword] = useState(false);
+    const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
 
     const hide = () => {
         setOpenModalPhoto(false);
@@ -25,11 +26,27 @@ export default function Profile({}: { uuid?: string }){
 
     useEffect(() => {
         const fetchedUser = getUser();
-        setUser(fetchedUser);
 
-        if (fetchedUser?.roles.includes('alumni')) getDataAlumni();
-        if (fetchedUser?.roles.includes('admin')) getDataAdmin();
+        if (fetchedUser){
 
+            const roleAlumni: boolean | undefined = fetchedUser?.roles?.includes('alumni');
+            const roleAdmin: boolean | undefined = fetchedUser?.roles?.includes('admin');
+            const roleMahasiswa: boolean | undefined = fetchedUser?.roles?.includes('mahasiswa');
+
+            if (roleAlumni) {
+                setRole('alumni'); 
+                getDataAlumni();
+            }
+            if (roleAdmin) {
+                setRole('admin');
+                getDataAdmin();
+            } 
+            if (roleMahasiswa) {
+                setRole('mahasiswa');
+            }
+
+            setUser(fetchedUser);
+        }
     }, [])    
 
     return <main className="container " >
@@ -82,14 +99,17 @@ export default function Profile({}: { uuid?: string }){
 
             </div>
 
-            <Accordion collapseAll >
-                <Accordion.Panel>
-                    <Accordion.Title>Edit Profile</Accordion.Title>
-                    <Accordion.Content>
-                        <ProfileForm profileAlumni={data} />
-                    </Accordion.Content>
-                </Accordion.Panel>
-            </Accordion>
+            { role === 'alumni' && (
+                <Accordion collapseAll >
+                    <Accordion.Panel>
+                        <Accordion.Title>Edit Profile</Accordion.Title>
+                        <Accordion.Content>
+                            <ProfileForm profileAlumni={data} />
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                </Accordion>
+            )}
+
 
         </section>
     </main>

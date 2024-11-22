@@ -59,7 +59,7 @@ export function getMenu(): MenuItem[] {
             title: "Lowongan Kerja",
             path: '/dashboard/loker',
             icon: HiTable,
-            condition: roleAlumni || roleAdmin || roleMahasiswa,
+            condition: roleAlumni || roleAdmin,
         },
         {
             key: 'logang',

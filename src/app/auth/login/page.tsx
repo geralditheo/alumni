@@ -29,6 +29,11 @@ export default function Login({ searchParams }: { searchParams: { type: LoginTyp
     
     const { type: loginType } = searchParams;
 
+    const onLoginGoogle = async () => {
+        const url =  process.env.NEXT_PUBLIC_BACKEND_API_URL;
+        if (url) return router.push(`${url}/api/login/mahasiswa`);
+    }
+
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         const formData = new FormData();
         setIsDisabled(true);
@@ -80,7 +85,7 @@ export default function Login({ searchParams }: { searchParams: { type: LoginTyp
 
                 {
                     (loginType === LoginType.student) && (
-                        <button disabled={isDisabled} type="button" className=" disabled:bg-gray-400  hover:bg-gray-100 focus:ring-1 border focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center flex items-center justify-center gap-3"  >
+                        <button onClick={onLoginGoogle} disabled={isDisabled} type="button" className=" disabled:bg-gray-400  hover:bg-gray-100 focus:ring-1 border focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center flex items-center justify-center gap-3"  >
                             <FaGoogle/>
                             Login By Google
                         </button>

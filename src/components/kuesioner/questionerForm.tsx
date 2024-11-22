@@ -335,7 +335,7 @@ export default function QuestionerForm({ done } : { done?: () => void }){
                             </div>
 
                             <div className="flex flex-col gap-1">
-                                <label htmlFor="educationYearIn" className="text-xs sm:text-sm" >Nama Program Studi</label>
+                                <label htmlFor="educationYearIn" className="text-xs sm:text-sm" >Tahun Masuk</label>
                                 <input  {...register('educationYearIn')} name="educationYearIn" id="educationYearIn" type="number" max={new Date().getFullYear()}  className="text-xs" placeholder="2020"/>
                             </div>
 

@@ -21,6 +21,7 @@ export type Alumni = {
     jenjang_pendidikan: string;
     universitas: string;
     program_studi: string;
+    masa_tunggu: string;
 }
 
 export function useProfile(){

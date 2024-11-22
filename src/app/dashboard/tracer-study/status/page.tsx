@@ -1,8 +1,8 @@
 import TracerStudyTable from "@/components/tracer-study/TracerStudyTable";
 
-export default function StatusTracerStudy({ params }: { params: {status: string} }){
+export default function Page({ searchParams }: { searchParams: { status: string } }){
 
-    const { status } = params;
+    const { status } = searchParams;
     
     return (
         <main className="container mx-auto lg:px-32" >

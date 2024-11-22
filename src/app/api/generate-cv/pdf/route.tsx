@@ -2,55 +2,100 @@ import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 import { getTokenServer } from '@/hooks/auth/authServer';
 import { DocumentCV } from '@/components/cv/DocumentCV';
-
 import { renderToStream } from '@react-pdf/renderer';
 
+export type cvAlumni = {
+    profile?: CVProfile
+    academics: CVAcademics[],
+    jobs: CVJobs[],
+    internships: [],
+    organizations: [],
+    awards: [],
+    courses: [],
+    skills: [],
+}
+
+export type CVProfile = {
+    name?: string;
+    email?: string;
+    no_hp?: string;
+}
+
+
+export type CVAcademics = {
+    nama_studi: string;
+    prodi: string;
+    ipk: string;
+    tahun_masuk: number;
+    tahun_lulus: number;
+    kota: string;
+    negara: string;
+    catatan: string;
+}
+
+export type CVJobs = {
+    nama_job: string;
+    periode_masuk_job: string;
+    periode_keluar_job: string;
+    jabatan_job: string;
+    kota: string;
+    negara: string;
+    catatan: string;
+}
+
+export type CVInternsip = {
+    nama_intern: string;
+    periode_masuk_intern: string;
+    periode_keluar_intern: string;
+    jabatan_intern: string;
+    kota: string;
+    negara: string;
+    catatan: string;
+}
 
 export async function GET(request: NextRequest) {
 
     const token = await getTokenServer();    
 
-    const data = {
+    const temp: cvAlumni = {
         profile: {},
-        academic: [],
-    }
-    
-    try {
-
-        const { data: profile } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/profilealumni`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
-
-        if (profile.data) data.profile = profile.data;
-             
-    } catch (error) {
-        console.log(error);
-        throw new Error("Failed fetch profile");
+        academics: [],
+        jobs: [],
+        internships: [],
+        organizations: [],
+        awards: [],
+        courses: [],
+        skills: []
     }
 
     try {
-        const { data: academic } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicAlumni`, {
-            params: {
-                page: 1,
-            },  
+
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cetakCvAlumni` , {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
-        });
+        });        
 
-        if (academic.data) data.academic = academic.data; 
+        console.log("Data", data);
+
+        if (data.alumni) temp.profile = data.alumni;
+        if (data.academics) temp.academics = data.academics;
+        if (data.jobs) temp.jobs = data.jobs;
+        if (data.internships) temp.internships = data.internships;
+        if (data.organizations) temp.organizations = data.organizations;
+        if (data.awards) temp.awards = data.awards;
+        if (data.courses) temp.courses = data.courses;
+        if (data.skills) temp.skills = data.skills;        
         
     } catch (error) {
-        console.log(error);
-        throw new Error("Failed fetch academic");
+
+        console.log("Error", error);
+        
+        throw new Error("Error creating cv");
     }
 
-    console.log("Data", data);
-
     const stream = await renderToStream(
-        <DocumentCV profile={data.profile as any} />
+        <DocumentCV profile={temp.profile} academics={temp.academics} jobs={temp.jobs} internships={temp.internships} />
     )
 
     return new NextResponse(stream as unknown as ReadableStream );

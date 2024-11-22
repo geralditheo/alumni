@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { useCheckDataAlumni } from '@/hooks/dashboard/data-alumni/useStore.hook';
 import { formatDate } from '@/helper/formatDate';
 import { HiStar, HiPencilAlt, HiChip } from 'react-icons/hi';
-import { generateCV } from '@/hooks/dashboard/generate-cv/useStore.hook';
 import { useEffect } from 'react';
 import { useDashboardAlumni } from '@/hooks/dashboard/alumni/useStore.hook';
+import { useCvAlumni } from '@/hooks/cv/cvAlumni.hook';
 
 
 export default function DashboardAlumni(){
@@ -16,9 +16,11 @@ export default function DashboardAlumni(){
     const getData = useCheckDataAlumni();
 
     const { getDashboardAlumni, dataDashboardAlumni } = useDashboardAlumni();
+    const { getDataCvAlumni } = useCvAlumni();
 
     useEffect(() => {
         getDashboardAlumni();
+        getDataCvAlumni();
     }, [])
 
     return <section className='mb-5' >
@@ -66,7 +68,7 @@ export default function DashboardAlumni(){
 
                         <div className='basis-full' >
                             <p className='font-semibold mb-3 text-justify' >You can create your own Curriculum Vitae by just clicking button.</p>
-                            <button onClick={generateCV} className='transition-colors ease-in hover:bg-blue-600 px-5 py-2 shadow rounded-md bg-blue-500 text-white flex items-center gap-x-3' > <HiChip /> Generate CV</button>
+                            <a target='_blank' href={"/api/generate-cv/pdf"} rel='noopener noreferrer'  className='transition-colors ease-in hover:bg-blue-600 px-5 py-2 shadow rounded-md bg-blue-500 text-white flex items-center gap-x-3 w-fit' > <HiChip /> Generate CV</a>
                         </div>
 
                         <div className='basis-28 aspect-square relative rounded-full' >
@@ -82,7 +84,7 @@ export default function DashboardAlumni(){
                         <div className='basis-full' >
                             <p className='font-semibold text-justify' >Improve your profile here.</p>
                             <p className='mb-3' >Every profile has its own story.</p>
-                            <button className='transition-colors ease-in hover:bg-gray-300 px-5 py-2 shadow rounded-md flex items-center gap-x-3' > <HiPencilAlt /> Profile</button>
+                            <Link href={"/dashboard/profile"} className='transition-colors ease-in hover:bg-gray-300 px-5 py-2 w-fit shadow rounded-md flex items-center gap-x-3' > <HiPencilAlt /> Profile</Link>
                         </div>
 
                         <div className='basis-28 aspect-square relative rounded-full' >

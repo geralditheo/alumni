@@ -283,5 +283,25 @@ export function useLogangAdmin(){
 
     }
 
-    return { data, manageData, index, show, post, manage, update, remove };
+    const verify = async (uuid: string, formData: FormData): Promise<Logang | undefined> => {
+        try {
+
+            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/logangAdmin/${uuid}/verify`, formData, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            return data;
+            
+        } catch (error) {
+
+            console.log("Error", error);
+            
+            throw new Error("Error show loker");
+        }
+
+    }
+
+    return { data, manageData, index, show, post, manage, update, remove, verify };
 }

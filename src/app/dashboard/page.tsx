@@ -31,7 +31,7 @@ export default function Dashboard(){
         { ( roleAdmin ) && <DashboardStatistikAlumni /> }
         { ( roleAlumni  ) && <DashboardAlumni /> }
         { ( roleAlumni || roleMahasiswa ) && <DashboardLogang /> }
-        { ( roleAlumni || roleMahasiswa ) && <DashboardLoker /> }
+        { ( roleAlumni ) && <DashboardLoker /> }
 
     </main>
 }

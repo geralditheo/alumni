@@ -1,20 +1,16 @@
 'use client';
 
-import AcademicForm from "@/components/alumni/Academic/AcademicForm";
 import { Table, Pagination } from "flowbite-react";
-import { HiTrash, HiPencilAlt } from 'react-icons/hi';
 import { useEffect, useState } from "react";
-import { useAcademic } from '@/hooks/alumni/academic/useStore.hook';
+import { useTracerStudy } from '@/hooks/tracer-study/tracerStudy.hook';
 import { toast } from 'sonner';
 
 
 
 export default function TracerStudyTable({ status }: { status: string }){
 
-    const { academics, pagination, getAcademics, deleteAcademic } = useAcademic();
+    const { status: statusTracerStudy, statusData } = useTracerStudy();
 
-    const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
-    const [ thisUuid, setThisUUid ] = useState<null | string>(null);
     const [ refresh, setRefresh ] = useState<boolean>(true);
     const [ filter, setFilter] = useState({
         currentPage: 1,
@@ -30,16 +26,9 @@ export default function TracerStudyTable({ status }: { status: string }){
 
     useEffect(() => {
 
-        getAcademics(filter);
+        statusTracerStudy(status);
         
     }, [refresh]);
-
-    useEffect(() => {
-
-        setFilter({  ...filter, lastPage: pagination?.lastPage ? pagination?.lastPage : 1 });
-        
-    }, [pagination])
-
 
     return <main>
 
@@ -58,19 +47,16 @@ export default function TracerStudyTable({ status }: { status: string }){
                     </Table.Head>
 
                     <Table.Body className="divide-y text-xs sm:text-base  ">
-                        { academics.map((item) => {
+                        { statusData?.map((item, index) => {
 
                             return (
                                 <Table.Row key={item.id} className="bg-white ">
-                                    <Table.Cell>{item.nama_studi}</Table.Cell>
-                                    <Table.Cell>{item.prodi}</Table.Cell>
-                                    <Table.Cell>{item.ipk}</Table.Cell>
+                                    <Table.Cell>{index + 1}</Table.Cell>
+                                    <Table.Cell>{item.name}</Table.Cell>
+                                    <Table.Cell>{item.nim}</Table.Cell>
                                     <Table.Cell>{item.tahun_masuk}</Table.Cell>
                                     <Table.Cell>{item.tahun_lulus}</Table.Cell>
-                                    <Table.Cell>{item.kota}</Table.Cell>
-                                    <Table.Cell>{item.negara}</Table.Cell>
-                                    <Table.Cell>{item.catatan}</Table.Cell>
-                                    
+                                    <Table.Cell>{item.email}</Table.Cell>                                    
                                 </Table.Row>
                             )
                         })}

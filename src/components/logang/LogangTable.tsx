@@ -16,7 +16,7 @@ export default function LogangTable(){
     const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
 
     const { manageData: manageDataAlumni, manage: manageAlumni, remove: removeAlumni } = useLogangAlumni();
-    const { manageData: manageDataAdmin, manage: manageAdmin, remove: removeAdmin } = useLogangAdmin();
+    const { manageData: manageDataAdmin, manage: manageAdmin, remove: removeAdmin, verify: verifyAdmin } = useLogangAdmin();
 
     const onHide = () => {
         setThisUUid(null);
@@ -30,17 +30,24 @@ export default function LogangTable(){
     }
 
     const onDelete = async (uuid: string) => {
-        await removeAlumni(uuid);
+        if (role === 'alumni') await removeAlumni(uuid);
+        if (role === 'admin') await removeAdmin(uuid);
+        setRefresh(!refresh);
+    }
+
+    const onVerified = async (uuid: string) => {
+        const formData = new FormData();
+        formData.append('action', 'verify');
+
+        if (role === 'admin') await verifyAdmin(uuid, formData);
         setRefresh(!refresh);
     }
 
     useEffect(() => {
-        
         if (user) {
             if (role === 'alumni') manageAlumni();
             if (role === 'admin') manageAdmin();
         }
-
     }, [refresh, user])
 
     useEffect(() => {
@@ -78,6 +85,7 @@ export default function LogangTable(){
                     <Table.Head className="text-xs sm:text-sm " >
                         <Table.HeadCell>Nama Perusahaan</Table.HeadCell>
                         <Table.HeadCell>Posisi</Table.HeadCell>
+                        <Table.HeadCell>Verified</Table.HeadCell>
                         <Table.HeadCell>Action</Table.HeadCell>
                     </Table.Head>
 
@@ -87,8 +95,10 @@ export default function LogangTable(){
                                 <Table.Row key={item.id} className="bg-white ">
                                     <Table.Cell>{item.NamaPerusahaan}</Table.Cell>
                                     <Table.Cell>{item.Posisi}</Table.Cell>
+                                    <Table.Cell>
+                                        <div className={`${ item?.Verify ? "bg-lime-500" : "bg-green-500" } shadow px-3 py-1 text-center rounded-lg  text-white`} > {item.Verify ? "true" : "false"} </div>
+                                    </Table.Cell>
                                     <Table.Cell className="flex gap-3" >
-                                        <button  className="bg-yellow-300 px-5 py-3 text-white hover:bg-yellow-400" ><HiAdjustments /></button>
                                         <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
                                         <Popover 
                                             trigger="click"
@@ -114,8 +124,10 @@ export default function LogangTable(){
                                 <Table.Row key={item.id} className="bg-white ">
                                     <Table.Cell>{item.NamaPerusahaan}</Table.Cell>
                                     <Table.Cell>{item.Posisi}</Table.Cell>
+                                    <Table.Cell>
+                                        <div className={`${ item?.Verify ? "bg-lime-500" : "bg-green-500" } shadow px-3 py-1 text-center rounded-lg  text-white`} > {item.Verify ? "true" : "false"} </div>
+                                    </Table.Cell>
                                     <Table.Cell className="flex gap-3" >
-                                        <button  className="bg-yellow-300 px-5 py-3 text-white hover:bg-yellow-400" ><HiAdjustments /></button>
                                         <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
                                         <Popover 
                                             trigger="click"
@@ -131,6 +143,21 @@ export default function LogangTable(){
                                         >
                                             <button className="bg-red-500 px-5 py-3 text-white hover:bg-red-600" ><HiTrash/></button>
                                         </Popover>
+                                        <Popover 
+                                            trigger="click"
+                                            placement="top-end"
+                                            content={
+                                                <div className="w-auto text-xs h-auto p-2 flex items-center gap-1" >
+                                                    <p>Verify This Item ?</p> 
+                                                    
+                                                    <button onClick={() => onVerified(String(item.id))} className="bg-lime-500 px-3 text-white py-1" >sure</button>
+                                                    
+                                                </div>
+                                            }
+                                        >
+                                            <button  className="bg-yellow-300 px-5 py-3 text-white hover:bg-yellow-400" ><HiAdjustments /></button>
+                                        </Popover>
+
                                     </Table.Cell>
                                 </Table.Row>
                             )

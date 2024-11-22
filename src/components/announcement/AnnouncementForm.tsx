@@ -3,7 +3,7 @@
 import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useAward } from '@/hooks/alumni/award/useStore.hook';
+import { useAnnouncement } from '@/hooks/announcement/announcement.hook';
 import { toast } from 'sonner';
 
 type Inputs = {
@@ -14,33 +14,33 @@ type Inputs = {
 
 export default function AnnouncementForm({ show, done, uuid }: { show?: boolean , done?: () => void, uuid?: string | null }){
 
-    const { detailAward, updateAward, postAward } = useAward();
+    const { post: postAnnouncement, show: showAnnouncement, update: updateAnnouncement } = useAnnouncement();
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
-        const formData = uuid ? new URLSearchParams() :  new FormData();
+        const formData = new FormData();
 
-        if (data.title) formData.append("nama_award", String(data.title));
-        if (data.content) formData.append("institusi_award", String(data.content));
+        if (data.title) formData.append("judul", String(data.title));
+        if (data.content) formData.append("isi", String(data.content));
         
-        // if (!uuid) await postAward(formData)
-        //     .then(() => {
-        //         toast.success("Success post data");
-        //     })
-        //     .catch(() => {
-        //         toast.error("Failed post data");
-        //     });
+        if (!uuid) await postAnnouncement(formData)
+            .then(() => {
+                toast.success("Success post data");
+            })
+            .catch(() => {
+                toast.error("Failed post data");
+            });
 
         
 
-        // if (uuid) await updateAward(formData, uuid)
-        //     .then((result) => {
-        //         toast.success("Success update data");
-        //     })
-        //     .catch((err) => {
-        //         toast.error("Failed update data");
-        //     });
+        if (uuid) await updateAnnouncement(formData, uuid)
+            .then(() => {
+                toast.success("Success update data");
+            })
+            .catch(() => {
+                toast.error("Failed update data");
+            });
         
         reset();
         if (done) done();
@@ -49,16 +49,11 @@ export default function AnnouncementForm({ show, done, uuid }: { show?: boolean 
     useEffect(() => {
 
         if (uuid) {
-
-            // detailAward(uuid)
-            //     .then((item) => {
-                    
-            //         setValue("graduateYear", item?.nama_award ? item?.nama_award : "");
-            //         setValue("totalAlumni", item?.institusi_award ? item?.institusi_award : "");
-                    
-            //     })
-            
-
+            showAnnouncement(uuid)
+                .then((item) => {
+                    setValue("title", item?.judul ? item?.judul : "");
+                    setValue("content", item?.isi ? item?.isi : "");
+                })
         }
 
     }, [uuid])

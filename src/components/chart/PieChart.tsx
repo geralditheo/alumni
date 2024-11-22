@@ -4,13 +4,22 @@ import { ChartData, ChartOptions } from 'chart.js';
 
 Chart.register(ArcElement, Tooltip, Legend, Title, SubTitle);
 
-export default function PieChart(){
+export type DataDiagram = {
+  label: string,
+  data: number
+}
+
+export default function PieChart({ title, lable, dataDiagram = [], isShowLable = false }: { title?: string, lable?: string, dataDiagram?: DataDiagram[], isShowLable?: boolean }){
+    
+    const inputLabel = dataDiagram?.map((item) => item.label) || [];
+    const inputData = dataDiagram?.map((item) => item.data) || [];
+    
     const data: ChartData<'pie', number[], string> = {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: inputLabel.length ? inputLabel :  ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
         datasets: [
           {
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            label:  lable ? lable : '# of Votes',
+            data: inputData.length ? inputData : [12, 19, 3, 5, 2, 3],
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -37,17 +46,18 @@ export default function PieChart(){
         plugins: {
           legend: {
             position: 'top',
+            display: isShowLable
           },
           tooltip: {
             enabled: true,
           },
           title: {
             display: true,
-                text: 'Pie Chart',
-                position: 'top',
-                align: 'center',
-                color: 'black',
-                padding: 3,
+            text: title ? title : 'Pie Chart',
+            position: 'top',
+            align: 'center',
+            color: 'black',
+            padding: 3,
             }
         },
     };

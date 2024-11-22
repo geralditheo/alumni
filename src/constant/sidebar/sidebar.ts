@@ -45,7 +45,7 @@ export function getMenu(): MenuItem[] {
             title: "Alumni",
             path: '/dashboard/alumni',
             icon: HiShoppingBag,
-            condition: roleAlumni,
+            condition: roleAlumni || roleMahasiswa,
         },
         {
             key: 'import',

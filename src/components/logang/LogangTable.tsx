@@ -75,10 +75,6 @@ export default function LogangTable(){
 
         <section>
 
-            <div className="flex justify-end" >
-                <button onClick={() => setOpenModalForm(true)} className="bg-orange-400 font-semibold w-full text-sm sm:text-base sm:w-auto text-white shadow py-2 px-5 mb-3 rounded-lg" >Add +</button> 
-            </div>
-
             <div className="overflow-x-auto" >
                 <Table hoverable striped >
 

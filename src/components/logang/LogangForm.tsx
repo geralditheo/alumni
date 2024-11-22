@@ -61,11 +61,13 @@ export default function LogangForm({ show, hide, uuid }: { show?: boolean , hide
             formData.append('Verify', String("pending"));
             if (role === 'alumni') await postLogangAlumni(formData);
             if (role === 'admin') await postLogangAdmin(formData);
+            if (role === 'mahasiswa') await postLogangAdmin(formData);
         } 
 
         if (uuid) {
             if (role === 'alumni') await updateLogangAlumni(uuid, formData);
             if (role === 'admin') await updateLogangAdmin(uuid, formData);
+            if (role === 'mahasiswa') await postLogangAdmin(formData);
         } 
         
         reset();

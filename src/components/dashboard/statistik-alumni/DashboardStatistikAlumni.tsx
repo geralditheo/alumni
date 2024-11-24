@@ -3,12 +3,14 @@
 import dynamic from "next/dynamic";
 import { Suspense, useEffect, useState } from 'react';
 
-const PieChart = dynamic(() => import('@/components/chart/PieChart'), { ssr: false });
-const DoughnutChart = dynamic(() => import('@/components/chart/DoughnoutChart'), { ssr: false });
-const LineChart = dynamic(() => import('@/components/chart/LineChart'), { ssr: false });
+const PieChart = dynamic(() => import('@/components/chart/chartjs/PieChart'), { ssr: false });
+const DoughnutChart = dynamic(() => import('@/components/chart/chartjs/DoughnoutChart'), { ssr: false });
+const LineChart = dynamic(() => import('@/components/chart/chartjs/LineChart'), { ssr: false });
+
+import LineCharts from '@/components/chart/recharts/LineChart';
 
 import { useDashboardAdmin } from '@/hooks/dashboard/admin/useDashboardAdmin.hook';
-import { DataDiagram } from '@/components/chart/DoughnoutChart';
+import { DataDiagram } from '@/components/chart/chartjs/DoughnoutChart';
 
 export default function DsahboardStatistikAlumni(){
 
@@ -88,7 +90,9 @@ export default function DsahboardStatistikAlumni(){
                         </Suspense>
                     </div>
 
-                    <div className="basis-full" >A</div>
+                    <div className="basis-full" >
+                        <LineCharts />
+                    </div>
                 </div>
 
             </main>

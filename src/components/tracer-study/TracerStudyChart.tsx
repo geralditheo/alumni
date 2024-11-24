@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { Suspense } from 'react';
 
-const PieChart = dynamic(() => import('@/components/chart/PieChart'), { ssr: false });
+const PieChart = dynamic(() => import('@/components/chart/chartjs/PieChart'), { ssr: false });
 
 export default function TracerStudyChart(){
     return (

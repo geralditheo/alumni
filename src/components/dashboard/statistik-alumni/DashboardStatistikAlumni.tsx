@@ -7,8 +7,6 @@ const PieChart = dynamic(() => import('@/components/chart/chartjs/PieChart'), { 
 const DoughnutChart = dynamic(() => import('@/components/chart/chartjs/DoughnoutChart'), { ssr: false });
 const LineChart = dynamic(() => import('@/components/chart/chartjs/LineChart'), { ssr: false });
 
-import LineCharts from '@/components/chart/recharts/LineChart';
-
 import { useDashboardAdmin } from '@/hooks/dashboard/admin/useDashboardAdmin.hook';
 import { DataDiagram } from '@/components/chart/chartjs/DoughnoutChart';
 
@@ -84,14 +82,14 @@ export default function DsahboardStatistikAlumni(){
                 </div>
 
                 <div className="flex gap-3 sm:flex-row flex-col" >
-                    <div className="basis-full flex justify-center  grow-0" >
+                    <div className="basis-full flex justify-center  grow-0 border" >
                         <Suspense fallback={<div>Loading...</div>} >
                             <PieChart key={"dlj"} dataDiagram={dataLinkupJob} lable=" #" title="Lingkup Pekerjaan" isShowLable />
                         </Suspense>
                     </div>
 
-                    <div className="basis-full" >
-                        <LineCharts />
+                    <div className="basis-full border" >
+                        <LineChart />
                     </div>
                 </div>
 

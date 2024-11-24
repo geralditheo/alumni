@@ -6,6 +6,7 @@ interface Academic {
     id?: number;
     user_id?: number;
     nama_studi?: string;
+    jenjang_pendidikan?: string;
     prodi?: string;
     ipk?: string;
     tahun_masuk?: number;

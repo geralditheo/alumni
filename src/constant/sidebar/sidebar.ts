@@ -1,4 +1,4 @@
-import { HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser, HiViewBoards, HiHome, HiAcademicCap } from 'react-icons/hi';
+import { HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser, HiViewBoards, HiHome, HiAcademicCap, HiBadgeCheck } from 'react-icons/hi';
 import { IconType } from 'react-icons';
 import { getUser } from '@/hooks/auth/authClient';
 
@@ -38,6 +38,13 @@ export function getMenu(): MenuItem[] {
             title: "Tracer Study",
             path: '/dashboard/tracer-study',
             icon: HiInbox,
+            condition: roleAdmin,
+        },
+        {
+            key: 'masaTunggu',
+            title: "Masa Tunggu",
+            path: '/dashboard/masa-tunggu-alumni',
+            icon: HiBadgeCheck,
             condition: roleAdmin,
         },
         {

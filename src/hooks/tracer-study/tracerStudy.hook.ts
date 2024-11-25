@@ -43,14 +43,18 @@ type StatusTracerStudy = {
 export function useTracerStudy(){
     const token = getToken();
     const [data, setData] = useState<CheckTracerStudy>();
-    const [statusData, setStatusData] = useState<StatusTracerStudy[]>();
+    const [statusData, setStatusData] = useState<StatusTracerStudy[]>([]);
+    const [tahunLulusData, setTahunLulusData] = useState<string[]>([]);
 
-    const check = async (): Promise< CheckTracerStudy | undefined> => {
+    const check = async ({ tahunLulus }: { tahunLulus?: string } = {}): Promise< CheckTracerStudy | undefined> => {
         try {
 
             const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cekTracerstudy` , {
                 headers: {
                     "Authorization": `Bearer ${token}`
+                },
+                params: {
+                    tahun_lulus: tahunLulus ?? undefined
                 }
             });
 
@@ -71,12 +75,16 @@ export function useTracerStudy(){
 
     }
 
-    const status = async (status: string): Promise< StatusTracerStudy[] | undefined> => {
+    const status = async ({ status, tahunLulus  }: { status?: string, tahunLulus?: string; } = {}): Promise< StatusTracerStudy[] | undefined> => {
         try {
             
-            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/tracerstudy?status=${status}` , {
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/tracerstudy` , {
                 headers: {
                     "Authorization": `Bearer ${token}`
+                },
+                params: {
+                    status: status ?? undefined,
+                    tahun_lulus: tahunLulus ?? undefined,
                 }
             });
 
@@ -91,8 +99,28 @@ export function useTracerStudy(){
 
     }
 
+    const tahunLulus = async (): Promise< string[] | undefined> => {
+        try {
+            
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/tahunLulusTracerstudy` , {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            });
+
+            if (data.tahunLulus) setTahunLulusData(data.tahunLulus);
+           
+            return data;
+            
+        } catch (error) {
+            console.log("Error", error);
+            throw new Error("Error status tracer study");
+        }
+
+    }
+
     
     
 
-    return { data, statusData, check, status };
+    return { data, statusData, tahunLulusData, check, status, tahunLulus };
 }

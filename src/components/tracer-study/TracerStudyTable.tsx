@@ -9,30 +9,55 @@ import { toast } from 'sonner';
 
 export default function TracerStudyTable({ status }: { status: string }){
 
-    const { status: statusTracerStudy, statusData } = useTracerStudy();
+    const { status: statusTracerStudy, statusData, tahunLulus: getTahunLulus, tahunLulusData } = useTracerStudy();
 
     const [ refresh, setRefresh ] = useState<boolean>(true);
     const [ filter, setFilter] = useState({
         currentPage: 1,
         lastPage:  1,
+        tahun: {
+            tahunLulus: "",
+        }
     })
 
     const onPageChange = (page: number) => {
-
         setFilter({ ...filter, currentPage: page });
         setRefresh(!refresh);
-
     } 
 
-    useEffect(() => {
+    const onTahunLulusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        event.preventDefault();
+        const value = event.target.value;
+        setFilter({ ...filter, tahun: { tahunLulus: value }})
+        setRefresh(!refresh);
+    }
 
-        statusTracerStudy(status);
-        
-    }, [refresh]);
+    useEffect(() => {
+        getTahunLulus();
+    }, []);
+
+    useEffect(() => {
+        statusTracerStudy({status, tahunLulus: filter.tahun.tahunLulus });        
+    }, [refresh]);    
 
     return <main>
 
         <section>
+
+            {
+                tahunLulusData.length > 0 && 
+                <div className="my-3 ">
+                    <select name="tahunLulus" id="tahunLulus" className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={onTahunLulusChange}  >
+                        <option selected>Pilih Tahun Kelulusan</option>
+                        {
+                            tahunLulusData.map((item, index) => {
+                                return <option key={`tahun-${index}`} value={item} >{item}</option>
+
+                            })
+                        }
+                    </select>
+                </div>
+            }
 
             <div className="overflow-x-auto" >
                 <Table hoverable striped >

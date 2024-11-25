@@ -8,11 +8,10 @@ import { useEffect } from 'react';
 
 export default function TracerStudyIndex(){
 
-    const listIndex = [1,2,3,4,5,6,7];
     const { data, check: checkTracerStudy } = useTracerStudy();
 
     useEffect(() => {
-        checkTracerStudy()
+        checkTracerStudy();
     }, [])
 
     return (

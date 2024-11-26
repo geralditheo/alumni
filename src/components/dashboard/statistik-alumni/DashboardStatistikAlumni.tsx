@@ -116,7 +116,7 @@ export default function DsahboardStatistikAlumni(){
                 </div>
             </div>
 
-            <div className="flex justify-center h-96 grow-0" >
+            <div className="flex justify-center md:h-96 grow-0" >
                 <LineChart key={"ds"} title="Statistik" lable="Jumlah Alumni" dataDiagram={dataStatistik} isShowLable />
             </div>
 

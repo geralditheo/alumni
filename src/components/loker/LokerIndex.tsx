@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import LokerShow from '@/components/loker/LokerShow';
 import { getPengalamanMagang } from "@/constant/internship/pengalamanMagang";
 import { getTipeMagang } from "@/constant/internship/tipeMagang";
 import { useEffect, useState } from "react"
@@ -11,7 +12,6 @@ import { useRouter } from 'next/navigation'
 import { useLokerAlumni, useLokerAdmin } from '@/hooks/loker/useStore.hook';
 import { rupiahFormat } from '@/helper/formatRupiah';
 import { getUser, User } from '@/hooks/auth/authClient';
-
 
 type Inputs = {
     internshipExperience: string;
@@ -31,12 +31,23 @@ export default function LokerIndex(){
     const [ filter, setFilter ] = useState({});
     const { data: dataLokerAlumni, index: indexAlumni } = useLokerAlumni();
     const { data: dataLokerAdmin, index: indexAdmin } = useLokerAdmin();
+    const [ open, setOpen ] = useState<boolean>(false);
+    const [ selectUuid, setSelectUuid ] = useState<number>();
     
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
         console.log("Data", data);
         
+    }
+
+    const onClickButton = (uuid: number) => {
+        setSelectUuid(uuid);
+        setOpen(true);
+    }
+
+    const onDone = () => {
+        setOpen(false);
     }
 
     useEffect(() => {
@@ -65,7 +76,9 @@ export default function LokerIndex(){
     return (
        <div className='container mx-auto' >
 
-            <section></section>
+            <section>
+                { open && <LokerShow show={open}  uuid={selectUuid} onDone={onDone} /> }
+            </section>
        
             <main className="flex flex-col sm:flex-row gap-5 " >
 
@@ -119,7 +132,7 @@ export default function LokerIndex(){
                             const tags = item.Tags.split(',');
 
                             return (
-                                <div key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3" >
+                                <button onClick={() => onClickButton(item.id)} key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
                                             <Image priority src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
@@ -141,7 +154,7 @@ export default function LokerIndex(){
                                         <p className="flex items-center gap-3"> <HiBriefcase /> {item.TipeKerja}</p>
                                         <p className="flex items-center gap-3"> <HiCurrencyDollar /> {item.Gaji ? rupiahFormat(Number(item.Gaji)) : "~"}</p>
                                     </div>
-                                </div>
+                                </button>
                             )
                         })}
 
@@ -149,7 +162,7 @@ export default function LokerIndex(){
                             const tags = item.Tags.split(',');
 
                             return (
-                                <div key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3" >
+                                <button onClick={() => onClickButton(item.id)} key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
                                             <Image priority src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
@@ -171,7 +184,7 @@ export default function LokerIndex(){
                                         <p className="flex items-center gap-3"> <HiBriefcase /> {item.TipeKerja}</p>
                                         <p className="flex items-center gap-3"> <HiCurrencyDollar /> {item.Gaji ? rupiahFormat(Number(item.Gaji)) : "~"}</p>
                                     </div>
-                                </div>
+                                </button>
                             )
                         })}
 

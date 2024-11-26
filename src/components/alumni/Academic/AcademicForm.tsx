@@ -120,7 +120,7 @@ export default function AcademicForm({ show, hide, uuid }: { show?: boolean , hi
 
                 <div className="flex flex-col gap-1 mb-5">
                     <label htmlFor="gpa" className="text-sm sm:text-base" >IPK</label>
-                    <input  {...register('gpa', {  valueAsNumber: true })} name="gpa" id="gpa" type="number" min={0} className="text-sm" placeholder="3.00" />
+                    <input  {...register('gpa', {  valueAsNumber: true })} step="0.001" name="gpa" id="gpa" type="number" min={0} className="text-sm" placeholder="3.00" />
                 </div>
 
                 <div className="flex flex-col gap-1 mb-5">

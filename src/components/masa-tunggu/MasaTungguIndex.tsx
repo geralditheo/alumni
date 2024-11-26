@@ -12,12 +12,22 @@ const PieChart = dynamic(() => import('@/components/chart/chartjs/PieChart'), { 
 
 export default function MasaTungguComponent(){
 
-    const { data, check: checkMasaTunggu } = useMasaTunggu();
+    const { data, tahunLulusData, check: checkMasaTunggu, tahunLulus: getTahunLulus } = useMasaTunggu();
     const [ dataDiagram, setDataDiagram ] = useState<DataDiagram[]>([]);
+    const [ filter, setFilter ] = useState({ tahunLulus: "" });
+    const [ refresh, setRefresh ] = useState<Boolean>();
+
+    const onTahunLulusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        event.preventDefault();
+        const value = event.target.value;
+        setFilter({ ...filter, tahunLulus: value})
+        setRefresh(!refresh);
+    }
 
     useEffect(() => {
-        checkMasaTunggu();
-    }, [])
+        checkMasaTunggu({ tahunLulus: filter.tahunLulus });
+        getTahunLulus()
+    }, [refresh])
 
     useEffect(() => {
         if(data?.masaTungguCounts) if (data.masaTungguCounts.length){
@@ -28,9 +38,24 @@ export default function MasaTungguComponent(){
     
 
     return (
-        <div>
+        <section>
+
+            {
+                tahunLulusData.length > 0 && 
+                <div className="my-3 ">
+                    <select defaultValue="none" name="tahunLulus" id="tahunLulus" className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={onTahunLulusChange}  >
+                        <option key="none" value="none" >Pilih Tahun Kelulusan</option>
+                        {
+                            tahunLulusData.map((item, index) => {
+                                return <option key={`tahun-${index}`} value={item} >{item}</option>
+
+                            })
+                        }
+                    </select>
+                </div>
+            }
+
             {/* Diagram */}
-            
             <div className="mb-5 grow-0 flex justify-center " >
                 <div className="aspect-square h-96 " >
                     <Suspense fallback={<div>Loading...</div>} >
@@ -44,15 +69,15 @@ export default function MasaTungguComponent(){
                 {
                     data?.masaTungguCounts.map((item, index) => {
                         return (
-                            <div key={index} className='flex-grow basis-full sm:basis-1/2 md:basis-1/3 max-w-[500px]' >
+                            <div key={index} className='flex-grow basis-full sm:basis-1/2 md:basis-1/3 ' >
                                 <div className='border flex group m-1' >
 
-                                    <div className='basis-3/4 p-5 ' >
+                                    <div className='basis-full p-5 ' >
                                         <h3 className='font-semibold' >{item.name}</h3>
                                         <p className='text-sm bg-blue-500 w-fit px-3 py-1 rounded-lg text-white' >{item.count} dari {data.totalAlumni} mahasiswa</p>
                                     </div>
 
-                                    <div className='basis-1/4 p-5' >
+                                    <div className='p-5' >
                                         <div className='w-16 aspect-square relative ' >
                                             <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full  ' />
                                         </div>
@@ -67,6 +92,6 @@ export default function MasaTungguComponent(){
                     })
                 }
             </div>
-        </div>
+        </section>
     )
 }

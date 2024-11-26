@@ -55,7 +55,7 @@ export function useMasaTunggu(){
                     "Authorization": `Bearer ${token}`
                 },
                 params: {
-                    tahun_lulus: tahunLulus ?? undefined
+                    tahun_lulus: tahunLulus ? tahunLulus : undefined
                 }
             });
             
@@ -84,8 +84,8 @@ export function useMasaTunggu(){
                     "Authorization": `Bearer ${token}`
                 },
                 params: {
-                    status: status ?? undefined,
-                    tahun_lulus: tahunLulus ?? undefined,
+                    status: status ? status : undefined,
+                    tahun_lulus: tahunLulus ? tahunLulus : undefined,
                 }
             });
 

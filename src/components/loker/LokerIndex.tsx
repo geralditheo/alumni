@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import LokerShow from '@/components/loker/LokerShow';
+import LokerForm from './LokerForm';
 import { getPengalamanMagang } from "@/constant/internship/pengalamanMagang";
 import { getTipeMagang } from "@/constant/internship/tipeMagang";
 import { useEffect, useState } from "react"
@@ -31,9 +32,9 @@ export default function LokerIndex(){
     const [ filter, setFilter ] = useState({});
     const { data: dataLokerAlumni, index: indexAlumni } = useLokerAlumni();
     const { data: dataLokerAdmin, index: indexAdmin } = useLokerAdmin();
-    const [ open, setOpen ] = useState<boolean>(false);
+    const [ openModalShow, setOpenModalShow ] = useState<boolean>(false);
+    const [ openModalForm, setOpenModalForm ] = useState(false);
     const [ selectUuid, setSelectUuid ] = useState<number>();
-    
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
 
@@ -43,11 +44,13 @@ export default function LokerIndex(){
 
     const onClickButton = (uuid: number) => {
         setSelectUuid(uuid);
-        setOpen(true);
+        setOpenModalShow(true);
     }
 
     const onDone = () => {
-        setOpen(false);
+        setOpenModalShow(false);
+        setOpenModalForm(false);
+        setRefresh(!refresh);
     }
 
     useEffect(() => {
@@ -77,10 +80,11 @@ export default function LokerIndex(){
        <div className='container mx-auto' >
 
             <section>
-                { open && <LokerShow show={open}  uuid={selectUuid} onDone={onDone} /> }
+                { openModalShow && <LokerShow show={openModalShow}  uuid={selectUuid} onDone={onDone} /> }
+                { openModalForm && <LokerForm show={openModalForm}  hide={onDone} /> }
             </section>
        
-            <main className="flex flex-col sm:flex-row gap-5 " >
+            <main className="flex flex-col md:flex-row gap-5 " >
 
                 <div className="basis-1/4 shrink-0" >
                     <div className="bg-gray-100 rounded-md p-3 border border-blue-500" >
@@ -122,28 +126,28 @@ export default function LokerIndex(){
 
                 <div className="basis-full" >
                     <div className="flex gap-3 mb-3" >
-                        <button className="bg-blue-500 hover:bg-blue-600 active:bg-blue-800 px-5 py-2 text-white font-semibold text-xs sm:text-sm  rounded-md flex items-center justify-center gap-x-2 w-full sm:w-auto" > <HiPlus /> Post Lowongan</button>
+                        <button onClick={() => setOpenModalForm(true)} className="bg-blue-500 hover:bg-blue-600 active:bg-blue-800 px-5 py-2 text-white font-semibold text-xs sm:text-sm  rounded-md flex items-center justify-center gap-x-2 w-full sm:w-auto" > <HiPlus /> Post Lowongan</button>
                         <button onClick={() => router.push("/dashboard/loker/manage")} className="bg-blue-500 hover:bg-blue-600 active:bg-blue-800 px-5 py-2 text-white font-semibold text-xs sm:text-sm rounded-md flex items-center justify-center gap-x-2 w-full sm:w-auto" > <HiCog /> Manage Lowongan</button>
                     </div>
 
                     {/* Data */}
                     <div>
-                        { dataLokerAlumni.map((item, index) => {
+                        { dataLokerAlumni.map((item) => {
                             const tags = item.Tags.split(',');
 
                             return (
-                                <button onClick={() => onClickButton(item.id)} key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full" >
-                                    <div className="flex justify-center"  >
-                                        <div className='w-52 aspect-square relative border' >
-                                            <Image priority src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
+                                <div onClick={() => onClickButton(item.id)} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
+                                    <div className="flex justify-center  w-full sm:w-fit"  >
+                                        <div className='w-52 aspect-square relative border flex justify-center' >
+                                            <Image priority  src={`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${item.Logo}`} alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <p className="font-semibold" >{item.Posisi ?? "~"}</p>
-                                        <p>{item.NamaPerusahaan ?? "~"}</p>
+                                        <p className="font-semibold text-center sm:text-left" >{item.Posisi ?? "~"}</p>
+                                        <p className='text-center sm:text-left' >{item.NamaPerusahaan ?? "~"}</p>
 
-                                        <div className="flex gap-3 my-3" >
+                                        <div className="flex gap-3 my-3 justify-center sm:justify-start" >
                                             { tags.map((e, index) => {
                                                 return <div key={index} className="text-xs bg-blue-800 py-1 px-3 rounded-full text-white text-center" >{e}</div>
                                             })}
@@ -154,15 +158,15 @@ export default function LokerIndex(){
                                         <p className="flex items-center gap-3"> <HiBriefcase /> {item.TipeKerja}</p>
                                         <p className="flex items-center gap-3"> <HiCurrencyDollar /> {item.Gaji ? rupiahFormat(Number(item.Gaji)) : "~"}</p>
                                     </div>
-                                </button>
+                                </div>
                             )
                         })}
 
-                        { dataLokerAdmin.map((item, index) => {
+                        { dataLokerAdmin.map((item) => {
                             const tags = item.Tags.split(',');
 
                             return (
-                                <button onClick={() => onClickButton(item.id)} key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full" >
+                                <div onClick={() => onClickButton(item.id)} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
                                             <Image priority src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
@@ -184,7 +188,7 @@ export default function LokerIndex(){
                                         <p className="flex items-center gap-3"> <HiBriefcase /> {item.TipeKerja}</p>
                                         <p className="flex items-center gap-3"> <HiCurrencyDollar /> {item.Gaji ? rupiahFormat(Number(item.Gaji)) : "~"}</p>
                                     </div>
-                                </button>
+                                </div>
                             )
                         })}
 

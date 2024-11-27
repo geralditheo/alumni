@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import LogangForm from '@/components/logang/LogangForm';
+import LogangShow from '@/components/logang/LogangShow';
+import LogangForm from './LogangForm';
 import { getPengalamanMagang } from "@/constant/internship/pengalamanMagang";
 import { getTipeMagang } from "@/constant/internship/tipeMagang";
 import { useState, useEffect } from "react"
@@ -29,10 +30,12 @@ export default function LogangIndex(){
     const { data: dataTipeMagang } = getTipeMagang();
     const [ filter, setFilter ] = useState({});
     const [ refresh, setRefresh ] = useState<boolean>(true);
-    const [ openModal, setOpenModal ] = useState(false);
     const { data: dataLogangAlumni, index: indexAlumni } = useLogangAlumni();
     const { data: dataLogangAdmin, index: indexAdmin } = useLogangAdmin();
     const { data: dataLogangMhs, index: indexMhs } = useLogangMahasiswa();
+    const [ openModalShow, setOpenModalShow ] = useState<boolean>(false);
+    const [ openModalForm, setOpenModalForm ] = useState(false);
+    const [ selectUuid, setSelectUuid ] = useState<number>();
 
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
@@ -41,8 +44,14 @@ export default function LogangIndex(){
         
     }
 
-    const onHide = () => {
-        setOpenModal(false);
+    const onClickButton = (uuid: number) => {
+        setSelectUuid(uuid);
+        setOpenModalShow(true);
+    }
+
+    const onDone = () => {
+        setOpenModalShow(false);
+        setOpenModalForm(false);
         setRefresh(!refresh);
     }
 
@@ -74,7 +83,8 @@ export default function LogangIndex(){
     return (
         <div>
             <section>
-                { openModal && <LogangForm show={openModal} hide={onHide} /> }
+                { openModalShow && <LogangShow show={openModalShow} onDone={onDone} uuid={selectUuid} /> }
+                { openModalForm && <LogangForm show={openModalForm} hide={onDone}  /> }
             </section>
 
             <main className="flex flex-col sm:flex-row gap-5 container" >
@@ -121,7 +131,7 @@ export default function LogangIndex(){
                     <div className="flex gap-3 mb-3" >
                         {
                             (role === 'admin' || role === 'alumni') &&
-                            <button onClick={() => setOpenModal(true)} className="bg-blue-500 hover:bg-blue-600 active:bg-blue-800 px-5 py-2 text-white font-semibold text-xs sm:text-sm  rounded-md flex items-center justify-center gap-x-2 w-full sm:w-auto" > <HiPlus /> Post Internship</button>
+                            <button onClick={() => setOpenModalForm(true)} className="bg-blue-500 hover:bg-blue-600 active:bg-blue-800 px-5 py-2 text-white font-semibold text-xs sm:text-sm  rounded-md flex items-center justify-center gap-x-2 w-full sm:w-auto" > <HiPlus /> Post Internship</button>
                         }
                         {
                             (role === 'admin' || role === 'alumni' ) &&
@@ -135,7 +145,7 @@ export default function LogangIndex(){
                             const tags = item.Tags.split(',');
 
                             return (
-                                <div key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3" >
+                                <div onClick={() => onClickButton(item.id)} key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
                                             <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
@@ -165,7 +175,7 @@ export default function LogangIndex(){
                             const tags = item.Tags.split(',');
 
                             return (
-                                <div key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3" >
+                                <div onClick={() => onClickButton(item.id)} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
                                             <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
@@ -195,7 +205,7 @@ export default function LogangIndex(){
                             const tags = item.Tags.split(',');
 
                             return (
-                                <div key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3" >
+                                <div key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
                                             <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />

@@ -17,11 +17,15 @@ export default function Profile({}: { uuid?: string }){
     const [user, setUser] = useState<User | null>(null);
     const [openModalPhoto ,setOpenModalPhoto] = useState(false);
     const [openModalPassword, setOpenModalPassword] = useState(false);
+    const [refresh, setRefresh] = useState<boolean>(true);
     const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
 
     const hide = () => {
         setOpenModalPhoto(false);
         setOpenModalPassword(false);
+    }
+    const onDone = () => {
+        setRefresh(!refresh)
     }
 
     useEffect(() => {
@@ -47,7 +51,7 @@ export default function Profile({}: { uuid?: string }){
 
             setUser(fetchedUser);
         }
-    }, [])    
+    }, [refresh])    
 
     return <main className="container " >
         <aside>
@@ -102,9 +106,9 @@ export default function Profile({}: { uuid?: string }){
             { role === 'alumni' && (
                 <Accordion collapseAll >
                     <Accordion.Panel>
-                        <Accordion.Title>Edit Profile</Accordion.Title>
+                        <Accordion.Title>Data Alumni</Accordion.Title>
                         <Accordion.Content>
-                            <ProfileForm profileAlumni={data} />
+                            <ProfileForm profileAlumni={data} onDone={onDone} />
                         </Accordion.Content>
                     </Accordion.Panel>
                 </Accordion>

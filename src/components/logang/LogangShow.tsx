@@ -6,18 +6,24 @@ import { getUser, User } from '@/hooks/auth/authClient';
 import { useEffect, useState } from "react";
 
 export default function LogangShow({ uuid, show, onDone }: {uuid?: number, show?: boolean, onDone?: () => void}){
-    const { data: } = useLogangAlumni();  // Assuming this hook provides a method to get alumni data
-    const [alumniData, setAlumniData] = useState<any>(null);
+    const [data, setData] = useState<any>(null);
+
+    const { data: dataLogangAlumni } = useLogangAlumni();
+    const { data: dataLogangAdmin } = useLogangAdmin();
+    const { data: dataLogangMhs } = useLogangMahasiswa();
 
     useEffect(() => {
         if (uuid) {
-            // Assuming getAlumniData takes uuid as a parameter to fetch the relevant data
-            getAlumniData(uuid).then((data) => {
-                setAlumniData(data);  // Store the alumni data
-                console.log("Alumni Data:", data);  // Log the data to the console
-            });
+            const result =
+                dataLogangAlumni?.find((item) => item.id === uuid) ||
+                dataLogangAdmin?.find((item) => item.id === uuid) ||
+                dataLogangMhs?.find((item) => item.id === uuid);
+
+            setData(result || null);
+            console.log('test',result);
         }
-    }, [uuid]);
+
+    }, [uuid, dataLogangAlumni, dataLogangAdmin, dataLogangMhs]);
 
     return (
         <Modal show={show} onClose={onDone} >

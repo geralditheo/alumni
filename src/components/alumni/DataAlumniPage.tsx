@@ -9,6 +9,8 @@ import { useAward } from "@/hooks/alumni/award/useStore.hook";
 import { useCourse } from "@/hooks/alumni/course/useStore.hook";
 import { useSkill } from "@/hooks/alumni/skill/useStore.hook";
 import { HiPencilAlt } from 'react-icons/hi';
+import { useProfile } from "@/hooks/profile/alumni/useStore.hook";
+import { getUser, User } from "@/hooks/auth/authClient";
 
 import Link from 'next/link';
 import { useEffect, useState } from "react";
@@ -26,6 +28,11 @@ export default function DataAlumniPage(){
     const {data:skills, getSkills} = useSkill();
     const [ filter ] = useState({ currentPage: 1, limit: 10 });
 
+    const { data, getDataAlumni : fetchDataAlumni, getDataAdmin } = useProfile();
+
+    const [user, setUser] = useState<User | null>(null);
+    const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
+
     useEffect(() => {
         getAcademics(filter);
         getJobs(filter);
@@ -34,6 +41,29 @@ export default function DataAlumniPage(){
         getAwards(filter);
         getCourses(filter);
         getSkills(filter);
+
+        const fetchedUser = getUser();
+
+        if (fetchedUser){
+
+            const roleAlumni: boolean | undefined = fetchedUser?.roles?.includes('alumni');
+            const roleAdmin: boolean | undefined = fetchedUser?.roles?.includes('admin');
+            const roleMahasiswa: boolean | undefined = fetchedUser?.roles?.includes('mahasiswa');
+
+            if (roleAlumni) {
+                setRole('alumni'); 
+                fetchDataAlumni();
+            }
+            if (roleAdmin) {
+                setRole('admin');
+                getDataAdmin();
+            } 
+            if (roleMahasiswa) {
+                setRole('mahasiswa');
+            }
+
+            setUser(fetchedUser);
+        }
     }, [])
 
     return <section className="" >
@@ -47,9 +77,15 @@ export default function DataAlumniPage(){
             </div>
 
             <div className='pt-12'>
-                <h2 className="text-xl font-bold">Nama</h2>
-                <p className="text-sm text-gray-500">Email</p>
-                <p className="mt-2 text-sm text-gray-600">Role</p>
+                { user?.roles?.map((item) => {
+                        return (
+                            <div key={item} className="w-fit px-3 py-1 bg-orange-300  text-xs shadow -left-14 mb-3" >{item}</div>
+                        )
+                    })
+                }
+                <div className="font-semibold" >{ data?.name ?? "" }</div>
+
+                <div className="mb-3" >{ data?.email ?? "" }</div>
             </div>
         </div>
 

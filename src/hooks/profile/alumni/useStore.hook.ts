@@ -138,6 +138,20 @@ export function useProfile(){
         }
     }
 
-    return { data, error, getDataAlumni, getDataAdmin, changePasswordAlumni, uploadPhotoAlumni, changePasswordAdmin, uploadPhotoAdmin };
+    const updateDataAlumni = async (formData: URLSearchParams): Promise<void> => {
+        try {
+            const { data } = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/profilealumni/edit`, formData, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            return data
+        } catch (error) {
+            throw new Error("Failed to change data alumni");
+        }
+    }
+
+    return { data, error, getDataAlumni, getDataAdmin, changePasswordAlumni, uploadPhotoAlumni, changePasswordAdmin, uploadPhotoAdmin, updateDataAlumni };
 
 }

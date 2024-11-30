@@ -53,7 +53,7 @@ export default function Profile({}: { uuid?: string }){
         }
     }, [refresh])    
 
-    return <main className="container " >
+    return <main className="container mx-auto lg:px-32" >
         <aside>
             { openModalPhoto && <ModalProfile show={openModalPhoto} hide={hide} /> } 
 

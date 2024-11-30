@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Sidebar from "@/components/sidebar/Sidebar";
 import Navigationbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
+import AutoBreadcrumb from "@/components/dashboard/breadcrumb/PathBreadcrumb";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -16,7 +17,12 @@ export default function DashboardLayout({ children, }: Readonly<{ children: Reac
 
       <Navigationbar />
 
-      <div className="p-5 flex-grow" > {children} </div>
+      <div className="p-5 flex-grow" >
+        <div className="container mx-auto lg:px-32 mb-3" > 
+          <AutoBreadcrumb capitalizeLinks  /> 
+        </div> 
+        {children} 
+      </div>
 
       <Footer />
 

@@ -1,29 +1,32 @@
 import { Modal } from "flowbite-react";
 import { HiLocationMarker } from "react-icons/hi";
-import { useLogangMahasiswa, useLogangAdmin,useLogangAlumni } from "@/hooks/logang/useStore.hook";
+import { useLogangMahasiswa, useLogangAdmin, useLogangAlumni, Logang } from "@/hooks/logang/useStore.hook";
 import { rupiahFormat } from "@/helper/formatRupiah";
-import { getUser, User } from '@/hooks/auth/authClient';    
 import { useEffect, useState } from "react";
+import Link from 'next/link';
 
-export default function LogangShow({ uuid, show, onDone }: {uuid?: number, show?: boolean, onDone?: () => void}){
-    const [data, setData] = useState<any>(null);
+export default function LogangShow({ uuid, show, onDone }: {uuid?: string, show?: boolean, onDone?: () => void}){
+    
+    const { show: getDataLogang } = useLogangAdmin();
+    const [ data, setData ] = useState<Logang>();
 
-    const { data: dataLogangAlumni } = useLogangAlumni();
-    const { data: dataLogangAdmin } = useLogangAdmin();
-    const { data: dataLogangMhs } = useLogangMahasiswa();
+    const setTags = (tags: string) => {
+        const split = tags.split(',');
+        return split.map((tag) => {
+            return <span className="px-2 py-1 text-xs font-semibold text-white bg-green-500 rounded-full">{tag}</span>
+        })
+    }
 
     useEffect(() => {
-        if (uuid) {
-            const result =
-                dataLogangAlumni?.find((item) => item.id === uuid) ||
-                dataLogangAdmin?.find((item) => item.id === uuid) ||
-                dataLogangMhs?.find((item) => item.id === uuid);
-
-            setData(result || null);
-            console.log('test',result);
+        
+        if (uuid){
+            getDataLogang(uuid).then((result) => {
+                setData(result);    
+            })
+                
         }
 
-    }, [uuid, dataLogangAlumni, dataLogangAdmin, dataLogangMhs]);
+    }, []);
 
     return (
         <Modal show={show} onClose={onDone} >
@@ -31,42 +34,37 @@ export default function LogangShow({ uuid, show, onDone }: {uuid?: number, show?
             <Modal.Body>
                 <div className="flex items-center justify-center text-center bg-blue-500 bg-opacity-30 p-3 rounded-lg">
                     <div className="flex flex-col items-center">
-                        <img src="logo.png" alt="UDINUS Logo" className="h-16 w-16 mb-4" />
-                        <h1 className="text-xl font-bold text-gray-800">Dosen</h1>
-                        <p className="text-sm text-gray-600">Universitas Dian Nuswantoro</p>
+                        <img src="/draw/undraw_Beach_day_cser.png" alt="UDINUS Logo" className="h-16 w-16 mb-4" />
+                        <h1 className="text-xl font-bold text-gray-800">{data?.Posisi}</h1>
+                        <p className="text-sm text-gray-600">{data?.NamaPerusahaan}</p>
                         <div className="flex space-x-2 mt-2">
-                            <span className="px-2 py-1 text-xs font-semibold text-white bg-blue-500 rounded-full">UDINUS</span>
-                            <span className="px-2 py-1 text-xs font-semibold text-white bg-gray-500 rounded-full">Dosen</span>
-                            <span className="px-2 py-1 text-xs font-semibold text-white bg-green-500 rounded-full">Full Time</span>
+                            {
+                                data?.Tags && setTags(data.Tags)
+                            }
                         </div>
  
                         <div className="mt-4">
                             <p className="text-sm text-gray-600 flex items-center">
-                                <HiLocationMarker className="h-5 w-5 text-gray-500" />
-                                Jl. Imam Bonjol No.207, Pendrikan Kidul, Kec. Semarang Tengah, Kota Semarang, Jawa Tengah 50131
+                                <HiLocationMarker /> {data?.Alamat}
                             </p>
                         </div>
 
                         <div className="mt-4">
                             <h2 className="text-xl font-bold text-gray-800">Deskripsi</h2>
-                            <ul className="mt-2 text-sm text-gray-600 space-y-1">
-                                <li>Dapat Menguasai Materi Tentang Ilmu Komputer</li>
-                                <li>Minimal S2</li>
-                                <li>Dapat Mengajar Menggunakan Bahasa Inggris</li>
-                            </ul>
+                            <p>{data?.Deskripsi}</p>
                             <div className="mt-4 space-y-1">
-                                <p><span className="font-bold">Tipe kerja:</span> Full Time</p>
-                                <p><span className="font-bold">Pengalaman:</span> Minimal 1 Tahun</p>
-                                <p><span className="font-bold">Gaji:</span> 5-7 Juta</p>
+                                <p><span className="font-bold">Tipe kerja:</span> {data?.TipeMagang}</p>
+                                <p><span className="font-bold">Pengalaman:</span> {data?.Pengalaman}</p>
+                                <p><span className="font-bold">Gaji:</span> {data?.Gaji}</p>
                             </div>
                         </div>
                         <div className="mt-6 flex flex-col space-y-2">
-                            <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                            <Link href={`mailto:${data?.Email}?subject=${"Magang"}&body=${"Body Magang"}`} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                                 Contact Employer
-                            </button>
-                            <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+                            </Link>
+                            <Link passHref href={`${data?.Website}`} rel="noopener noreferrer" target="_blank" className="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500">
                                 Visit Website
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

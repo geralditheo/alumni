@@ -23,14 +23,14 @@ export default function DsahboardStatistikAlumni(){
     }, [])
 
     useEffect(() => {
-        if (data?.statusCounts){
+        if (data?.jumlahStatus){
             const temp = [];
-            for (const [key, value] of Object.entries(data.statusCounts)) {
+            for (const [key, value] of Object.entries(data.jumlahStatus)) {
                 temp.push({ label: key, data: value });
             }
             setDataStatusCount(temp);
         }
-    }, [data?.statusCounts])
+    }, [data?.jumlahStatus])
 
     useEffect(() => {
         if (data?.lingkupJob) {
@@ -66,7 +66,7 @@ export default function DsahboardStatistikAlumni(){
             const temp = data.statistiks.data.map((item) => ({ label: String(item.tahun_lulus), data: item.alumni_terlacak }))
             setDataStatistik(temp);
         }
-    } ,[data?.statistiks])    
+    } ,[data?.statistiks])        
 
     return (
         <main>
@@ -74,19 +74,19 @@ export default function DsahboardStatistikAlumni(){
                 <div className="basis-full  bg-blue-500 shadow rounded-md p-3 " >
                     <h3 className="font-semibold text-white mb-1" >Alumni 3TH</h3>
                     <div className=" mb-3" />
-                    <p className="text-white" >Jumlah Alumni Dalam 3 Tahun: <span className="font-semibold text-yellow-300 text-xl" >{data?.totalAlumni3Years}</span> </p>
+                    <p className="text-white" >Jumlah Alumni Dalam 3 Tahun: <span className="font-semibold text-yellow-300 text-xl" >{data?.totalAlumni3Tahun}</span> </p>
                 </div>
 
                 <div className="basis-full bg-cyan-500 shadow rounded-md p-3 " >
                     <h3 className="font-semibold text-white mb-1" >Alumni Terdeteksi</h3>
                     <div className=" mb-3" />
-                    <p className="text-white" >Jumlah Alumni yang Terdeteksi Dalam 3 Tahun: <span className="font-semibold text-yellow-300 text-xl" >{data?.detectedAlumni3Years}</span> </p>
+                    <p className="text-white" >Jumlah Alumni yang Terdeteksi Dalam 3 Tahun: <span className="font-semibold text-yellow-300 text-xl" >{data?.terlacakAlumni3Tahun}</span> </p>
                 </div>
 
                 <div className="basis-full bg-sky-500 shadow rounded-md p-3 " >
                     <h3 className="font-semibold text-white mb-1" >Jumlah Keseluruhan Alumni</h3>
                     <div className=" mb-3" />
-                    <p className="text-white" >Jumlah Keseluruhan Alumni dari Berbagai Tahun: <span className="font-semibold text-yellow-300 text-xl" >{data?.totalAlumniAllYears}</span> </p>
+                    <p className="text-white" >Jumlah Keseluruhan Alumni dari Berbagai Tahun: <span className="font-semibold text-yellow-300 text-xl" >{data?.totalAlumniSemuaTahun}</span> </p>
                 </div>
             </div>
 

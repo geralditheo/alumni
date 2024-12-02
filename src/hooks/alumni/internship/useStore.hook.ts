@@ -8,7 +8,9 @@ interface Internship {
     id: number;
 
     nama_intern: string;
+    bulan_masuk_intern: string;
     periode_masuk_intern: number;
+    bulan_keluar_intern: string;
     periode_keluar_intern: number;
     jabatan_intern: string;
     kota: string;

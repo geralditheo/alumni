@@ -8,6 +8,8 @@ import { toast } from 'sonner';
 
 type Inputs = {
     agency: string; // Nama Instansi
+    bulanStart: string | null; // Bulan Mulai
+    bulanEnd: string | null; // Bulan Akhir
     periodStart: number | null; // Periode Mulai
     periodEnd: number | null; // Periode Akhir
     jobTitle: string; // Jabatan Pekerjaan
@@ -27,7 +29,9 @@ export default function InternshipForm({ show, hide, uuid }: { show?: boolean , 
         const formData = uuid ? new URLSearchParams() : new FormData();
 
         if (data.agency) formData.append("nama_intern", String(data.agency));
+        if (data.bulanStart) formData.append("bulan_masuk_intern", String(data.bulanStart));
         if (data.periodStart) formData.append("periode_masuk_intern", String(data.periodStart));
+        if (data.bulanEnd) formData.append("bulan_keluar_intern", String(data.bulanEnd));
         if (data.periodEnd) formData.append("periode_keluar_intern", String(data.periodEnd));
         if (data.jobTitle) formData.append("jabatan_intern", String(data.jobTitle));
         if (data.city) formData.append("kota", String(data.city));
@@ -63,7 +67,9 @@ export default function InternshipForm({ show, hide, uuid }: { show?: boolean , 
                 .then((item) => {
                     
                     setValue("agency", item?.nama_intern ? item?.nama_intern : "");
+                    setValue("bulanStart", item?.bulan_masuk_intern ? item?.bulan_masuk_intern : null);
                     setValue("periodStart", item?.periode_masuk_intern ? item?.periode_masuk_intern : null);
+                    setValue("bulanEnd", item?.bulan_keluar_intern ? item?.bulan_keluar_intern : null);
                     setValue("periodEnd", item?.periode_keluar_intern ? item?.periode_keluar_intern : null);
                     setValue("jobTitle", item?.jabatan_intern ? item?.jabatan_intern : "");
                     setValue("city", item?.kota ? item?.kota : "");
@@ -88,6 +94,26 @@ export default function InternshipForm({ show, hide, uuid }: { show?: boolean , 
                 <div className="flex flex-col gap-1 mb-5">
                     <label htmlFor="agency" className="text-sm sm:text-base" >Nama Instansi</label>
                     <input  {...register('agency')} name="agency" id="agency" type="text" className="text-sm" placeholder="Udinus" />
+                </div>
+
+                <div className="flex flex-col gap-1 mb-5">
+                    <label htmlFor="bulanStart" className="text-sm sm:text-base">Bulan Mulai</label>
+                    <select {...register('bulanStart')} name="bulanStart" id="bulanStart" className="text-sm">
+                        <option value="">Pilih Bulan</option>
+                        {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((bulan, index) => (
+                            <option key={index} value={bulan}>{bulan}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="flex flex-col gap-1 mb-5">
+                    <label htmlFor="bulanEnd" className="text-sm sm:text-base">Bulan Selesai</label>
+                    <select {...register('bulanEnd')} name="bulanEnd" id="bulanEnd" className="text-sm">
+                        <option value="">Pilih Bulan</option>
+                        {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((bulan, index) => (
+                            <option key={index} value={bulan}>{bulan}</option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="flex flex-col gap-1 mb-5">

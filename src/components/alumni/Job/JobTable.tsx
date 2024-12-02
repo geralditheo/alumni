@@ -70,6 +70,8 @@ export default function JobTable({ userId }: { userId?: string }){
 
                     <Table.Head className="text-xs sm:text-sm " >
                         <Table.HeadCell>Nama Instansi</Table.HeadCell>
+                        <Table.HeadCell>Bulan Masuk</Table.HeadCell>
+                        <Table.HeadCell>Bulan Keluar</Table.HeadCell>
                         <Table.HeadCell>Periode</Table.HeadCell>
                         <Table.HeadCell>Jabatan</Table.HeadCell>
                         <Table.HeadCell>Kota</Table.HeadCell>
@@ -83,6 +85,8 @@ export default function JobTable({ userId }: { userId?: string }){
                             return (
                                 <Table.Row key={item.id} className="bg-white ">
                                     <Table.Cell>{item.nama_job}</Table.Cell>
+                                    <Table.Cell>{item.bulan_masuk_job}</Table.Cell>
+                                    <Table.Cell>{item.bulan_keluar_job}</Table.Cell>
                                     <Table.Cell>{item.periode_masuk_job} - {item.periode_keluar_job}</Table.Cell>
                                     <Table.Cell>{item.jabatan_job}</Table.Cell>
                                     <Table.Cell>{item.kota}</Table.Cell>

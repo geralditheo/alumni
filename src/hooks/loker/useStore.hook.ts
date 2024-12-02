@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '@/hooks/auth/authClient';
 import { useState } from 'react';
 
-type Loker = {
+export type Loker = {
     id: number;
     user_id: number;
     Alamat: string;

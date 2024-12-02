@@ -1,14 +1,16 @@
 'use client';
 import Image from "next/image"
 import { useCheckDataAlumni } from '@/hooks/dashboard/data-alumni/useStore.hook';
-import { useAcademic } from '@/hooks/alumni/academic/useStore.hook';
+import { useAcademic, useAcademicMhs } from '@/hooks/alumni/academic/useStore.hook';
 import { useJob } from "@/hooks/alumni/job/useStore.hook";
 import { useInternship } from "@/hooks/alumni/internship/useStore.hook";
 import { useOrganization } from "@/hooks/alumni/organization/useStore.hook";
-import { useAward } from "@/hooks/alumni/award/useStore.hook";
+import { useAward, useAwardMhs } from "@/hooks/alumni/award/useStore.hook";
 import { useCourse } from "@/hooks/alumni/course/useStore.hook";
 import { useSkill } from "@/hooks/alumni/skill/useStore.hook";
 import { HiPencilAlt } from 'react-icons/hi';
+import { useProfile } from "@/hooks/profile/alumni/useStore.hook";
+import { getUser, User } from "@/hooks/auth/authClient";
 
 import Link from 'next/link';
 import { useEffect, useState } from "react";
@@ -16,6 +18,8 @@ import { useEffect, useState } from "react";
 export default function DataAlumniPage(){
 
     const getDataAlumni = useCheckDataAlumni();
+    const { data, getDataAlumni : fetchDataAlumni } = useProfile();
+    const [ filter ] = useState({ currentPage: 1, limit: 10 });
 
     const { academics, getAcademics } = useAcademic();
     const {data:jobs, getJobs} = useJob();
@@ -24,16 +28,45 @@ export default function DataAlumniPage(){
     const {data:awards, getAwards} = useAward();
     const {data:courses, getCourses} = useCourse();
     const {data:skills, getSkills} = useSkill();
-    const [ filter ] = useState({ currentPage: 1, limit: 10 });
+
+    const { data: dataAcademicMhs, get: getAcademicMhs } = useAcademicMhs();    
+    const { data: dataAwardMhs, getAwards: getAwardMhs } = useAwardMhs()
+
+    const [user, setUser] = useState<User | null>(null);
+    const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
 
     useEffect(() => {
-        getAcademics(filter);
-        getJobs(filter);
-        getInternship(filter);
-        getOrganization(filter);
-        getAwards(filter);
-        getCourses(filter);
-        getSkills(filter);
+        const fetchedUser = getUser();
+
+        if (fetchedUser){
+
+            const roleAlumni: boolean | undefined = fetchedUser?.roles?.includes('alumni');
+            const roleAdmin: boolean | undefined = fetchedUser?.roles?.includes('admin');
+            const roleMahasiswa: boolean | undefined = fetchedUser?.roles?.includes('mahasiswa');
+
+            if (roleAlumni) {
+                setRole('alumni'); 
+                fetchDataAlumni();
+
+                getAcademics(filter);
+                getJobs(filter);
+                getInternship(filter);
+                getOrganization(filter);
+                getAwards(filter);
+                getCourses(filter);
+                getSkills(filter);
+            }
+            if (roleAdmin) {
+                setRole('admin');
+            } 
+            if (roleMahasiswa) {
+                setRole('mahasiswa');
+                getAcademicMhs(filter);
+                getAwardMhs(filter);
+            }
+
+            setUser(fetchedUser);
+        }
     }, [])
 
     return <section className="" >
@@ -47,9 +80,15 @@ export default function DataAlumniPage(){
             </div>
 
             <div className='pt-12'>
-                <h2 className="text-xl font-bold">Nama</h2>
-                <p className="text-sm text-gray-500">Email</p>
-                <p className="mt-2 text-sm text-gray-600">Role</p>
+                { user?.roles?.map((item) => {
+                        return (
+                            <div key={item} className="w-fit px-3 py-1 bg-orange-300  text-xs shadow -left-14 mb-3" >{item}</div>
+                        )
+                    })
+                }
+                <div className="font-semibold" >{ data?.name ?? "" }</div>
+
+                <div className="mb-3" >{ data?.email ?? "" }</div>
             </div>
         </div>
 
@@ -70,6 +109,30 @@ export default function DataAlumniPage(){
                         <div className="p-3 space-y-6">
                         {
                             academics.map((element, index) => (
+                                <div key={item.key}>
+                                    <div className='p-3 flex justify-between'>
+                                        <div className="space-y-6">
+                                            <div className="flex items-start">
+                                                <div>
+                                                    <h3 className="text-lg font-semibold text-gray-800">{element.jenjang_pendidikan}</h3>
+                                                    <p className="text-sm text-gray-700">{element.nama_studi}</p>
+                                                    <p className="text-sm text-gray-600">{element.tahun_masuk} - {element.tahun_lulus} &middot; { (element.tahun_lulus && element.tahun_masuk) ? element.tahun_lulus - element.tahun_masuk  : '~' } tahun</p>
+                                                    <p className="text-sm text-gray-600">{element.kota}, {element.negara} </p>
+                                                    <p className="text-sm text-gray-600">IPK: {element.ipk} </p>
+                                                    <p className="text-sm text-gray-600 italic">Catatan: {element.catatan} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {
+                                        academics.length > 1 && index < academics.length - 1 && ( <hr className="border-gray-300"/> )
+                                    }
+                                </div>
+                            ))
+                        }
+
+                        {
+                            dataAcademicMhs.map((element, index) => (
                                 <div key={item.key}>
                                     <div className='p-3 flex justify-between'>
                                         <div className="space-y-6">

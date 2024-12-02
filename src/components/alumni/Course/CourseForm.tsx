@@ -74,17 +74,17 @@ export default function AwardForm({ show, hide, uuid }: { show?: boolean , hide?
             <form onSubmit={handleSubmit(onSubmit)} >
 
                 <div className="flex flex-col gap-1 mb-5">
-                    <label htmlFor="courseName" className="text-sm sm:text-base" >Nama Award</label>
+                    <label htmlFor="courseName" className="text-sm sm:text-base" >Nama Course</label>
                     <input  {...register('courseName')} name="courseName" id="courseName" type="text" className="text-sm" placeholder="Majesty" />
                 </div>
 
                 <div className="flex flex-col gap-1 mb-5">
-                    <label htmlFor="courseAgency" className="text-sm sm:text-base" >Nama Institusi Award</label>
+                    <label htmlFor="courseAgency" className="text-sm sm:text-base" >Nama Institusi Course</label>
                     <input  {...register('courseAgency')} name="courseAgency" id="courseAgency" type="text" className="text-sm" placeholder="Master Duel" />
                 </div>
 
                 <div className="flex flex-col gap-1 mb-5">
-                    <label htmlFor="courseLevel" className="text-sm sm:text-base" >Tingkat Award</label>
+                    <label htmlFor="courseLevel" className="text-sm sm:text-base" >Tingkat Course</label>
                     <select {...register('courseLevel')} name="courseLevel" id="courseLevel"  >
                             <option value="" >-none-</option>
                             <option value="lokal" >Lokal</option>
@@ -94,7 +94,7 @@ export default function AwardForm({ show, hide, uuid }: { show?: boolean , hide?
                 </div>
 
                 <div className="flex flex-col gap-1 mb-5">
-                    <label htmlFor="year" className="text-sm sm:text-base" >Tahun Award</label>
+                    <label htmlFor="year" className="text-sm sm:text-base" >Tahun Course</label>
                     <input  {...register('year', { valueAsNumber: true })} name="year" id="year" type="number" min={0} className="text-sm" placeholder="2020" />
                 </div>
 

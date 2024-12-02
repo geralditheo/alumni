@@ -132,22 +132,22 @@ export default function LokerIndex(){
 
                     {/* Data */}
                     <div>
-                        { dataLokerAlumni.map((item) => {
+                    {dataLokerAlumni?.map((item) => {
                             const tags = item.Tags.split(',');
 
                             return (
                                 <div onClick={() => onClickButton(item.id)} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
-                                    <div className="flex justify-center  w-full sm:w-fit"  >
-                                        <div className='w-52 aspect-square relative border flex justify-center' >
-                                            <Image priority  src={`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${item.Logo}`} alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
+                                    <div className="flex justify-center"  >
+                                        <div className='w-52 aspect-square relative border' >
+                                            <Image priority src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <p className="font-semibold text-center sm:text-left" >{item.Posisi ?? "~"}</p>
-                                        <p className='text-center sm:text-left' >{item.NamaPerusahaan ?? "~"}</p>
+                                        <p className="font-semibold" >{item.Posisi ?? "~"}</p>
+                                        <p>{item.NamaPerusahaan ?? "~"}</p>
 
-                                        <div className="flex gap-3 my-3 justify-center sm:justify-start" >
+                                        <div className="flex gap-3 my-3" >
                                             { tags.map((e, index) => {
                                                 return <div key={index} className="text-xs bg-blue-800 py-1 px-3 rounded-full text-white text-center" >{e}</div>
                                             })}

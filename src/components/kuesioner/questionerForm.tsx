@@ -31,7 +31,7 @@ type Inputs = {
     educationCost?: string;
     educationName?: string;
     majorName?: string;
-    educationYearIn?: number
+    educationStats?: string;
 
     // * One Time Password
     otp?: string;
@@ -97,9 +97,9 @@ export default function QuestionerForm({ done } : { done?: () => void }){
         if (data.jobLevel) formData.append("lingkup_job", data.jobLevel);
 
         if (data.educationCost) formData.append("biaya_studi", data.educationCost);
-        if (data.educationYearIn) formData.append("jenjang_pendidikan", String(data.educationYearIn) );
         if (data.educationName) formData.append("universitas", data.educationName);
         if (data.majorName) formData.append("program_studi", data.majorName);
+        if (data.educationStats) formData.append("jenjang_pendidikan", data.educationStats );
 
         if (data.otp) formData.append("otp", data.otp);
 
@@ -335,8 +335,13 @@ export default function QuestionerForm({ done } : { done?: () => void }){
                             </div>
 
                             <div className="flex flex-col gap-1">
-                                <label htmlFor="educationYearIn" className="text-xs sm:text-sm" >Tahun Masuk</label>
-                                <input  {...register('educationYearIn')} name="educationYearIn" id="educationYearIn" type="number" max={new Date().getFullYear()}  className="text-xs" placeholder="2020"/>
+                                <label htmlFor="educationStats" className="text-xs sm:text-sm" >Jenjang Pendidikan</label>
+                                <select { ...register("educationStats") } id="educationStats" name='educationStats' about="educationStats" className="text-xs"  >
+                                    <option value="" >-none-</option>
+                                    <option value="ownself" >Sarjana</option>
+                                    <option value="scholarship" >Magister</option>
+                                    <option value="scholarship" >Doctor</option>
+                                </select>
                             </div>
 
                         </section> }

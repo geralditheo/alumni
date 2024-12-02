@@ -10,7 +10,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Accordion } from "flowbite-react";
 import { HiPlus, HiCog, HiLocationMarker, HiBriefcase, HiDesktopComputer,HiCurrencyDollar   } from 'react-icons/hi';
 import { useRouter } from 'next/navigation'
-import { useLogangAlumni, useLogangAdmin, useLogangMahasiswa } from '@/hooks/logang//useStore.hook';
+import { useLogangAlumni, useLogangAdmin, useLogangMahasiswa, Filter } from '@/hooks/logang//useStore.hook';
 import { rupiahFormat } from '@/helper/formatRupiah';
 import { getUser, User } from '@/hooks/auth/authClient';
 
@@ -28,7 +28,7 @@ export default function LogangIndex(){
     const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
     const { data: dataPengalamanMagang } = getPengalamanMagang();
     const { data: dataTipeMagang } = getTipeMagang();
-    const [ filter, setFilter ] = useState({});
+    const [ filter, setFilter ] = useState<Filter | undefined>();
     const [ refresh, setRefresh ] = useState<boolean>(true);
     const { data: dataLogangAlumni, index: indexAlumni } = useLogangAlumni();
     const { data: dataLogangAdmin, index: indexAdmin } = useLogangAdmin();
@@ -38,10 +38,9 @@ export default function LogangIndex(){
     const [ selectUuid, setSelectUuid ] = useState<string>();
 
 
-    const onSubmit: SubmitHandler<Inputs> =  async (data) => {
-
-        console.log("Data", data);
-        
+    const onSubmit: SubmitHandler<Inputs> =  async (data) => {        
+        setFilter({Pengalaman: data.internshipExperience[0] ,TipeKerja: data.internshipType[0]});
+        setRefresh(!refresh);
     }
 
     const onClickButton = (uuid: string) => {
@@ -58,9 +57,9 @@ export default function LogangIndex(){
     useEffect(() => {
 
         if (user) {
-            if (role === 'alumni') indexAlumni();
-            if (role === 'admin') indexAdmin();
-            if (role === 'mahasiswa') indexMhs();
+            if (role === 'alumni') indexAlumni(filter);
+            if (role === 'admin') indexAdmin(filter);
+            if (role === 'mahasiswa') indexMhs(filter);
         }
     },[refresh, user])
 

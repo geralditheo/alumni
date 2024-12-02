@@ -69,7 +69,9 @@ export default function InternshipTable({ userId }: { userId?: string }){
 
                     <Table.Head className="text-xs sm:text-sm " >
                         <Table.HeadCell>Nama Instansi</Table.HeadCell>
+                        <Table.HeadCell>Bulan Masuk</Table.HeadCell>
                         <Table.HeadCell>Periode Masuk</Table.HeadCell>
+                        <Table.HeadCell>Bulan Keluar</Table.HeadCell>
                         <Table.HeadCell>Periode Keluar</Table.HeadCell>
                         <Table.HeadCell>Jabatan</Table.HeadCell>
                         <Table.HeadCell>Kota</Table.HeadCell>
@@ -83,6 +85,8 @@ export default function InternshipTable({ userId }: { userId?: string }){
                             return (
                                 <Table.Row key={item.id} className="bg-white ">
                                     <Table.Cell>{item.nama_intern}</Table.Cell>
+                                    <Table.Cell>{item.bulan_masuk_intern}</Table.Cell>
+                                    <Table.Cell>{item.bulan_keluar_intern}</Table.Cell>
                                     <Table.Cell>{item.periode_masuk_intern}</Table.Cell>
                                     <Table.Cell>{item.periode_keluar_intern}</Table.Cell>
                                     <Table.Cell>{item.jabatan_intern}</Table.Cell>

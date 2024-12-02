@@ -8,6 +8,8 @@ interface Job {
     id: number;
 
     nama_job: string;
+    bulan_masuk_job: string;
+    bulan_keluar_job: string;
     periode_masuk_job: number;
     periode_keluar_job: number;
     jabatan_job: string;

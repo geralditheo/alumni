@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '@/hooks/auth/authClient';
 import { useState } from 'react';
 
-type Loker = {
+export type Loker = {
     id: number;
     user_id: number;
     Alamat: string;
@@ -30,7 +30,7 @@ export type Filter = {
 export function useLokerAlumni(){
     const token = getToken();
     const [data, setData] = useState<Loker[]>([]);
-    const [manageData, setManageDta] = useState<Loker[]>([]);
+    const [manageData, setManageData] = useState<Loker[]>([]);
 
     const manage = async (): Promise< Loker[] | void> => {
         try {
@@ -41,7 +41,7 @@ export function useLokerAlumni(){
                 }
             });
 
-            if (Array.isArray(data)) setManageDta(data);
+            if (Array.isArray(data.data)) setManageData(data.data);
 
             return data;
             
@@ -56,8 +56,7 @@ export function useLokerAlumni(){
 
     const index = async (filter: Filter | undefined): Promise< Loker[] | void> => {
         try {
-
-            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/loker` , {
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/loker`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 },
@@ -69,16 +68,12 @@ export function useLokerAlumni(){
 
             if (Array.isArray(data.data)) setData(data.data);
 
-            return data;
-            
+            return data.lokers;
         } catch (error) {
-
-            console.log("Error", error);
-            
+            console.error("Error fetching lokers:", error);
             throw new Error("Error index loker");
         }
-
-    }
+    };
 
     const show = async (uuid: string): Promise<Loker | undefined> => {
         try {
@@ -166,7 +161,7 @@ export function useLokerAlumni(){
 export function useLokerAdmin(){
     const token = getToken();
     const [data, setData] = useState<Loker[]>([]);
-    const [manageData, setManageDta] = useState<Loker[]>([]);
+    const [manageData, setManageData] = useState<Loker[]>([]);
 
     const manage = async (): Promise< Loker[] | void> => {
         try {
@@ -177,7 +172,7 @@ export function useLokerAdmin(){
                 }
             });
 
-            if (Array.isArray(data.data)) setManageDta(data.data);
+            if (Array.isArray(data.data)) setManageData(data.data);
 
             return data;
             

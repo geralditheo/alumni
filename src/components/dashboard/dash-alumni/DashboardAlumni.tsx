@@ -54,7 +54,7 @@ export default function DashboardAlumni(){
                                 <p className='font-semibold' >{item.name}</p>
                                 { item.lastUpdted && <p className='text-xs font-semibold text-gray-400' > Last updated { formatDate(item.lastUpdted)  } </p> } 
                             </div>
-                            <Link href="#" className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </Link>
+                            <Link href={`/dashboard/alumni/${item.path}`} className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </Link>
                         </div>
                     }) }
                 </div>

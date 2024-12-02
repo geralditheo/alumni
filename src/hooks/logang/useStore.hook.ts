@@ -62,7 +62,7 @@ export function useLogangAlumni(){
                     "Authorization": `Bearer ${token}`
                 },
                 params: {
-                    TipeKerja: filter?.TipeKerja ? filter.TipeKerja : undefined,
+                    TipeMagang: filter?.TipeKerja ? filter.TipeKerja : undefined,
                     Pengalaman: filter?.Pengalaman ? filter.Pengalaman : undefined,
                 }
             });
@@ -198,7 +198,7 @@ export function useLogangAdmin(){
                     "Authorization": `Bearer ${token}`
                 },
                 params: {
-                    TipeKerja: filter?.TipeKerja ? filter.TipeKerja : undefined,
+                    TipeMagang: filter?.TipeKerja ? filter.TipeKerja : undefined,
                     Pengalaman: filter?.Pengalaman ? filter.Pengalaman : undefined,
                 }
             });
@@ -332,7 +332,7 @@ export function useLogangMahasiswa(){
                     "Authorization": `Bearer ${token}`
                 },
                 params: {
-                    TipeKerja: filter?.TipeKerja ? filter.TipeKerja : undefined,
+                    TipeMagang: filter?.TipeKerja ? filter.TipeKerja : undefined,
                     Pengalaman: filter?.Pengalaman ? filter.Pengalaman : undefined,
                 }
             });

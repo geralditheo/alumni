@@ -71,11 +71,13 @@ export default function OrganizationTable({ userId }: { userId?: string }){
 
                     <Table.Head className="text-xs sm:text-sm " >
                         <Table.HeadCell>Nama Instansi</Table.HeadCell>
+                        <Table.HeadCell>Bulan Masuk</Table.HeadCell>
+                        <Table.HeadCell>Bulan Keluar</Table.HeadCell>
                         <Table.HeadCell>Periode</Table.HeadCell>
                         <Table.HeadCell>Jabatan</Table.HeadCell>
                         <Table.HeadCell>Kota</Table.HeadCell>
                         <Table.HeadCell>Negara</Table.HeadCell>
-                        <Table.HeadCell>Catatan</Table.HeadCell>
+                        <Table.HeadCell>Catatan</Table.HeadCell>    
                         <Table.HeadCell>Action</Table.HeadCell>
                     </Table.Head>
 
@@ -84,6 +86,8 @@ export default function OrganizationTable({ userId }: { userId?: string }){
                             return (
                                 <Table.Row key={item.id} className="bg-white ">
                                     <Table.Cell>{item.nama_org}</Table.Cell>
+                                    <Table.Cell>{item.bulan_masuk_org}</Table.Cell>
+                                    <Table.Cell>{item.bulan_keluar_org}</Table.Cell>
                                     <Table.Cell>{item.periode_masuk_org} - {item.periode_keluar_org}</Table.Cell>
                                     <Table.Cell>{item.jabatan_org}</Table.Cell>
                                     <Table.Cell>{item.kota}</Table.Cell>

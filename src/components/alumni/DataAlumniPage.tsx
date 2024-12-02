@@ -212,7 +212,9 @@ export default function DataAlumniPage(){
                                                 <div>
                                                     <h3 className="text-lg font-semibold text-gray-800">{internship.nama_intern}</h3>
                                                     <p className="text-sm text-gray-600">{internship.jabatan_intern}</p>
-                                                    <p className="text-sm text-gray-600">{internship.periode_masuk_intern} - {internship.periode_keluar_intern} &middot; { (internship.periode_keluar_intern && internship.periode_masuk_intern) ? internship.periode_keluar_intern - internship.periode_masuk_intern  : '~' } tahun</p>
+                                                    <p className="text-sm text-gray-600">
+                                                        {internship.bulan_masuk_intern} {internship.periode_masuk_intern} - {internship.bulan_keluar_intern} {internship.periode_keluar_intern} &nbsp;&middot;&nbsp; 
+                                                        {(internship.periode_keluar_intern && internship.periode_masuk_intern) ? internship.periode_keluar_intern - internship.periode_masuk_intern : '~'} tahun</p>
                                                     <p className="text-sm text-gray-600">{internship.kota}, {internship.negara} </p>
                                                     <p className="text-sm text-gray-600 italic">Catatan: {internship.catatan} </p>
                                                 </div>

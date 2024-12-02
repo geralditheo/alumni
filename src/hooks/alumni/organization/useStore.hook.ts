@@ -8,7 +8,9 @@ interface Organization {
     id: number;
 
     nama_org: string;
+    bulan_masuk_org: string;
     periode_masuk_org: number;
+    bulan_keluar_org: string;
     periode_keluar_org: number;
     jabatan_org: string;
     kota: string;

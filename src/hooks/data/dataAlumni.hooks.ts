@@ -3,6 +3,7 @@ import { getToken } from '@/hooks/auth/authClient';
 import { useState } from 'react';
 
 type DataAlumni = {
+    id: number;
     email: string;
     name: string;
 }
@@ -36,5 +37,25 @@ export function useDataAlumni(){
 
     }
 
-    return { data, getDataAlumni };
+    const showDataCvAlumni = async (uuid: number) => {
+        try {
+
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/dataAlumniAdmin/${uuid}/cv`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+            })
+
+            console.log("D", data);
+
+            return data;
+            
+            
+        } catch (error) {
+            console.log("Error", error);
+            throw new Error("Error show data cv alumni");
+        }
+    }
+
+    return { data, getDataAlumni, showDataCvAlumni };
 }

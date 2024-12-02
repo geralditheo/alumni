@@ -53,6 +53,41 @@ export type CVInternsip = {
     catatan: string;
 }
 
+export type CVOrganization = {
+    nama_org: string
+    periode_masuk_org: string
+    periode_keluar_org: string
+    jabatan_org: string
+    kota: string
+    negara: string
+    catatan: string
+}
+
+export type CVAward = {
+    nama_award: string
+    institusi_award: string
+    tingkat_award: string
+    tahun_award: number
+    deskripsi_award: string
+}
+
+export type CVCourse = {
+    nama_course: string
+    institusi_course: string
+    tingkat_course: string
+    tahun_course: number
+}
+
+export type CVSkill = {
+    kerjasama_skill: string
+    ahli_skill: string
+    inggris_skill: string
+    komunikasi_skill: string
+    pengembangan_skill: string
+    kepemimpinan_skill: string
+    etoskerja_skill: string
+}
+
 export async function GET(request: NextRequest) {
 
     const token = await getTokenServer();    
@@ -76,8 +111,6 @@ export async function GET(request: NextRequest) {
             }
         });        
 
-        console.log("Data", data);
-
         if (data.alumni) temp.profile = data.alumni;
         if (data.academics) temp.academics = data.academics;
         if (data.jobs) temp.jobs = data.jobs;
@@ -95,7 +128,16 @@ export async function GET(request: NextRequest) {
     }
 
     const stream = await renderToStream(
-        <DocumentCV profile={temp.profile} academics={temp.academics} jobs={temp.jobs} internships={temp.internships} />
+        <DocumentCV 
+            profile={temp.profile} 
+            academics={temp.academics} 
+            jobs={temp.jobs} 
+            internships={temp.internships} 
+            awards={temp.awards} 
+            courses={temp.courses} 
+            organizations={temp.organizations} 
+            skills={temp.skills} 
+        />
     )
 
     return new NextResponse(stream as unknown as ReadableStream );

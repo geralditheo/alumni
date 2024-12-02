@@ -1,6 +1,6 @@
-import { Document, Page, Text, View, StyleSheet, Line } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
-import { CVProfile, CVAcademics, CVJobs, CVInternsip } from '@/app/api/generate-cv/pdf/route';
+import { CVProfile, CVAcademics, CVJobs, CVInternsip, CVAward, CVCourse, CVOrganization, CVSkill } from '@/app/api/generate-cv/pdf/route';
 
 const styles = StyleSheet.create({
     page: {
@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
     },
     line: {
       borderBottom: '3px solid black', 
-      borderColor: '#78B3CE',   
       marginVertical: 5,     
     },
     head: {
@@ -44,18 +43,35 @@ const styles = StyleSheet.create({
       fontSize: 14,
       marginBottom: 5,
       fontWeight: 'bold',
-      color: '#78B3CE',
+    },
+    sectionPart: {
+      marginVertical: 14
+    },
+    sectionTitle: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    },
+    sectionTitleSkill: {
+      display: 'flex',
+      flexDirection: 'row',
     },
     sectionContent: {
       fontSize: 12,
-      marginVertical: 20,
       textAlign: 'justify',
       fontWeight: 'ultralight',
-      marginLeft: 30
+      marginBottom: 5,
+    },
+    sectionContentSkill: {
+      fontSize: 12,
+      textAlign: 'justify',
+      fontWeight: 'ultralight',
+      marginBottom: 5,
+      flex: 1
     },
 });
 
-export const DocumentCV = ({ profile, academics, jobs, internships }: { profile?: CVProfile, academics?: CVAcademics[], jobs?: CVJobs[], internships?: CVInternsip[] }) => {
+export const DocumentCV = ({ profile, academics, jobs, internships, awards, courses, organizations, skills }: { profile?: CVProfile, academics?: CVAcademics[], jobs?: CVJobs[], internships?: CVInternsip[], awards?: CVAward[], courses?: CVCourse[], organizations?: CVOrganization[], skills?: CVSkill[]  }) => {  
 
   return (    
     <Document>
@@ -83,9 +99,21 @@ export const DocumentCV = ({ profile, academics, jobs, internships }: { profile?
                   <View style={styles.line} />
                   {
                     academics.map((academic, index) => (
-                      <Text key={index} style={styles.sectionContent}>
-                        - Telah lulus di bidang {academic.prodi} dari {academic.nama_studi}, yang terletak di {academic.kota} {academic.negara} , setelah menempuh studi dari {academic.tahun_masuk} hingga {academic.tahun_lulus} dengan nilai {academic.ipk}. {academic.catatan}
-                      </Text>
+                      <View key={index} style={styles.sectionPart}>
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{academic.nama_studi}</Text>
+                          <Text style={styles.sectionContent}>{academic.kota} {academic.negara}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{academic.prodi}</Text>
+                          <Text style={styles.sectionContent}>({academic.tahun_masuk} ~ {academic.tahun_lulus})</Text>
+                        </View>
+                        
+                        <Text style={styles.sectionContent} >
+                          {academic.catatan}
+                        </Text>
+                      </View>
                     ))
                   }
                 </View>
@@ -99,9 +127,21 @@ export const DocumentCV = ({ profile, academics, jobs, internships }: { profile?
                   <View style={styles.line} />
                   {
                     jobs.map((job, index) => (
-                      <Text key={index} style={styles.sectionContent}>
-                        - Menjabat sebagai {job.jabatan_job} di {job.nama_job} di {job.kota}, {job.negara}, dengan fokus pada terhadap kemampuan dan tanggung jawab.  Mulai pada tahun {job.periode_masuk_job} hingga {job.periode_keluar_job}. {job.catatan}
-                      </Text>
+                      <View key={index} style={styles.sectionPart}>
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{job.nama_job}</Text>
+                          <Text style={styles.sectionContent}>{job.kota} {job.negara}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{job.jabatan_job}</Text>
+                          <Text style={styles.sectionContent}>({job.periode_masuk_job} ~ {job.periode_masuk_job})</Text>
+                        </View>
+                        
+                        <Text style={styles.sectionContent} >
+                          {job.catatan}
+                        </Text>
+                      </View>
                     ))
                   }
                 </View>
@@ -115,9 +155,152 @@ export const DocumentCV = ({ profile, academics, jobs, internships }: { profile?
                   <View style={styles.line} />
                   {
                     internships.map((intern, index) => (
-                      <Text key={index} style={styles.sectionContent}>
-                        - Selama magang di {intern.nama_intern}, saya diberikan tanggung jawab sebagai {intern.jabatan_intern}, di mana saya berkesempatan untuk memperluas wawasan dan keterampilan saya di bidang dengan sungguh - sungguh. Saya terlibat dalam berbagai projek dengan periode {intern.periode_masuk_intern} hingga {intern.periode_keluar_intern}. {intern.catatan}
-                      </Text>
+                      <View key={index} style={styles.sectionPart}>
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{intern.nama_intern}</Text>
+                          <Text style={styles.sectionContent}>{intern.kota} {intern.negara}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{intern.jabatan_intern}</Text>
+                          <Text style={styles.sectionContent}>({intern.periode_keluar_intern} ~ {intern.periode_keluar_intern})</Text>
+                        </View>
+                        
+                        <Text style={styles.sectionContent} >
+                          {intern.catatan}
+                        </Text>
+                      </View>
+                    ))
+                  }
+                </View>
+              )
+            }
+
+            {
+              awards && awards.length > 0 && (
+                <View style={styles.section} >
+                  <Text style={styles.sectionHead}>PENGHARGAAN</Text>
+                  <View style={styles.line} />
+                  {
+                    awards.map((award, index) => (
+                      <View key={index} style={styles.sectionPart}>
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{award.nama_award}</Text>
+                          <Text style={styles.sectionContent}>{award.tingkat_award}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{award.institusi_award}</Text>
+                          <Text style={styles.sectionContent}>{award.tahun_award}</Text>
+                        </View>
+                        
+                        <Text style={styles.sectionContent} >
+                          {award.deskripsi_award}
+                        </Text>
+                      </View>
+                    ))
+                  }
+                </View>
+              )
+            }
+
+            {
+              organizations && organizations.length > 0 && (
+                <View style={styles.section} >
+                  <Text style={styles.sectionHead}>ORGANISASI</Text>
+                  <View style={styles.line} />
+                  {
+                    organizations.map((organization, index) => (
+                      <View key={index} style={styles.sectionPart}>
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{organization.nama_org}</Text>
+                          <Text style={styles.sectionContent}>{organization.kota} {organization.negara}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{organization.jabatan_org}</Text>
+                          <Text style={styles.sectionContent}>({organization.periode_masuk_org} ~ {organization.periode_keluar_org})</Text>
+                        </View>
+                        
+                        <Text style={styles.sectionContent} >
+                          {organization.catatan}
+                        </Text>
+                      </View>
+                    ))
+                  }
+                </View>
+              )
+            }
+
+            {
+              courses && courses.length > 0 && (
+                <View style={styles.section} >
+                  <Text style={styles.sectionHead}>KURSUS</Text>
+                  <View style={styles.line} />
+                  {
+                    courses.map((course, index) => (
+                      <View key={index} style={styles.sectionPart}>
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{course.nama_course}</Text>
+                          <Text style={styles.sectionContent}>{course.tingkat_course}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitle} >
+                          <Text style={styles.sectionContent}>{course.institusi_course}</Text>
+                          <Text style={styles.sectionContent}>{course.tahun_course}</Text>
+                        </View>
+                        
+                      </View>
+                    ))
+                  }
+                </View>
+              )
+            }
+
+            {
+              skills && skills.length > 0 && (
+                <View style={styles.section} >
+                  <Text style={styles.sectionHead}>KEMAMPUAN</Text>
+                  <View style={styles.line} />
+                  {
+                    skills.map((skill, index) => (
+                      <View key={index} style={styles.sectionPart}>
+                        <View style={styles.sectionTitleSkill} >
+                          <Text style={styles.sectionContentSkill}>Keahlian</Text>
+                          <Text style={styles.sectionContentSkill}>{skill.ahli_skill}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitleSkill} >
+                          <Text style={styles.sectionContentSkill}>Etos Kerja</Text>
+                          <Text style={styles.sectionContentSkill}>{skill.etoskerja_skill}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitleSkill} >
+                          <Text style={styles.sectionContentSkill}>Bahasa Inggris</Text>
+                          <Text style={styles.sectionContentSkill}>{skill.inggris_skill}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitleSkill} >
+                          <Text style={styles.sectionContentSkill}>Kepemimpinan</Text>
+                          <Text style={styles.sectionContentSkill}>{skill.kepemimpinan_skill}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitleSkill} >
+                          <Text style={styles.sectionContentSkill}>Kerjasama</Text>
+                          <Text style={styles.sectionContentSkill}>{skill.kerjasama_skill}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitleSkill} >
+                          <Text style={styles.sectionContentSkill}>Komunikasi</Text>
+                          <Text style={styles.sectionContentSkill}>{skill.komunikasi_skill}</Text>
+                        </View>
+
+                        <View style={styles.sectionTitleSkill} >
+                          <Text style={styles.sectionContentSkill}>Penegmabangan</Text>
+                          <Text style={styles.sectionContentSkill}>{skill.pengembangan_skill}</Text>
+                        </View>
+                        
+                      </View>
                     ))
                   }
                 </View>

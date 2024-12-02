@@ -7,14 +7,14 @@ import { useState } from "react";
 type DashboardAlumni = {
     bekerja: number;
     bidangJob: DABidangJob;
-    detectedAlumni3Years: string;
+    terlacakAlumni3Tahun: string;
     lingkupJob: DALingkupJob;
     skills: DASkill;
     statistiks: DAStatistik;
-    statusCounts: DAStatusCount;
+    jumlahStatus: DAStatusCount;
     tidakBekerja: number;
-    totalAlumni3Years: number;
-    totalAlumniAllYears: number;
+    totalAlumni3Tahun: number;
+    totalAlumniSemuaTahun: number;
 }
 
 type DABidangJob = {

@@ -3,12 +3,18 @@ import { HiLocationMarker } from "react-icons/hi";
 import { useLogangMahasiswa, useLogangAdmin, useLogangAlumni, Logang } from "@/hooks/logang/useStore.hook";
 import { rupiahFormat } from "@/helper/formatRupiah";
 import { useEffect, useState } from "react";
+import { getUser, User } from '@/hooks/auth/authClient';
 import Link from 'next/link';
+
 
 export default function LogangShow({ uuid, show, onDone }: {uuid?: string, show?: boolean, onDone?: () => void}){
     
     const { show: getDataLogang } = useLogangAdmin();
+    const { show: getDataLogangAlumni } = useLogangAlumni();
+    const { show: getDataLogangMhs } = useLogangMahasiswa();
+    const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
     const [ data, setData ] = useState<Logang>();
+
 
     const setTags = (tags: string) => {
         const split = tags.split(',');
@@ -19,14 +25,37 @@ export default function LogangShow({ uuid, show, onDone }: {uuid?: string, show?
 
     useEffect(() => {
         
-        if (uuid){
-            getDataLogang(uuid).then((result) => {
+        if (uuid && role){
+
+            if (role === 'admin') getDataLogang(uuid).then((result) => {
+                setData(result);    
+            })
+
+            if (role === 'alumni') getDataLogangAlumni(uuid).then((result) => {
+                setData(result);    
+            })
+
+            if (role === 'mahasiswa') getDataLogangMhs(uuid).then((result) => {
                 setData(result);    
             })
                 
         }
 
-    }, []);
+    }, [uuid, role]);
+
+    useEffect(() => {
+        const result = getUser();
+        if (result) {
+
+            const roleAlumni: boolean | undefined = result?.roles?.includes('alumni');
+            const roleAdmin: boolean | undefined = result?.roles?.includes('admin');
+            const roleMahasiswa: boolean | undefined = result?.roles?.includes('mahasiswa');
+
+            if (roleAlumni) setRole('alumni');
+            if (roleAdmin) setRole('admin');
+            if (roleMahasiswa) setRole('mahasiswa');
+        } 
+    }, [])
 
     return (
         <Modal show={show} onClose={onDone} >

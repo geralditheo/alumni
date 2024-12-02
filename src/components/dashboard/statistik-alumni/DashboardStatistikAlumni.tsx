@@ -90,8 +90,8 @@ export default function DsahboardStatistikAlumni(){
                 </div>
             </div>
 
-            <div className="flex gap-3 mb-3 flex-col md:flex-row " >
-                <div className="basis-full flex justify-center h-96 grow-0" >
+            <div className="flex gap-3 mb-3 flex-col md:flex-row overflow-x-auto" >
+                <div className="basis-full flex justify-center h-96 grow-0 " >
                     <Suspense fallback={<div>Loading...</div>} >
                         <DoughnutChart key={"su"} title="Status Users" lable="Counted" dataDiagram={dataStatusCount} isShowLable   />
                     </Suspense>
@@ -103,7 +103,7 @@ export default function DsahboardStatistikAlumni(){
                 </div>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-3 mb-3 " >
+            <div className="flex flex-col md:flex-row gap-3 mb-3 overflow-x-auto" >
                 <div className="basis-full flex justify-center h-96 grow-0" >
                     <Suspense fallback={<div>Loading...</div>} >
                         <DoughnutChart key={"dlj"} dataDiagram={dataLinkupJob} lable=" #" title="Lingkup Pekerjaan" isShowLable />
@@ -116,7 +116,7 @@ export default function DsahboardStatistikAlumni(){
                 </div>
             </div>
 
-            <div className="flex justify-center md:h-96 grow-0" >
+            <div className="flex justify-center md:h-96 grow-0 overflow-x-auto" >
                 <LineChart key={"ds"} title="Statistik" lable="Jumlah Alumni" dataDiagram={dataStatistik} isShowLable />
             </div>
 

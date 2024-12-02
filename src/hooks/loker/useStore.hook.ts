@@ -22,6 +22,11 @@ type Loker = {
     updated_at: string;
 }
 
+export type Filter = {
+    TipeKerja?: string
+    Pengalaman?: string
+}
+
 export function useLokerAlumni(){
     const token = getToken();
     const [data, setData] = useState<Loker[]>([]);
@@ -49,12 +54,16 @@ export function useLokerAlumni(){
 
     }
 
-    const index = async (): Promise< Loker[] | void> => {
+    const index = async (filter: Filter | undefined): Promise< Loker[] | void> => {
         try {
 
             const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/loker` , {
                 headers: {
                     "Authorization": `Bearer ${token}`
+                },
+                params: {
+                    TipeKerja: filter?.TipeKerja ? filter.TipeKerja : undefined,
+                    Pengalaman: filter?.Pengalaman ? filter.Pengalaman : undefined,
                 }
             });
 
@@ -181,12 +190,16 @@ export function useLokerAdmin(){
 
     }
 
-    const index = async (): Promise< Loker[] | void> => {
+    const index = async (filter: Filter | undefined): Promise< Loker[] | void> => {
         try {
 
             const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/lokerAdmin` , {
                 headers: {
                     "Authorization": `Bearer ${token}`
+                },
+                params: {
+                    TipeKerja: filter?.TipeKerja ? filter.TipeKerja : undefined,
+                    Pengalaman: filter?.Pengalaman ? filter.Pengalaman : undefined,
                 }
             });
 

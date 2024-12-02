@@ -10,7 +10,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { Accordion } from "flowbite-react";
 import { HiPlus, HiCog, HiLocationMarker, HiBriefcase, HiDesktopComputer,HiCurrencyDollar   } from 'react-icons/hi';
 import { useRouter } from 'next/navigation'
-import { useLokerAlumni, useLokerAdmin } from '@/hooks/loker/useStore.hook';
+import { useLokerAlumni, useLokerAdmin, Filter } from '@/hooks/loker/useStore.hook';
 import { rupiahFormat } from '@/helper/formatRupiah';
 import { getUser, User } from '@/hooks/auth/authClient';
 
@@ -29,7 +29,7 @@ export default function LokerIndex(){
     const { data: dataPengalamanMagang } = getPengalamanMagang();
     const { data: dataTipeMagang } = getTipeMagang();
     const [ refresh, setRefresh ] = useState<boolean>(true);
-    const [ filter, setFilter ] = useState({});
+    const [ filter, setFilter ] = useState<Filter | undefined>({});
     const { data: dataLokerAlumni, index: indexAlumni } = useLokerAlumni();
     const { data: dataLokerAdmin, index: indexAdmin } = useLokerAdmin();
     const [ openModalShow, setOpenModalShow ] = useState<boolean>(false);
@@ -37,9 +37,8 @@ export default function LokerIndex(){
     const [ selectUuid, setSelectUuid ] = useState<number>();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
-
-        console.log("Data", data);
-        
+        setFilter({Pengalaman: data.internshipExperience[0] ,TipeKerja: data.internshipType[0]});
+        setRefresh(!refresh);
     }
 
     const onClickButton = (uuid: number) => {
@@ -55,8 +54,8 @@ export default function LokerIndex(){
 
     useEffect(() => {
         if (user){
-            if (role === 'alumni') indexAlumni();
-            if (role === 'admin') indexAdmin();
+            if (role === 'alumni') indexAlumni(filter);
+            if (role === 'admin') indexAdmin(filter);
         }
     },[refresh, user])
 

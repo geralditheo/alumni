@@ -22,6 +22,11 @@ export type Logang = {
     updated_at: string;
 }
 
+export type Filter = {
+    TipeKerja?: string
+    Pengalaman?: string
+}
+
 export function useLogangAlumni(){
     const token = getToken();
     const [data, setData] = useState<Logang[]>([]);
@@ -49,16 +54,20 @@ export function useLogangAlumni(){
 
     }
 
-    const index = async (): Promise< Logang[] | void> => {
+    const index = async (filter: Filter | undefined): Promise< Logang[] | void> => {
         try {
 
             const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/logang` , {
                 headers: {
                     "Authorization": `Bearer ${token}`
+                },
+                params: {
+                    TipeKerja: filter?.TipeKerja ? filter.TipeKerja : undefined,
+                    Pengalaman: filter?.Pengalaman ? filter.Pengalaman : undefined,
                 }
             });
 
-            if (Array.isArray(data)) setData(data);
+            if (Array.isArray(data.data)) setData(data.data);
 
             return data;
             
@@ -181,12 +190,16 @@ export function useLogangAdmin(){
 
     }
 
-    const index = async (): Promise< Logang[] | void> => {
+    const index = async (filter: Filter | undefined): Promise< Logang[] | void> => {
         try {
 
             const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/logangAdmin` , {
                 headers: {
                     "Authorization": `Bearer ${token}`
+                },
+                params: {
+                    TipeKerja: filter?.TipeKerja ? filter.TipeKerja : undefined,
+                    Pengalaman: filter?.Pengalaman ? filter.Pengalaman : undefined,
                 }
             });
 
@@ -311,12 +324,16 @@ export function useLogangMahasiswa(){
     const [data, setData] = useState<Logang[]>([]);
     
 
-    const index = async (): Promise< Logang[] | void> => {
+    const index = async (filter: Filter | undefined): Promise< Logang[] | void> => {
         try {
 
             const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/mahasiswa/logang` , {
                 headers: {
                     "Authorization": `Bearer ${token}`
+                },
+                params: {
+                    TipeKerja: filter?.TipeKerja ? filter.TipeKerja : undefined,
+                    Pengalaman: filter?.Pengalaman ? filter.Pengalaman : undefined,
                 }
             });
 

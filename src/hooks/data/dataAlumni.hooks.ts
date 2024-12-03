@@ -6,6 +6,7 @@ type DataAlumni = {
     id: number;
     email: string;
     name: string;
+    user_id: number;
 }
 
 export function useDataAlumni(){

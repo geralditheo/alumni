@@ -63,7 +63,7 @@ export default function AlumniList(){
                 {
                     data.map((item, index) => {
                         return (
-                            <div key={`${index}-alumnus`} className="basis-full sm:basis-1/4 p-3 hover:cursor-pointer " onClick={() => onClickButton(item.id)} >
+                            <div key={`${index}-alumnus`} className="basis-full sm:basis-1/4 p-3 hover:cursor-pointer " onClick={() => onClickButton(item.user_id)} >
                                 <div className='bg-white shadow hover:shadow-lg transition-shadow ease-linear p-3 rounded-md gap-3 flex divide-x-2 border border-blue-500 hover:border-blue-900' >
                                     <div className='w-10 sm:w-20 aspect-square relative rounded-full' >
                                         <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full rounded-full ' />

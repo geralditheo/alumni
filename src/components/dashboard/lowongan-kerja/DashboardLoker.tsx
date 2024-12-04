@@ -1,14 +1,19 @@
 'use client';
 
-import { useGetLowonganMagang } from '@/hooks/dashboard/lowongan-magang/useStore.hook';
 import { HiLocationMarker, HiOfficeBuilding   } from "react-icons/hi";
+import { useDashboardAlumni } from '@/hooks/dashboard/alumni/useStore.hook';
+import { useEffect } from 'react';
 
 import Image from 'next/image';
 import Link from "next/link";
 
 export default function DashboardLoker(){
 
-    const { data } = useGetLowonganMagang();
+    const { dataDashboardLoker, getDashbLoker } = useDashboardAlumni();
+
+    useEffect(() => {
+        getDashbLoker();
+    }, [])
 
     return <section className="mb-5" >
 
@@ -22,7 +27,7 @@ export default function DashboardLoker(){
                 </p>
 
                 <p className='text-right font-semibold text-blue-500 mb-3' >
-                    <Link href="#"  > Discover More  </Link>
+                    <Link href="/dashboard/loker"  > Discover More  </Link>
                 </p>
             </div>
 
@@ -31,8 +36,8 @@ export default function DashboardLoker(){
 
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10 " >
 
-            { data?.map((item) => {
-                return <div key={item.key} className='flex group ' >
+            { dataDashboardLoker?.map((item) => {
+                return <div key={item.id} className='flex group ' >
 
                     <div className='bg-blue-500 w-full max-w-11  group-hover:bg-blue-400 transition-colors ease-in' />
 
@@ -51,7 +56,7 @@ export default function DashboardLoker(){
                         <button className='text-xs bg-yellow-300 py-1 px-2 rounded-full mb-1'> {item.Tags} </button>
                         
                         <div> <span className='flex gap-x-3 text-gray-500'> <HiLocationMarker /> <p className='text-xs' >{item.Alamat}</p>  </span> </div>
-                        <div> <span className='flex gap-x-3 text-gray-500'> <HiOfficeBuilding /> <p className='text-xs'>{item.TipeMagang}</p>   </span> </div>
+                        <div> <span className='flex gap-x-3 text-gray-500'> <HiOfficeBuilding /> <p className='text-xs'>{item.TipeKerja}</p>   </span> </div>
 
                     </div>
 

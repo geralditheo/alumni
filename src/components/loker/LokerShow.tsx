@@ -3,11 +3,14 @@ import { HiLocationMarker } from "react-icons/hi";
 import { useLokerAdmin, useLokerAlumni, Loker } from "@/hooks/loker/useStore.hook";
 import { rupiahFormat } from "@/helper/formatRupiah";
 import { useEffect, useState } from "react";
+import { getUser, User } from '@/hooks/auth/authClient';
 import Link from "next/link";
 
 export default function LokerShow({ uuid, show, onDone }: {uuid?: string, show?: boolean, onDone?: () => void}){
 
     const { show: getDataLoker } = useLokerAdmin();
+    const { show: getDataLokerAlumni } = useLokerAlumni();
+    const [ role, setRole ] = useState< "alumni" | "admin" >();
     const [data, setData] = useState<Loker>();
 
     const setTags = (tags: string) => {
@@ -18,12 +21,31 @@ export default function LokerShow({ uuid, show, onDone }: {uuid?: string, show?:
     }
 
     useEffect(() => {
-        if (uuid) {
-          getDataLoker(uuid).then((result) => {
-            setData(result);
-          });
+
+        if (uuid && role){
+
+            if (role === 'admin') getDataLoker(uuid).then((result) => {
+                setData(result);    
+            })
+
+            if (role === 'alumni') getDataLokerAlumni(uuid).then((result) => {
+                setData(result);    
+            })
         }
-      }, [uuid]);
+
+    }, [uuid, role]);
+
+    useEffect(() => {
+        const result = getUser();
+        if (result) {
+
+            const roleAlumni: boolean | undefined = result?.roles?.includes('alumni');
+            const roleAdmin: boolean | undefined = result?.roles?.includes('admin');
+
+            if (roleAlumni) setRole('alumni');
+            if (roleAdmin) setRole('admin');
+        } 
+    }, [])
 
     return (
         <Modal show={show} onClose={onDone} >

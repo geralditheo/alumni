@@ -2,20 +2,36 @@
 
 import { HiLocationMarker, HiOfficeBuilding   } from "react-icons/hi";
 import { useDashboardAlumni } from '@/hooks/dashboard/alumni/useStore.hook';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import Image from 'next/image';
 import Link from "next/link";
+import LokerShow from "@/components/loker/LokerShow";
 
 export default function DashboardLoker(){
 
     const { dataDashboardLoker, getDashbLoker } = useDashboardAlumni();
+    const [ openModalShow, setOpenModalShow ] = useState<boolean>(false);
+    const [ selectUuid, setSelectUuid ] = useState<string>();
+
+    const onClickButton = (uuid: string) => {
+        setSelectUuid(uuid);
+        setOpenModalShow(true);
+    }
+
+    const onDone = () => {
+        setOpenModalShow(false);
+    }
 
     useEffect(() => {
         getDashbLoker();
     }, [])
 
     return <section className="mb-5" >
+
+        <section>
+            { openModalShow && <LokerShow show={openModalShow} onDone={onDone} uuid={selectUuid} /> }
+        </section>
 
         <div className="mb-5" >
 
@@ -39,7 +55,7 @@ export default function DashboardLoker(){
             { dataDashboardLoker?.map((item) => {
                 return <div key={item.id} className='flex group ' >
 
-                    <div className='bg-blue-500 w-full max-w-11  group-hover:bg-blue-400 transition-colors ease-in' />
+                    <div onClick={() => onClickButton(String(item.id))} className='bg-blue-500 w-full max-w-11  group-hover:bg-blue-400 transition-colors ease-in hover:cursor-pointer' />
 
                     <div className="shadow p-5 basis-full " >
                         

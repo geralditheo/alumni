@@ -109,7 +109,7 @@ export default function DataAlumniPage(){
                         <div className="p-3 space-y-6">
                         {
                             academics.map((element, index) => (
-                                <div key={item.key}>
+                                <div key={`${item.key}-${index}`}>
                                     <div className='p-3 flex justify-between'>
                                         <div className="space-y-6">
                                             <div className="flex items-start">
@@ -133,7 +133,7 @@ export default function DataAlumniPage(){
 
                         {
                             dataAcademicMhs.map((element, index) => (
-                                <div key={item.key}>
+                                <div key={`${item.key}-${index}`}>
                                     <div className='p-3 flex justify-between'>
                                         <div className="space-y-6">
                                             <div className="flex items-start">
@@ -170,7 +170,7 @@ export default function DataAlumniPage(){
                         <div className="p-3 space-y-6">
                         {
                             jobs.map((job, index) => (
-                                <div key={item.key}>
+                                <div key={`${item.key}-${index}`}>
                                     <div className='p-3 flex justify-between'>
                                         <div className="space-y-6">
                                             <div className="flex items-start">
@@ -205,7 +205,7 @@ export default function DataAlumniPage(){
                         <div className="p-3 space-y-6">
                         {
                             internships.map((internship, index) => (
-                                <div key={item.key}>
+                                <div key={`${item.key}-${index}`}>
                                     <div className='p-3 flex justify-between'>
                                         <div className="space-y-6">
                                             <div className="flex items-start">
@@ -240,7 +240,7 @@ export default function DataAlumniPage(){
                         <div className="p-3 space-y-6">
                         {
                             organizations.map((organization, index) => (
-                                <div key={item.key}>
+                                <div key={`${item.key}-${index}`}>
                                     <div className='p-3 flex justify-between'>
                                         <div className="space-y-6">
                                             <div className="flex items-start">
@@ -273,7 +273,7 @@ export default function DataAlumniPage(){
                         <div className="p-3 space-y-6">
                         {
                             awards.map((award, index) => (
-                                <div key={item.key}>
+                                <div key={`${item.key}-${index}`}>
                                     <div className='p-3 flex justify-between'>
                                         <div className="space-y-6">
                                             <div className="flex items-start">
@@ -306,7 +306,7 @@ export default function DataAlumniPage(){
                         <div className="p-3 space-y-6">
                         {
                             courses.map((course, index) => (
-                                <div key={item.key}>
+                                <div key={`${item.key}-${index}`}>
                                     <div className='p-3 flex justify-between'>
                                         <div className="space-y-6">
                                             <div className="flex items-start">
@@ -338,7 +338,7 @@ export default function DataAlumniPage(){
                         <div className="p-3 space-y-6">
                         {
                             skills.map((skill, index) => (
-                                <div key={item.key}>
+                                <div key={`${item.key}-${index}`}>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div className="p-3 border rounded-md shadow-sm bg-gray-50">
                                             <p className="text-sm font-semibold text-gray-800">Kerjasama:</p>

@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { useCheckDataAlumni } from '@/hooks/dashboard/data-alumni/useStore.hook';
 import { formatDate } from '@/helper/formatDate';
 import { HiStar, HiPencilAlt, HiChip } from 'react-icons/hi';
 import { useEffect } from 'react';
@@ -13,15 +12,13 @@ import { useCvAlumni } from '@/hooks/cv/cvAlumni.hook';
 
 export default function DashboardAlumni(){
 
-    const getData = useCheckDataAlumni();
-
-    const { getDashboardAlumni, dataDashboardAlumni } = useDashboardAlumni();
+    const { tCount, dataDashboardAlumni, getDashboardAlumni } = useDashboardAlumni();
     const { getDataCvAlumni } = useCvAlumni();
 
     useEffect(() => {
         getDashboardAlumni();
         getDataCvAlumni();
-    }, [])
+    }, [])    
 
     return <section className='mb-5' >
 
@@ -39,24 +36,104 @@ export default function DashboardAlumni(){
 
                         <h3 className="font-semibold" > Improve your data alumni</h3>
 
-                        <p>You are now level <span className='font-semibold text-blue-500' >{getData.level}</span>, you can still improve it! Keep the work up!  </p>
+                        <p>You are now level <span className='font-semibold text-blue-500' >{tCount}</span>, you can still improve it! Keep the work up!  </p>
 
                     </div>
 
                 </div>
 
                 <div>
-                    { getData.data?.map((item) => {
-                        return <div key={item.key} className='w-full p-3 shadow bg-white mb-1 flex gap-x-3 items-center rounded-md  hover:bg-gray-50' >
-                            { item.isFilled && <HiStar className='text-4xl shrink-0 text-yellow-300 ' />  }
-                            { !item.isFilled && <HiStar className='text-4xl shrink-0 text-gray-300 ' />  }
-                            <div className='basis-full' >  
-                                <p className='font-semibold' >{item.name}</p>
-                                { item.lastUpdted && <p className='text-xs font-semibold text-gray-400' > Last updated { formatDate(item.lastUpdted)  } </p> } 
+                    {
+                        dataDashboardAlumni?.academic && (
+                            <div className='w-full p-3 shadow bg-white mb-1 flex gap-x-3 items-center rounded-md  hover:bg-gray-50' >
+                                { dataDashboardAlumni.academic.exists && <HiStar className='text-4xl shrink-0 text-yellow-300 ' />  }
+                                { !dataDashboardAlumni.academic.exists && <HiStar className='text-4xl shrink-0 text-gray-300 ' />  }
+                                <div className='basis-full' >  
+                                    <p className='font-semibold' >Academic</p>
+                                    { dataDashboardAlumni.academic.updated_at && <p className='text-xs font-semibold text-gray-400' > Last updated { formatDate(dataDashboardAlumni.academic.updated_at)  } </p> } 
+                                </div>
+                                <Link href={`/dashboard/alumni/academic`} className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </Link>
                             </div>
-                            <Link href={`/dashboard/alumni/${item.path}`} className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </Link>
-                        </div>
-                    }) }
+                        )
+                    }
+                    {
+                        dataDashboardAlumni?.award && (
+                            <div className='w-full p-3 shadow bg-white mb-1 flex gap-x-3 items-center rounded-md  hover:bg-gray-50' >
+                                { dataDashboardAlumni.award.exists && <HiStar className='text-4xl shrink-0 text-yellow-300 ' />  }
+                                { !dataDashboardAlumni.award.exists && <HiStar className='text-4xl shrink-0 text-gray-300 ' />  }
+                                <div className='basis-full' >  
+                                    <p className='font-semibold' >Award</p>
+                                    { dataDashboardAlumni.award.updated_at && <p className='text-xs font-semibold text-gray-400' > Last updated { formatDate(dataDashboardAlumni.award.updated_at)  } </p> } 
+                                </div>
+                                <Link href={`/dashboard/alumni/award`} className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </Link>
+                            </div>
+                        )
+                    }
+                    {
+                        dataDashboardAlumni?.course && (
+                            <div className='w-full p-3 shadow bg-white mb-1 flex gap-x-3 items-center rounded-md  hover:bg-gray-50' >
+                                { dataDashboardAlumni.course.exists && <HiStar className='text-4xl shrink-0 text-yellow-300 ' />  }
+                                { !dataDashboardAlumni.course.exists && <HiStar className='text-4xl shrink-0 text-gray-300 ' />  }
+                                <div className='basis-full' >  
+                                    <p className='font-semibold' >Course</p>
+                                    { dataDashboardAlumni.course.updated_at && <p className='text-xs font-semibold text-gray-400' > Last updated { formatDate(dataDashboardAlumni.course.updated_at)  } </p> } 
+                                </div>
+                                <Link href={`/dashboard/alumni/course`} className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </Link>
+                            </div>
+                        )
+                    }
+                    {
+                        dataDashboardAlumni?.internship && (
+                            <div className='w-full p-3 shadow bg-white mb-1 flex gap-x-3 items-center rounded-md  hover:bg-gray-50' >
+                                { dataDashboardAlumni.internship.exists && <HiStar className='text-4xl shrink-0 text-yellow-300 ' />  }
+                                { !dataDashboardAlumni.internship.exists && <HiStar className='text-4xl shrink-0 text-gray-300 ' />  }
+                                <div className='basis-full' >  
+                                    <p className='font-semibold' >Internship</p>
+                                    { dataDashboardAlumni.internship.updated_at && <p className='text-xs font-semibold text-gray-400' > Last updated { formatDate(dataDashboardAlumni.internship.updated_at)  } </p> } 
+                                </div>
+                                <Link href={`/dashboard/alumni/internship`} className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </Link>
+                            </div>
+                        )
+                    }
+                    {
+                        dataDashboardAlumni?.organization && (
+                            <div className='w-full p-3 shadow bg-white mb-1 flex gap-x-3 items-center rounded-md  hover:bg-gray-50' >
+                                { dataDashboardAlumni.organization.exists && <HiStar className='text-4xl shrink-0 text-yellow-300 ' />  }
+                                { !dataDashboardAlumni.organization.exists && <HiStar className='text-4xl shrink-0 text-gray-300 ' />  }
+                                <div className='basis-full' >  
+                                    <p className='font-semibold' >Organization</p>
+                                    { dataDashboardAlumni.organization.updated_at && <p className='text-xs font-semibold text-gray-400' > Last updated { formatDate(dataDashboardAlumni.organization.updated_at)  } </p> } 
+                                </div>
+                                <Link href={`/dashboard/alumni/organization`} className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </Link>
+                            </div>
+                        )
+                    }
+                    {
+                        dataDashboardAlumni?.skill && (
+                            <div className='w-full p-3 shadow bg-white mb-1 flex gap-x-3 items-center rounded-md  hover:bg-gray-50' >
+                                { dataDashboardAlumni.skill.exists && <HiStar className='text-4xl shrink-0 text-yellow-300 ' />  }
+                                { !dataDashboardAlumni.skill.exists && <HiStar className='text-4xl shrink-0 text-gray-300 ' />  }
+                                <div className='basis-full' >  
+                                    <p className='font-semibold' >Skill</p>
+                                    { dataDashboardAlumni.skill.updated_at && <p className='text-xs font-semibold text-gray-400' > Last updated { formatDate(dataDashboardAlumni.skill.updated_at)  } </p> } 
+                                </div>
+                                <Link href={`/dashboard/alumni/skill`} className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </Link>
+                            </div>
+                        )
+                    }
+                    {
+                        dataDashboardAlumni?.work && (
+                            <div className='w-full p-3 shadow bg-white mb-1 flex gap-x-3 items-center rounded-md  hover:bg-gray-50' >
+                                { dataDashboardAlumni.work.exists && <HiStar className='text-4xl shrink-0 text-yellow-300 ' />  }
+                                { !dataDashboardAlumni.work.exists && <HiStar className='text-4xl shrink-0 text-gray-300 ' />  }
+                                <div className='basis-full' >  
+                                    <p className='font-semibold' >Work</p>
+                                    { dataDashboardAlumni.work.updated_at && <p className='text-xs font-semibold text-gray-400' > Last updated { formatDate(dataDashboardAlumni.work.updated_at)  } </p> } 
+                                </div>
+                                <Link href={`/dashboard/alumni/job`} className='shrink-0  hover:text-blue-500 ' ><HiPencilAlt />  </Link>
+                            </div>
+                        )
+                    }
                 </div>
                 
             </div>

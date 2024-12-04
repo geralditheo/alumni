@@ -338,9 +338,9 @@ export default function QuestionerForm({ done } : { done?: () => void }){
                                 <label htmlFor="educationStats" className="text-xs sm:text-sm" >Jenjang Pendidikan</label>
                                 <select { ...register("educationStats") } id="educationStats" name='educationStats' about="educationStats" className="text-xs"  >
                                     <option value="" >-none-</option>
-                                    <option value="ownself" >Sarjana</option>
-                                    <option value="scholarship" >Magister</option>
-                                    <option value="scholarship" >Doctor</option>
+                                    <option value="Sarjana" >Sarjana</option>
+                                    <option value="Magister" >Magister</option>
+                                    <option value="Doctor" >Doctor</option>
                                 </select>
                             </div>
 

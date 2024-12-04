@@ -29,7 +29,7 @@ type Inputs = {
     educationCost?: string;
     educationName?: string;
     majorName?: string;
-    educationYearIn?: number | null
+    educationStats?: string;
 
     masa_tunggu?: string;
 }
@@ -69,7 +69,7 @@ export function ProfileForm({ profileAlumni, onDone }: { profileAlumni?: Alumni,
         if (data.jobLevel) formData.append("lingkup_job", data.jobLevel);
 
         if (data.educationCost) formData.append("biaya_studi", data.educationCost);
-        if (data.educationYearIn) formData.append("jenjang_pendidikan", String(data.educationYearIn) );
+        if (data.educationStats) formData.append("jenjang_pendidikan", data.educationStats );
         if (data.educationName) formData.append("universitas", data.educationName);
         if (data.majorName) formData.append("program_studi", data.majorName);
 
@@ -128,7 +128,7 @@ export function ProfileForm({ profileAlumni, onDone }: { profileAlumni?: Alumni,
         setValue("jobLevel", profileAlumni?.lingkup_job ?  profileAlumni?.lingkup_job : "");
 
         setValue("educationCost", profileAlumni?.biaya_studi ?  profileAlumni?.biaya_studi : "");
-        setValue("educationYearIn", profileAlumni?.jenjang_pendidikan ? Number(profileAlumni?.jenjang_pendidikan) : null);
+        setValue("educationStats", profileAlumni?.jenjang_pendidikan ? profileAlumni?.jenjang_pendidikan : "");
         setValue("educationName", profileAlumni?.universitas ?  profileAlumni?.universitas : "");
         setValue("majorName", profileAlumni?.program_studi ?  profileAlumni?.program_studi : "");
         
@@ -371,10 +371,15 @@ export function ProfileForm({ profileAlumni, onDone }: { profileAlumni?: Alumni,
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <label htmlFor="educationYearIn" className="text-xs sm:text-sm" >Tahun Masuk</label>
+                            <label htmlFor="educationStats" className="text-xs sm:text-sm" >Jenjang Pendidikan</label>
                             {
                                 isEditMode
-                                ? <input  {...register('educationYearIn')} name="educationYearIn" id="educationYearIn" type="number" max={new Date().getFullYear()}  className="text-xs" placeholder="2020"/>
+                                ? <select { ...register("educationStats") } id="educationStats" name='educationStats' about="educationStats" className="text-xs"  >
+                                    <option value="" >-none-</option>
+                                    <option value="Sarjana" >Sarjana</option>
+                                    <option value="Magister" >Magister</option>
+                                    <option value="Doctor" >Doctor</option>
+                                </select>
                                 : <div className='text-sm font-semibold' >{profileAlumni?.jenjang_pendidikan}</div>
 
                             }

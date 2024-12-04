@@ -100,7 +100,6 @@ export function ProfileForm({ profileAlumni, onDone }: { profileAlumni?: Alumni,
     }
 
     const changeStatusPlame = (value: string) => {
-        console.log("S", value);
         
         if (value === "Bekerja Full Time" || value === "Bekerja Part Time" || value === "Wiraswasta"){
             setStatusField("plane1");

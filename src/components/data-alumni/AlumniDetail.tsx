@@ -6,8 +6,6 @@ export default function AlumniDetail({ show, done, uuid }: { show?: boolean, don
 
     const { detail, showDataCvAlumni } = useDataAlumni();
 
-    console.log("ID", uuid);
-
     useEffect(() => {
         if (uuid){
             showDataCvAlumni(uuid);

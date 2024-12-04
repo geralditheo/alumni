@@ -15,8 +15,8 @@ export default function LokerShow({ uuid, show, onDone }: {uuid?: string, show?:
 
     const setTags = (tags: string) => {
         const split = tags.split(',');
-        return split.map((tag) => {
-            return <span className="px-2 py-1 text-xs font-semibold text-white bg-green-500 rounded-full">{tag}</span>
+        return split.map((tag, index) => {
+            return <span key={index} className="px-2 py-1 text-xs font-semibold text-white bg-green-500 rounded-full">{tag}</span>
         })
     }
 
@@ -54,7 +54,7 @@ export default function LokerShow({ uuid, show, onDone }: {uuid?: string, show?:
             <div className="flex items-center justify-center text-center bg-blue-500 bg-opacity-30 p-3 rounded-lg">
                     <div className="flex flex-col items-center">
                     <img
-                        src={data?.Logo ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${data.Logo}` : '/default_logo.png'}
+                        src={data?.Logo ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${data.Logo}` : `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/default-logo`}
                         alt={`${data?.NamaPerusahaan} Logo`}
                         className="h-24 w-24 object-contain"
                     />

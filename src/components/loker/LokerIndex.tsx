@@ -34,14 +34,14 @@ export default function LokerIndex(){
     const { data: dataLokerAdmin, index: indexAdmin } = useLokerAdmin();
     const [ openModalShow, setOpenModalShow ] = useState<boolean>(false);
     const [ openModalForm, setOpenModalForm ] = useState(false);
-    const [ selectUuid, setSelectUuid ] = useState<number>();
+    const [ selectUuid, setSelectUuid ] = useState<string>();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
         setFilter({Pengalaman: data.internshipExperience[0] ,TipeKerja: data.internshipType[0]});
         setRefresh(!refresh);
     }
 
-    const onClickButton = (uuid: number) => {
+    const onClickButton = (uuid: string) => {
         setSelectUuid(uuid);
         setOpenModalShow(true);
     }
@@ -135,10 +135,14 @@ export default function LokerIndex(){
                             const tags = item.Tags.split(',');
 
                             return (
-                                <div onClick={() => onClickButton(item.id)} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
+                                <div onClick={() => onClickButton(String(item.id))} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
-                                            <Image priority src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
+                                            <img 
+                                                src={item?.Logo ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${item.Logo}` : '/default_logo.png'}
+                                                alt={`${item?.NamaPerusahaan} Logo`}
+                                                className="h-full w-full object-cover"
+                                            />
                                         </div>
                                     </div>
 
@@ -165,10 +169,14 @@ export default function LokerIndex(){
                             const tags = item.Tags.split(',');
 
                             return (
-                                <div onClick={() => onClickButton(item.id)} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
+                                <div onClick={() => onClickButton(String(item.id))} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
                                     <div className="flex justify-center"  >
-                                        <div className='w-52 aspect-square relative border' >
-                                            <Image priority src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
+                                        <div className='w-52 aspect-square relative border ' >
+                                            <img 
+                                                src={item?.Logo ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${item.Logo}` : '/default_logo.png'}
+                                                alt={`${item?.NamaPerusahaan} Logo`}
+                                                className="h-full w-full object-cover"
+                                            />
                                         </div>
                                     </div>
 

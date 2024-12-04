@@ -5,7 +5,7 @@ import { rupiahFormat } from "@/helper/formatRupiah";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default function LokerShow({ uuid, show, onDone }: {uuid?: number, show?: boolean, onDone?: () => void}){
+export default function LokerShow({ uuid, show, onDone }: {uuid?: string, show?: boolean, onDone?: () => void}){
 
     const { show: getDataLoker } = useLokerAdmin();
     const [data, setData] = useState<Loker>();
@@ -23,7 +23,7 @@ export default function LokerShow({ uuid, show, onDone }: {uuid?: number, show?:
             setData(result);
           });
         }
-      }, []);
+      }, [uuid]);
 
     return (
         <Modal show={show} onClose={onDone} >
@@ -32,7 +32,7 @@ export default function LokerShow({ uuid, show, onDone }: {uuid?: number, show?:
             <div className="flex items-center justify-center text-center bg-blue-500 bg-opacity-30 p-3 rounded-lg">
                     <div className="flex flex-col items-center">
                     <img
-                        src={data?.Logo ? `${process.env.NEXT_PUBLIC_API_URL}/storage/imglogo/${data.Logo}` : '/default_logo.png'}
+                        src={data?.Logo ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${data.Logo}` : '/default_logo.png'}
                         alt={`${data?.NamaPerusahaan} Logo`}
                         className="h-24 w-24 object-contain"
                     />

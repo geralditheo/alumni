@@ -63,7 +63,11 @@ export default function LogangShow({ uuid, show, onDone }: {uuid?: string, show?
             <Modal.Body>
                 <div className="flex items-center justify-center text-center bg-blue-500 bg-opacity-30 p-3 rounded-lg">
                     <div className="flex flex-col items-center">
-                        <img src="/draw/undraw_Beach_day_cser.png" alt="UDINUS Logo" className="h-16 w-16 mb-4" />
+                    <img
+                        src={data?.Logo ? `${process.env.NEXT_PUBLIC_API_URL}/storage/imglogo/${data.Logo}` : '/default-logo.png'}
+                        alt={`${data?.NamaPerusahaan || 'Perusahaan'} Logo`}
+                        className="h-24 w-24 object-contain"
+                    />
                         <h1 className="text-xl font-bold text-gray-800">{data?.Posisi}</h1>
                         <p className="text-sm text-gray-600">{data?.NamaPerusahaan}</p>
                         <div className="flex space-x-2 mt-2">

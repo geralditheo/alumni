@@ -67,7 +67,7 @@ export function useLogangAlumni(){
                 }
             });
 
-            if (Array.isArray(data.data)) setData(data.data);
+            if (Array.isArray(data.logangs)) setData(data.logangs);
 
             return data;
             
@@ -337,7 +337,7 @@ export function useLogangMahasiswa(){
                 }
             });
 
-            if (Array.isArray(data.data)) setData(data.data);
+            if (Array.isArray(data.data.logangs)) setData(data.data.logangs);
 
             return data;
             

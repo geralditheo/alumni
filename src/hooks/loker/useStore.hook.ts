@@ -66,7 +66,7 @@ export function useLokerAlumni(){
                 }
             });
 
-            if (Array.isArray(data.data)) setData(data.data);
+            if (Array.isArray(data.lokers)) setData(data.lokers);
 
             return data.lokers;
         } catch (error) {

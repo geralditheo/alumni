@@ -5,6 +5,7 @@ import { IoIosCheckbox, IoIosContact, IoIosCloudy, IoIosAirplane } from "react-i
 import { useForm, SubmitHandler, FieldErrors } from 'react-hook-form';
 import { register as submitRegistration, verifyOtpRegister } from '@/hooks/auth/authClient';
 import { toast } from 'sonner'
+import { months } from '@/constant/date/months';
 
 type Inputs = {
     // * Main
@@ -18,6 +19,8 @@ type Inputs = {
     yearIn?: number;
     yearOut?: number;
     phone1?: string;
+    monthOut?: string;
+    grad?: string;
 
     status: string;
     // * Work
@@ -87,6 +90,8 @@ export default function QuestionerForm({ done } : { done?: () => void }){
         if (data.yearIn) formData.append("tahun_masuk", String(data.yearIn));
         if (data.yearOut) formData.append("tahun_lulus", String(data.yearOut));
         if (data.phone1) formData.append("no_hp", data.phone1);
+        if (data.monthOut) formData.append("bulan_lulus", data.monthOut);
+        if (data.grad) formData.append("wisuda", data.grad);
 
         if (data.status) formData.append("status", data.status);
 
@@ -234,6 +239,23 @@ export default function QuestionerForm({ done } : { done?: () => void }){
                         <div className="flex flex-col gap-1 mb-5">
                             <label htmlFor="yearOut" className="text-xs sm:text-sm" >Tahun Lulus</label>
                             <input  {...register('yearOut')} name="yearOut" id="yearOut" type="number" min={0} className="text-xs " placeholder="2024" />
+                        </div>
+
+                        <div className="flex flex-col gap-1 mb-5">
+                            <label htmlFor="monthOut" className="text-xs sm:text-sm" >Bulan Lulus</label>
+                            <select { ...register("monthOut") } id="monthOut" name='monthOut' about="monthOut" className="text-xs" >
+                                <option value="" >-none-</option>
+                                { months.map((item) => (<option key={item} value={item} >{item}</option>)) }
+                            </select>
+                        </div>
+
+                        <div className="flex flex-col gap-1 mb-5">
+                            <label htmlFor="grad" className="text-xs sm:text-sm" >Wisuda</label>
+                            <select { ...register("grad") } id="grad" name='grad' about="grad" className="text-xs" >
+                                <option value="" >-none-</option>
+                                <option value="Yes" >Yes</option>
+                                <option value="No">No</option>
+                            </select>
                         </div>
 
                         <div className="flex flex-col gap-1 mb-5">

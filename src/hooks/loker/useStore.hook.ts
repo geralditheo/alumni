@@ -41,7 +41,7 @@ export function useLokerAlumni(){
                 }
             });
 
-            if (Array.isArray(data.data)) setManageData(data.data);
+            if (Array.isArray(data)) setManageData(data);
 
             return data;
             

@@ -66,6 +66,8 @@ export default function LogangShow({ uuid, show, onDone }: {uuid?: string, show?
                         src={data?.Logo ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${data.Logo}` : `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/default-logo`}
                         alt={`${data?.NamaPerusahaan || 'Perusahaan'} Logo`}
                         className="h-24 w-24 object-contain"
+                        width={24}
+                        height={24}
                     />
                         <h1 className="text-xl font-bold text-gray-800">{data?.Posisi}</h1>
                         <p className="text-sm text-gray-600">{data?.NamaPerusahaan}</p>

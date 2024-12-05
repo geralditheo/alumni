@@ -142,6 +142,7 @@ export default function LokerIndex(){
                                                 src={item?.Logo ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${item.Logo}` : '/default_logo.png'}
                                                 alt={`${item?.NamaPerusahaan} Logo`}
                                                 className="h-full w-full object-cover"
+                                                fill
                                             />
                                         </div>
                                     </div>
@@ -176,6 +177,7 @@ export default function LokerIndex(){
                                                 src={item?.Logo ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${item.Logo}` : '/default_logo.png'}
                                                 alt={`${item?.NamaPerusahaan} Logo`}
                                                 className="h-full w-full object-cover"
+                                                fill
                                             />
                                         </div>
                                     </div>

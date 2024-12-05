@@ -76,7 +76,7 @@ export default function LogangIndex(){
             if (roleMahasiswa) setRole('mahasiswa');
 
             setUser(result);
-        } 
+        }
     }, [])  
 
     return (
@@ -108,7 +108,7 @@ export default function LogangIndex(){
                                 </Accordion.Panel>
 
                                 <Accordion.Panel >
-                                    <Accordion.Title className="text-sm" >Pengalaman Magang</Accordion.Title>
+                                    <Accordion.Title className="text-sm" >Tipew Magang</Accordion.Title>
                                     <Accordion.Content className="text-sm" >
                                         { dataTipeMagang?.map((item) => {
                                             return <div key={item.key} className="flex items-center gap-1 mb-1">
@@ -147,7 +147,7 @@ export default function LogangIndex(){
                                 <div onClick={() => onClickButton(String(item.id))} key={item.id} className="bg-white shadow flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
-                                            <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
+                                            <Image src={item?.Logo ? `${process.env.NEXT_PUBLIC_API_URL}/storage/imglogo/${item.Logo}` : ''} alt={`${item?.NamaPerusahaan || 'Perusahaan'} Logo`} fill className='object-cover m-auto w-full h-full ' />
                                         </div>
                                     </div>
 
@@ -177,7 +177,7 @@ export default function LogangIndex(){
                                 <div onClick={() => onClickButton(String(item.id))} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
-                                            <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
+                                            <Image src={item?.Logo ? `${process.env.NEXT_PUBLIC_API_URL}/storage/imglogo/${item.Logo}` : ''} alt={`${item?.NamaPerusahaan || 'Perusahaan'} Logo`} fill className='object-cover m-auto w-full h-full ' />
                                         </div>
                                     </div>
 
@@ -207,7 +207,7 @@ export default function LogangIndex(){
                                 <div onClick={() => onClickButton(String(item.id))} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
-                                            <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
+                                            <Image src={item?.Logo ? `${process.env.NEXT_PUBLIC_API_URL}/storage/imglogo/${item.Logo}` : ''} alt={`${item?.NamaPerusahaan || 'Perusahaan'} Logo`} fill className='object-cover m-auto w-full h-full ' />
                                         </div>
                                     </div>
 

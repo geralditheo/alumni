@@ -86,7 +86,7 @@ export default function LogangShow({ uuid, show, onDone }: {uuid?: string, show?
                             <h2 className="text-xl font-bold text-gray-800">Deskripsi</h2>
                             <p>{data?.Deskripsi}</p>
                             <div className="mt-4 space-y-1">
-                                <p><span className="font-bold">Tipe kerja:</span> {data?.TipeMagang}</p>
+                                <p><span className="font-bold">Tipe magang:</span> {data?.TipeMagang}</p>
                                 <p><span className="font-bold">Pengalaman:</span> {data?.Pengalaman}</p>
                                 <p><span className="font-bold">Gaji:</span> {data?.Gaji}</p>
                             </div>

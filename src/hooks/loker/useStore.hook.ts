@@ -41,7 +41,7 @@ export function useLokerAlumni(){
                 }
             });
 
-            if (Array.isArray(data.data)) setManageData(data.data);
+            if (Array.isArray(data)) setManageData(data);
 
             return data;
             
@@ -71,6 +71,7 @@ export function useLokerAlumni(){
             return data.lokers;
         } catch (error) {
             console.error("Error fetching lokers:", error);
+            
             throw new Error("Error index loker");
         }
     };
@@ -118,7 +119,7 @@ export function useLokerAlumni(){
     const update = async (uuid: string, formData : FormData | URLSearchParams): Promise<void> => {
         try {
 
-            const { data } = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/loker/${uuid}`, formData , {
+            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/loker/${uuid}`, formData , {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }

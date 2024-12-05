@@ -56,21 +56,24 @@ export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?
         if (data.tags) formData.append('Tags', data.tags);
         if (formData instanceof FormData) if (file) formData.append('Logo', file);
         if (data.validPeriod) formData.append('MasaBerlaku', moment(data.validPeriod).format('YYYY-MM-DD'));
+        try {
+            if (!uuid) {
+                formData.append('Verify', String("pending"));
+                if (role === 'alumni') await postLokerAlumni(formData);
+                if (role === 'admin') await postLokerAdmin(formData);
+            }
 
-        if (!uuid) {
-            formData.append('Verify', String("pending"));
-            if (role === 'alumni') await postLokerAlumni(formData);
-            if (role === 'admin') await postLokerAdmin(formData);
+            if (uuid) {
+                if (role === 'alumni') await updateLokerAlumni(uuid, formData);
+                if (role === 'admin') await updateLokerAdmin(uuid, formData);
+            } 
+            toast.success("Form submitted successfully!");
+            reset();
+            if (hide) hide();
+        } catch (error) {
+            toast.error("Failed to submit the form.");
         }
-
-        if (uuid) {
-            if (role === 'alumni') await updateLokerAlumni(uuid, formData);
-            if (role === 'admin') await updateLokerAdmin(uuid, formData);
-        } 
-        
-        reset();
-        if (hide) hide();
-    }
+    };
 
     useEffect(() => {
 
@@ -220,7 +223,7 @@ export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?
                     <input  {...register('validPeriod', { valueAsDate: true })} name="validPeriod" id="validPeriod" type="date" className="text-sm" />
                 </div>
 
-                <button type="submit" className="bg-blue-500 px-5 py-1 rounded-md text-white w-full sm:w-auto ">Submit</button>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-600 active:bg-blue-800 px-5 py-2 text-white font-semibold text-xs sm:text-sm  rounded-md flex items-center justify-center gap-x-2 w-full sm:w-auto">Submit</button>
 
             </form>
         </Modal.Body>

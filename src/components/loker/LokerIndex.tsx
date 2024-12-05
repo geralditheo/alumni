@@ -105,7 +105,7 @@ export default function LokerIndex(){
                                 </Accordion.Panel>
 
                                 <Accordion.Panel >
-                                    <Accordion.Title className="text-sm" >Pengalaman Ker ja</Accordion.Title>
+                                    <Accordion.Title className="text-sm" >Tipe Kerja</Accordion.Title>
                                     <Accordion.Content className="text-sm" >
                                         { dataTipeKerja?.map((item) => {
                                             return <div key={item.key} className="flex items-center gap-1 mb-1">
@@ -117,7 +117,7 @@ export default function LokerIndex(){
                                 </Accordion.Panel>
                             </Accordion>
                             
-                            <button type="submit" className="mt-3 px-5 py-1 bg-blue-500 text-white rounded-md w-full sm:w-auto"  >Filter</button>
+                            <button type="submit" className="bg-blue-500 hover:bg-blue-600 active:bg-blue-800 px-5 py-2 text-white font-semibold text-xs sm:text-sm  rounded-md flex items-center justify-center gap-x-2 w-full sm:w-auto">Filter</button>
 
                         </form>
                     </div>

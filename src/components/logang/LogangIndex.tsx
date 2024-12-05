@@ -194,7 +194,7 @@ export default function LogangIndex(){
                                         <p className="flex items-center gap-3"> <HiLocationMarker />{item.Alamat}</p>  
                                         <p className="flex items-center gap-3"> <HiDesktopComputer />{item.Pengalaman}</p>
                                         <p className="flex items-center gap-3"> <HiBriefcase /> {item.TipeMagang}</p>
-                                        <p className="flex items-center gap-3"> <HiCurrencyDollar />{item.Gaji ? rupiahFormat(Number(item.Gaji)) : "~"}</p>
+                                        <p className="flex items-center gap-3"> <HiCurrencyDollar />{item.Gaji ? item.Gaji : "~"}</p>
                                     </div>
                                 </div>
                             )
@@ -224,7 +224,7 @@ export default function LogangIndex(){
                                         <p className="flex items-center gap-3"> <HiLocationMarker />{item.Alamat}</p>  
                                         <p className="flex items-center gap-3"> <HiDesktopComputer />{item.Pengalaman}</p>
                                         <p className="flex items-center gap-3"> <HiBriefcase /> {item.TipeMagang}</p>
-                                        <p className="flex items-center gap-3"> <HiCurrencyDollar />{item.Gaji ? rupiahFormat(Number(item.Gaji)) : "~"}</p>
+                                        <p className="flex items-center gap-3"> <HiCurrencyDollar />{item.Gaji ? item.Gaji : "~"}</p>
                                     </div>
                                 </div>
                             )

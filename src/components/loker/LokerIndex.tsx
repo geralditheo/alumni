@@ -11,7 +11,6 @@ import { Accordion } from "flowbite-react";
 import { HiPlus, HiCog, HiLocationMarker, HiBriefcase, HiDesktopComputer,HiCurrencyDollar   } from 'react-icons/hi';
 import { useRouter } from 'next/navigation' 
 import { useLokerAlumni, useLokerAdmin, Filter } from '@/hooks/loker/useStore.hook';
-import { rupiahFormat } from '@/helper/formatRupiah';
 import { getUser, User } from '@/hooks/auth/authClient';
 
 type Inputs = {
@@ -160,7 +159,7 @@ export default function LokerIndex(){
                                         <p className="flex items-center gap-3"> <HiLocationMarker />{item.Alamat}</p>  
                                         <p className="flex items-center gap-3"> <HiDesktopComputer />{item.Pengalaman}</p>
                                         <p className="flex items-center gap-3"> <HiBriefcase /> {item.TipeKerja}</p>
-                                        <p className="flex items-center gap-3"> <HiCurrencyDollar /> {item.Gaji ? rupiahFormat(Number(item.Gaji)) : "~"}</p>
+                                        <p className="flex items-center gap-3"> <HiCurrencyDollar /> {item.Gaji ? item.Gaji : "~"}</p>
                                     </div>
                                 </div>
                             )
@@ -195,7 +194,7 @@ export default function LokerIndex(){
                                         <p className="flex items-center gap-3"> <HiLocationMarker />{item.Alamat}</p>  
                                         <p className="flex items-center gap-3"> <HiDesktopComputer />{item.Pengalaman}</p>
                                         <p className="flex items-center gap-3"> <HiBriefcase /> {item.TipeKerja}</p>
-                                        <p className="flex items-center gap-3"> <HiCurrencyDollar /> {item.Gaji ? rupiahFormat(Number(item.Gaji)) : "~"}</p>
+                                        <p className="flex items-center gap-3"> <HiCurrencyDollar /> {item.Gaji ? item.Gaji : "~"}</p>
                                     </div>
                                 </div>
                             )

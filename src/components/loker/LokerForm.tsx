@@ -182,7 +182,7 @@ export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?
 
                 <div className="flex flex-col gap-1 mb-5">
                     <label htmlFor="wages" className="text-sm sm:text-base" >Gaji</label>
-                    <input  {...register('wages')} name="wages" id="wages" type="number" min={0} className="text-sm" placeholder="Semarang" />
+                    <input  {...register('wages')} name="wages" id="wages" type="text"  className="text-sm" placeholder="Semarang" />
                 </div>
 
                 <div className="flex flex-col gap-1 mb-5">

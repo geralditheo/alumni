@@ -5,7 +5,7 @@ import { Table, Popover } from "flowbite-react";
 import { HiTrash, HiPencilAlt, HiAdjustments, HiCheckCircle, HiBan } from 'react-icons/hi';
 import { useEffect, useState } from "react";
 import { useLokerAlumni, useLokerAdmin } from '@/hooks/loker/useStore.hook';
-import { getUser, User } from '@/hooks/auth/authClient';
+import { getUser } from '@/hooks/auth/authClient';
 
 
 export default function LokerTable({  }: { userId?: string }){

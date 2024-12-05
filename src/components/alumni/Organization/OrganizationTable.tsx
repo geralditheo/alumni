@@ -8,7 +8,7 @@ import { useOrganization } from '@/hooks/alumni/organization/useStore.hook';
 
 
 
-export default function OrganizationTable({ userId }: { userId?: string }){
+export default function OrganizationTable({ }: { userId?: string }){
     const { data, pagination, getOrganization, deleteOrganization } = useOrganization();
 
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);

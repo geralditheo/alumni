@@ -2,7 +2,7 @@
 
 import LokerForm from "./LokerForm";
 import { Table, Popover } from "flowbite-react";
-import { HiTrash, HiPencilAlt, HiAdjustments } from 'react-icons/hi';
+import { HiTrash, HiPencilAlt, HiAdjustments, HiCheckCircle, HiBan } from 'react-icons/hi';
 import { useEffect, useState } from "react";
 import { useLokerAlumni, useLokerAdmin } from '@/hooks/loker/useStore.hook';
 import { getUser, User } from '@/hooks/auth/authClient';
@@ -96,7 +96,7 @@ export default function LokerTable({ userId }: { userId?: string }){
                                     <Table.Cell>{item.NamaPerusahaan}</Table.Cell>
                                     <Table.Cell>{item.Posisi}</Table.Cell>
                                     <Table.Cell>
-                                        <div className={`${ item?.Verify === "verified" ? "bg-lime-500" : "bg-red-500" } shadow px-3 py-1 text-center rounded-lg  text-white`} > {item.Verify === "verified" ? "true" : "false"} </div>
+                                        <div className={`${ item?.Verify === "verified" ? "bg-lime-500" : "bg-red-500" } shadow px-3 py-3 text-center rounded-lg flex justify-center  text-white`} > {item.Verify === "verified" ? <HiCheckCircle/> : <HiBan/> } </div>
                                     </Table.Cell>
                                     <Table.Cell className="flex gap-3" >
                                         <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>
@@ -125,7 +125,7 @@ export default function LokerTable({ userId }: { userId?: string }){
                                     <Table.Cell>{item.NamaPerusahaan}</Table.Cell>
                                     <Table.Cell>{item.Posisi}</Table.Cell>
                                     <Table.Cell>
-                                        <div className={`${ item?.Verify === "verified" ? "bg-lime-500" : "bg-red-500" } shadow px-3 py-1 text-center rounded-lg  text-white`} > {item.Verify === "verified" ? "true" : "false"} </div>
+                                        <div className={`${ item?.Verify === "verified" ? "bg-lime-500" : "bg-red-500" } shadow px-3 py-3 text-center rounded-lg flex justify-center  text-white`} > {item.Verify === "verified" ? <HiCheckCircle/> : <HiBan/> } </div>
                                     </Table.Cell>
                                     <Table.Cell className="flex gap-3" >
                                         <button onClick={() => onEdit(String(item.id))} className="bg-blue-500 px-5 py-3 text-white hover:bg-blue-600" ><HiPencilAlt /></button>

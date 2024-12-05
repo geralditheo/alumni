@@ -67,7 +67,7 @@ export function useLogangAlumni(){
                 }
             });
 
-            if (Array.isArray(data.logangs)) setData(data.logangs);
+            if (Array.isArray(data.data)) setData(data.data);
 
             return data;
             

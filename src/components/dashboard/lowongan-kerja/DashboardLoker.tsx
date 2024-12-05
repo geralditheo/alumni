@@ -29,7 +29,7 @@ export default function DashboardLoker(){
 
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 " >
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10 " >
 
             { data?.map((item) => {
                 return <div key={item.key} className='flex group ' >

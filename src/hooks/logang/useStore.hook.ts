@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '@/hooks/auth/authClient';
 import { useState } from 'react';
 
-type Logang = {
+export type Logang = {
     id: number;
     user_id: number;
     Alamat: string;
@@ -304,4 +304,55 @@ export function useLogangAdmin(){
     }
 
     return { data, manageData, index, show, post, manage, update, remove, verify };
+}
+
+export function useLogangMahasiswa(){
+    const token = getToken();
+    const [data, setData] = useState<Logang[]>([]);
+    
+
+    const index = async (): Promise< Logang[] | void> => {
+        try {
+
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/mahasiswa/logang` , {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            if (Array.isArray(data.data)) setData(data.data);
+
+            return data;
+            
+        } catch (error) {
+
+            console.log("Error", error);
+            
+            throw new Error("Error index logang");
+        }
+
+    }
+
+    const show = async (uuid: string): Promise<Logang | undefined> => {
+        try {
+
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/mahasiswa/logang/${uuid}` , {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            return data.data;
+            
+        } catch (error) {
+
+            console.log("Error", error);
+            
+            throw new Error("Error show logang");
+        }
+
+    }
+
+
+    return { data, index, show, };
 }

@@ -16,6 +16,7 @@ type Inputs = {
     city: string;
     country: string;
     note: string;
+    jenjangPendidikan: string;
 };
 
 
@@ -36,6 +37,7 @@ export default function AcademicForm({ show, hide, uuid }: { show?: boolean , hi
         if (data.city) formData.append("kota", data.city);
         if (data.country) formData.append("negara", data.country);
         if (data.note) formData.append("catatan", data.note);
+        if (data.jenjangPendidikan) formData.append("jenjang_pendidikan", data.jenjangPendidikan);
 
         if (!uuid) {
             await postAcademic(formData)
@@ -74,6 +76,7 @@ export default function AcademicForm({ show, hide, uuid }: { show?: boolean , hi
 
                     setValue("universityName", result?.nama_studi ? result.nama_studi : "" );
                     setValue("majorStudi", result?.prodi ? result?.prodi : "" );
+                    setValue("jenjangPendidikan", result?.jenjang_pendidikan ? result?.jenjang_pendidikan : "" );
                     setValue("gpa", result?.ipk ? Number(result?.ipk)  : null );
                     setValue("yearIn", result?.tahun_masuk ? result?.tahun_masuk : null);
                     setValue("yearOut", result?.tahun_lulus ? result?.tahun_lulus : null);
@@ -111,8 +114,13 @@ export default function AcademicForm({ show, hide, uuid }: { show?: boolean , hi
                 </div>
 
                 <div className="flex flex-col gap-1 mb-5">
+                    <label htmlFor="jenjangPendidikan" className="text-sm sm:text-base" >Jenjang Pendidikan</label>
+                    <input  {...register('jenjangPendidikan')} name="jenjangPendidikan" id="jenjangPendidikan" type="text" className="text-sm" placeholder="Sarjana" />
+                </div>
+
+                <div className="flex flex-col gap-1 mb-5">
                     <label htmlFor="gpa" className="text-sm sm:text-base" >IPK</label>
-                    <input  {...register('gpa', {  valueAsNumber: true })} name="gpa" id="gpa" type="number" min={0} className="text-sm" placeholder="3.00" />
+                    <input  {...register('gpa', {  valueAsNumber: true })} step="0.001" name="gpa" id="gpa" type="number" min={0} className="text-sm" placeholder="3.00" />
                 </div>
 
                 <div className="flex flex-col gap-1 mb-5">

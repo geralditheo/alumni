@@ -3,17 +3,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from "next/dynamic";
-
 import { useState, useEffect, Suspense } from 'react';
 import { HiChevronDoubleRight } from "react-icons/hi";
-import { useTracerStudy } from '@/hooks/tracer-study/tracerStudy.hook';
+import { useMasaTunggu } from '@/hooks/masa-tunggu/masaTunggu.hook';
 import { DataDiagram } from '@/components/chart/chartjs/PieChart';
 
 const PieChart = dynamic(() => import('@/components/chart/chartjs/PieChart'), { ssr: false });
 
-export default function TracerStudyIndex(){
+export default function MasaTungguComponent(){
 
-    const { data, tahunLulusData, check: checkTracerStudy, tahunLulus: getTahunLulus } = useTracerStudy();
+    const { data, tahunLulusData, check: checkMasaTunggu, tahunLulus: getTahunLulus } = useMasaTunggu();
     const [ dataDiagram, setDataDiagram ] = useState<DataDiagram[]>([]);
     const [ filter, setFilter ] = useState({ tahunLulus: "" });
     const [ refresh, setRefresh ] = useState<Boolean>();
@@ -26,19 +25,21 @@ export default function TracerStudyIndex(){
     }
 
     useEffect(() => {
-        checkTracerStudy({ tahunLulus: filter.tahunLulus });
+        checkMasaTunggu({ tahunLulus: filter.tahunLulus });
         getTahunLulus()
     }, [refresh])
 
     useEffect(() => {
-        if(data?.statusCounts) if (data.statusCounts.length){
-            const temp = data.statusCounts.map((item) => ({ label: item.name, data: item.count }));
+        if(data?.masaTungguCounts) if (data.masaTungguCounts.length){
+            const temp = data.masaTungguCounts.map((item) => ({ label: item.name, data: item.count }));
             setDataDiagram(temp);
         }
     }, [data])
+    
 
     return (
         <section>
+
             {
                 tahunLulusData.length > 0 && 
                 <div className="my-3 ">
@@ -64,32 +65,29 @@ export default function TracerStudyIndex(){
             </div>
 
             {/* Link List */}
-            <div className="flex flex-wrap" >
+            <div className='flex flex-wrap' >
                 {
-                    data?.statusCounts.map((item, index) => {
+                    data?.masaTungguCounts.map((item, index) => {
                         return (
-                            <div key={index} className='flex-grow basis-full sm:basis-1/2  ' >
+                            <div key={index} className='flex-grow basis-full sm:basis-1/2 md:basis-1/3 ' >
                                 <div className='border flex group m-1' >
 
-                                    <div className='basis-3/4 p-5 ' >
+                                    <div className='basis-full p-5 ' >
                                         <h3 className='font-semibold' >{item.name}</h3>
                                         <p className='text-sm bg-blue-500 w-fit px-3 py-1 rounded-lg text-white' >{item.count} dari {data.totalAlumni} mahasiswa</p>
                                     </div>
 
-                                    <div className='basis-1/4 p-5' >
+                                    <div className='p-5' >
                                         <div className='w-16 aspect-square relative ' >
                                             <Image src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full  ' />
                                         </div>
                                     </div>
 
-                                    <Link href={`/dashboard/tracer-study/status?status=${item.name}`} className='bg-blue-500 shrink-0 p-3 group-hover:bg-blue-400 transition-colors ease-in flex items-center'>
+                                    <Link href={`/dashboard/masa-tunggu-alumni/status?status=${item.name}`} className='bg-blue-500 shrink-0 p-3 group-hover:bg-blue-400 transition-colors ease-in flex items-center'>
                                         <HiChevronDoubleRight className='text-white'/>
                                     </Link>
-
                                 </div>
-
                             </div>
-
                         )
                     })
                 }

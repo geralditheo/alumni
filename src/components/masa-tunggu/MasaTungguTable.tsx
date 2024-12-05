@@ -2,14 +2,11 @@
 
 import { Table, Pagination } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { useTracerStudy } from '@/hooks/tracer-study/tracerStudy.hook';
-import { toast } from 'sonner';
+import { useMasaTunggu } from '@/hooks/masa-tunggu/masaTunggu.hook';
 
+export default function MasaTungguTableComponent({ status }: {status: string}){
 
-
-export default function TracerStudyTable({ status }: { status: string }){
-
-    const { status: statusTracerStudy, statusData, tahunLulus: getTahunLulus, tahunLulusData } = useTracerStudy();
+    const { status: statusMasaTunggu, statusData, tahunLulus: getTahunLulus, tahunLulusData } = useMasaTunggu();
 
     const [ refresh, setRefresh ] = useState<boolean>(true);
     const [ filter, setFilter] = useState({
@@ -20,15 +17,15 @@ export default function TracerStudyTable({ status }: { status: string }){
         }
     })
 
-    const onPageChange = (page: number) => {
-        setFilter({ ...filter, currentPage: page });
-        setRefresh(!refresh);
-    } 
-
     const onTahunLulusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         event.preventDefault();
         const value = event.target.value;
         setFilter({ ...filter, tahun: { tahunLulus: value }})
+        setRefresh(!refresh);
+    }
+
+    const onPageChange = (page: number) => {
+        setFilter({ ...filter, currentPage: page });
         setRefresh(!refresh);
     }
 
@@ -37,11 +34,10 @@ export default function TracerStudyTable({ status }: { status: string }){
     }, []);
 
     useEffect(() => {
-        statusTracerStudy({status, tahunLulus: filter.tahun.tahunLulus });        
-    }, [refresh]);    
+        statusMasaTunggu({status, tahunLulus: filter.tahun.tahunLulus });        
+    }, [refresh]);
 
-    return <main>
-
+    return (
         <section>
 
             {
@@ -58,7 +54,7 @@ export default function TracerStudyTable({ status }: { status: string }){
                     </select>
                 </div>
             }
-
+            
             <div className="overflow-x-auto" >
                 <Table hoverable striped >
 
@@ -92,8 +88,7 @@ export default function TracerStudyTable({ status }: { status: string }){
             </div>
 
             <Pagination layout="pagination" currentPage={filter.currentPage} totalPages={filter.lastPage} onPageChange={onPageChange} />
-        </section>
 
-    </main>
-    
+        </section>
+    )
 }

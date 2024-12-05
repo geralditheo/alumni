@@ -4,12 +4,13 @@ import axios from "axios";
 import { useState } from "react";
 import { getToken } from '@/hooks/auth/authClient';
 
-type CheckTracerStudy = {
-    statusCounts: StatusCounts[]
+type CheckMasaTunggu = {
+    masaTungguCounts: MasaTungguCounts[]
     totalAlumni: number;
+    tahunLulus: number;
 }
 
-type StatusCounts = {
+type MasaTungguCounts = {
     name: string;
     count: number;
 }
@@ -40,37 +41,37 @@ type StatusTracerStudy = {
 
 }
 
-export function useTracerStudy(){
+export function useMasaTunggu(){
     const token = getToken();
-    const [data, setData] = useState<CheckTracerStudy>();
+    const [data, setData] = useState<CheckMasaTunggu>();
     const [statusData, setStatusData] = useState<StatusTracerStudy[]>([]);
     const [tahunLulusData, setTahunLulusData] = useState<string[]>([]);
 
-    const check = async ({ tahunLulus }: { tahunLulus?: string } = {}): Promise< CheckTracerStudy | undefined> => {
+    const check = async ({ tahunLulus }: { tahunLulus?: string } = {}): Promise< CheckMasaTunggu | undefined> => {
         try {
 
-            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cekTracerstudy` , {
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cekMasaTunggu` , {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 },
                 params: {
-                    tahun_lulus: tahunLulus ?? undefined
+                    tahun_lulus: tahunLulus ? tahunLulus : undefined
                 }
             });
-
             
-            const statusCounts = Object.entries(data.statusCounts).map((entry) => ({ name: entry[0], count: entry[1] })) as StatusCounts[] ;
+            const MasaTungguCounts = Object.entries(data.masaTungguCounts).map((entry) => ({ name: entry[0], count: entry[1] })) as MasaTungguCounts[] ;
 
             setData({
-                statusCounts: statusCounts,
-                totalAlumni: data.totalAlumni
+                masaTungguCounts: MasaTungguCounts,
+                tahunLulus: data.tahunLulus,
+                totalAlumni: data.totalAlumni,
             })
             
             return data;
             
         } catch (error) {
             console.log("Error", error);
-            throw new Error("Error check tracer study");
+            throw new Error("Error check masa tunggu");
         }
 
     }
@@ -78,13 +79,13 @@ export function useTracerStudy(){
     const status = async ({ status, tahunLulus  }: { status?: string, tahunLulus?: string; } = {}): Promise< StatusTracerStudy[] | undefined> => {
         try {
             
-            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/tracerstudy` , {
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/masaTunggu` , {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 },
                 params: {
-                    status: status ?? undefined,
-                    tahun_lulus: tahunLulus ?? undefined,
+                    status: status ? status : undefined,
+                    tahun_lulus: tahunLulus ? tahunLulus : undefined,
                 }
             });
 
@@ -102,7 +103,7 @@ export function useTracerStudy(){
     const tahunLulus = async (): Promise< string[] | undefined> => {
         try {
             
-            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/tahunLulusTracerstudy` , {
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/tahunLulusMasaTunggu` , {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 },

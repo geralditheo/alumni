@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { create } from 'zustand';
 import { getToken } from '@/hooks/auth/authClient';
+import { useState } from 'react';
 
 interface Academic {
     id?: number;
     user_id?: number;
     nama_studi?: string;
+    jenjang_pendidikan?: string;
     prodi?: string;
     ipk?: string;
     tahun_masuk?: number;
@@ -39,6 +41,11 @@ interface Action {
 interface Filter {
     limit?: number;
     currentPage?: number;
+}
+
+interface Pagination {
+    currentPage: number;
+    lastPage: number;
 }
 
 export const useAcademic = create<State & Action>((set) => ({
@@ -200,3 +207,107 @@ export const useAcademic = create<State & Action>((set) => ({
 
     }
 }));
+
+
+export function useAcademicMhs(){
+
+    const token = getToken();
+
+    const [ data, setData ] = useState<Academic[]>([]);
+    const [ pagination, setPagination] = useState<Pagination>({ currentPage: 1, lastPage: 1 });
+
+    const get = async (filter?: Filter): Promise<Academic[] | unknown> => {
+
+        try {
+
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicMhs`, {
+                params: {
+                    page: filter?.currentPage ? filter.currentPage : pagination.currentPage,
+                },
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            
+            if (data.data) setData(data.data);
+            if (data.last_page) setPagination({ ...pagination, lastPage: data.last_page });
+            
+            return data.data;
+
+        } catch (error) {
+            console.error("Error fetching academics:", error);
+            throw new Error("Error fetch academic");
+        }
+
+    }
+
+    const store = async ( formData: URLSearchParams ) => {
+        try {            
+
+            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicMhs`, formData, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            return data;
+
+        } catch (error) {
+            console.error("Error create academic:", error);            
+            throw new Error("Error post academic");
+        }
+    }
+
+    const show = async ( uuid: string ) => {
+        try {
+
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicMhs/${uuid}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            return data;
+            
+        } catch (error) {
+            console.error("Error get academic:", error);
+            throw new Error("Error get academic");
+        }
+    }
+
+    const update = async ( uuid: string, formData: URLSearchParams ) => {
+        try {            
+            const { data } = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicMhs/${uuid}`, formData, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            return data;
+            
+        } catch (error) {
+            console.error("Error updating academic:", error);
+            throw new Error("Error update academic");
+        }
+    }
+
+    const remove = async (uuid: string) => {
+        try {
+
+            const { data } = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/academicMhs/${uuid}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            return data;
+            
+        } catch (error) {
+            console.error("Error deleting academic:", error);
+            throw new Error("Error delete academic");
+        }
+    }
+
+    return { data, pagination, get, store, show, update, remove }
+}

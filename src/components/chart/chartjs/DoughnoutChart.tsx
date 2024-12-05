@@ -4,20 +4,29 @@ import { ChartData, ChartOptions } from 'chart.js';
 
 Chart.register(ArcElement, Tooltip, Legend, Title, SubTitle);
 
-export default function DoughnutChart(){
+export type DataDiagram = {
+  label: string,
+  data: number
+}
+
+export default function DoughnutChart({ title, lable, dataDiagram = [], isShowLable = false }: { title?: string, lable?: string, dataDiagram?: DataDiagram[], isShowLable?: boolean }){
+  
+    const inputLabel = dataDiagram?.map((item) => item.label) || [];
+    const inputData = dataDiagram?.map((item) => item.data) || [];
+
     const data: ChartData<'doughnut'> = {
-        labels: [
+        labels: inputLabel?.length ? inputLabel :  [
           'Red',
           'Blue',
           'Yellow'
         ],
         datasets: [{
-          label: 'Skills',
-          data: [300, 50, 100],
+          label: lable ? lable : 'Skills',
+          data: inputData?.length ? inputData : [300, 50, 100],
           backgroundColor: [
             'rgb(255, 99, 132)',
             'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)'
+            'rgb(255, 205, 86)',
           ],
           hoverOffset: 4
         }]
@@ -27,11 +36,17 @@ export default function DoughnutChart(){
         responsive: true,
         plugins: {
             legend: {
+              display: isShowLable,
                 position: 'top',
+                labels: {
+                  font: {
+                    size: 8
+                  }
+                }
             },
             title: {
                 display: true,
-                text: 'Chart.js Line Chart'
+                text: title ? title : 'Chart.js Line Chart'
             }
         }
     };

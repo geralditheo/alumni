@@ -11,12 +11,15 @@ export function useDataAlumni(){
     const token = getToken();
     const [data, setData] = useState<DataAlumni[]>([]);
 
-    const getDataAlumni = async (): Promise< DataAlumni[] | undefined > => {
+    const getDataAlumni = async ({ search }: { search?: string }): Promise< DataAlumni[] | undefined > => {
         try {
 
             const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/dataAlumniAdmin` , {
                 headers: {
                     "Authorization": `Bearer ${token}`
+                },
+                params: {
+                    search: search
                 }
             });
 

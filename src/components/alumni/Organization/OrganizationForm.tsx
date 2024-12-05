@@ -8,6 +8,8 @@ import { toast } from 'sonner';
 
 type Inputs = {
     agency: string; // Nama Instansi
+    bulanStart: string | null; // Bulan Mulai
+    bulanEnd: string | null; // Bulan Akhir
     periodStart: number | null; // Periode Mulai
     periodEnd: number | null; // Periode Akhir
     jobTitle: string; // Jabatan Pekerjaan
@@ -27,6 +29,8 @@ export default function OrganizationForm({ show, hide, uuid }: { show?: boolean 
         const formData = uuid ? new URLSearchParams() : new FormData();
 
         if (data.agency) formData.append("nama_org", String(data.agency));
+        if (data.bulanStart) formData.append("bulan_masuk_org", String(data.bulanStart));
+        if (data.bulanEnd) formData.append("bulan_keluar_org", String(data.bulanEnd));
         if (data.periodStart) formData.append("periode_masuk_org", String(data.periodStart));
         if (data.periodEnd) formData.append("periode_keluar_org", String(data.periodEnd));
         if (data.jobTitle) formData.append("jabatan_org", String(data.jobTitle));
@@ -64,6 +68,8 @@ export default function OrganizationForm({ show, hide, uuid }: { show?: boolean 
                 .then((item) => {
                     
                     setValue("agency", item?.nama_org ? item?.nama_org : "");
+                    setValue("bulanStart", item?.bulan_masuk_org ? item?.bulan_masuk_org : null);
+                    setValue("bulanEnd", item?.bulan_keluar_org ? item?.bulan_keluar_org : null);
                     setValue("periodStart", item?.periode_masuk_org ? item?.periode_masuk_org : null);
                     setValue("periodEnd", item?.periode_keluar_org ? item?.periode_keluar_org : null);
                     setValue("jobTitle", item?.jabatan_org ? item?.jabatan_org : "");
@@ -86,6 +92,26 @@ export default function OrganizationForm({ show, hide, uuid }: { show?: boolean 
                 <div className="flex flex-col gap-1 mb-5">
                     <label htmlFor="agency" className="text-sm sm:text-base" >Nama Instansi</label>
                     <input  {...register('agency')} name="agency" id="agency" type="text" className="text-sm" placeholder="Udinus" />
+                </div>
+
+                <div className="flex flex-col gap-1 mb-5">
+                    <label htmlFor="bulanStart" className="text-sm sm:text-base">Bulan Masuk</label>
+                    <select {...register('bulanStart')} name="bulanStart" id="bulanStart" className="text-sm">
+                        <option value="">Pilih Bulan</option>
+                        {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((bulan, index) => (
+                            <option key={index} value={bulan}>{bulan}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="flex flex-col gap-1 mb-5">
+                    <label htmlFor="bulanEnd" className="text-sm sm:text-base">Bulan Keluar</label>
+                    <select {...register('bulanEnd')} name="bulanEnd" id="bulanEnd" className="text-sm">
+                        <option value="">Pilih Bulan</option>
+                        {["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"].map((bulan, index) => (
+                            <option key={index} value={bulan}>{bulan}</option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="flex flex-col gap-1 mb-5">

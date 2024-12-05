@@ -2,12 +2,20 @@ import { Line } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend, Title, CategoryScale, LinearScale, PointElement, LineElement, } from 'chart.js';
 import { ChartData, ChartOptions } from 'chart.js';
 
-Chart.register(ArcElement, Tooltip, Legend, Title, CategoryScale, LinearScale, PointElement, LineElement,);
+Chart.register(ArcElement, Tooltip, Legend, Title, CategoryScale, LinearScale, PointElement, LineElement);
 
-export default function LineChart(){
+export type DataDiagram = {
+    label: string,
+    data: number
+}
+
+export default function LineChart({ title, lable, dataDiagram = [], isShowLable = false }: { title?: string, lable?: string, dataDiagram?: DataDiagram[], isShowLable?: boolean }){
+
+    const inputLabel = dataDiagram?.map((item) => item.label) || [];
+    const inputData = dataDiagram?.map((item) => item.data) || [];
 
     const data: ChartData<'line'> = {
-        labels: [
+        labels: inputLabel?.length ? inputLabel : [
             'January',
             'February',
             'March',
@@ -17,8 +25,8 @@ export default function LineChart(){
             'July',
         ],
         datasets: [{
-            label: 'Data',
-            data: [65, 59, 80, 81, 56, 55, 40],
+            label: lable ? lable : 'Skills',
+            data: inputData?.length ? inputData : [65, 59, 80, 81, 56, 55, 40],
             fill: true,
             borderColor: 'rgb(75, 192, 192)',
             tension: 0.5,
@@ -30,10 +38,11 @@ export default function LineChart(){
         plugins: {
             legend: {
                 position: 'top',
+                display: isShowLable,
             },
             title: {
                 display: true,
-                text: 'Line Chart',
+                text: title ? title : 'Chart.js Line Chart',
                 position: 'top',
                 align: 'center',
                 color: 'black',

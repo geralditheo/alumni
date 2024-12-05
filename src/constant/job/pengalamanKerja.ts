@@ -8,7 +8,7 @@ interface Data {
     value?:  string,
 }
 
-export function getPengalamanMagang(): GetDataPengalamanKerja{
+export function getPengalamanKerja(): GetDataPengalamanKerja{
     return {
         data: [
             { key: 'pm1', label: "Tanpa Pengalaman", value: "Tanpa Pengalaman" },

@@ -8,7 +8,7 @@ interface Data {
     value?:  string,
 }
 
-export function getTipeMagang(): GetDataTipeKerja{
+export function getTipeKerja(): GetDataTipeKerja{
     return {
         data: [
             { key: 'pm1', label: "Freelance", value: "Freelance" },

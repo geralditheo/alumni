@@ -64,7 +64,7 @@ export default function LogangShow({ uuid, show, onDone }: {uuid?: string, show?
                 <div className="flex items-center justify-center text-center bg-blue-500 bg-opacity-30 p-3 rounded-lg">
                     <div className="flex flex-col items-center">
                     <img
-                        src={data?.Logo ? `${process.env.NEXT_PUBLIC_API_URL}/storage/imglogo/${data.Logo}` : '/default-logo.png'}
+                        src={data?.Logo ? `${process.env.NEXT_PUBLIC_API_URL}/storage/imglogo/${data.Logo}` : ''}
                         alt={`${data?.NamaPerusahaan || 'Perusahaan'} Logo`}
                         className="h-24 w-24 object-contain"
                     />
@@ -86,7 +86,7 @@ export default function LogangShow({ uuid, show, onDone }: {uuid?: string, show?
                             <h2 className="text-xl font-bold text-gray-800">Deskripsi</h2>
                             <p>{data?.Deskripsi}</p>
                             <div className="mt-4 space-y-1">
-                                <p><span className="font-bold">Tipe kerja:</span> {data?.TipeMagang}</p>
+                                <p><span className="font-bold">Tipe magang:</span> {data?.TipeMagang}</p>
                                 <p><span className="font-bold">Pengalaman:</span> {data?.Pengalaman}</p>
                                 <p><span className="font-bold">Gaji:</span> {data?.Gaji}</p>
                             </div>

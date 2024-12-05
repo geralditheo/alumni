@@ -3,20 +3,20 @@
 import Image from 'next/image';
 import LokerShow from '@/components/loker/LokerShow';
 import LokerForm from './LokerForm';
-import { getPengalamanMagang } from "@/constant/internship/pengalamanMagang";
-import { getTipeMagang } from "@/constant/internship/tipeMagang";
+import { getPengalamanKerja } from "@/constant/job/pengalamanKerja";
+import { getTipeKerja } from "@/constant/job/tipeKerja";
 import { useEffect, useState } from "react"
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Accordion } from "flowbite-react";
 import { HiPlus, HiCog, HiLocationMarker, HiBriefcase, HiDesktopComputer,HiCurrencyDollar   } from 'react-icons/hi';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation' 
 import { useLokerAlumni, useLokerAdmin, Filter } from '@/hooks/loker/useStore.hook';
 import { rupiahFormat } from '@/helper/formatRupiah';
 import { getUser, User } from '@/hooks/auth/authClient';
 
 type Inputs = {
-    internshipExperience: string;
-    internshipType: string;
+    jobExperience: string;
+    jobType: string;
 };
 
 export default function LokerIndex(){
@@ -26,8 +26,8 @@ export default function LokerIndex(){
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
     const [ user, setUser] = useState<User>();
     const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
-    const { data: dataPengalamanMagang } = getPengalamanMagang();
-    const { data: dataTipeMagang } = getTipeMagang();
+    const { data: dataPengalamanKerja } = getPengalamanKerja();
+    const { data: dataTipeKerja } = getTipeKerja();
     const [ refresh, setRefresh ] = useState<boolean>(true);
     const [ filter, setFilter ] = useState<Filter | undefined>({});
     const { data: dataLokerAlumni, index: indexAlumni } = useLokerAlumni();
@@ -37,7 +37,7 @@ export default function LokerIndex(){
     const [ selectUuid, setSelectUuid ] = useState<number>();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
-        setFilter({Pengalaman: data.internshipExperience[0] ,TipeKerja: data.internshipType[0]});
+        setFilter({Pengalaman: data.jobExperience[0] ,TipeKerja: data.jobType[0]});
         setRefresh(!refresh);
     }
 
@@ -93,24 +93,24 @@ export default function LokerIndex(){
 
                             <Accordion collapseAll >
                                 <Accordion.Panel >
-                                    <Accordion.Title className="text-sm" >Pengalaman Magang</Accordion.Title>
+                                    <Accordion.Title className="text-sm" >Pengalaman Kerja</Accordion.Title>
                                     <Accordion.Content className="text-sm" >
-                                        { dataPengalamanMagang?.map((item) => {
+                                        { dataPengalamanKerja?.map((item) => {
                                             return <div key={item.key} className="flex items-center gap-1 mb-1">
-                                                <input { ...register("internshipExperience") } type="checkbox" value={item.value} name="internshipExperience" id="internshipExperience" /> 
-                                                <label htmlFor="internshipExperience" className="text-sm" >{item.label}</label>
+                                                <input { ...register("jobExperience") } type="checkbox" value={item.value} name="jobExperience" id="jobExperience" /> 
+                                                <label htmlFor="jobExperience" className="text-sm" >{item.label}</label>
                                             </div>
                                         })}
                                     </Accordion.Content>
                                 </Accordion.Panel>
 
                                 <Accordion.Panel >
-                                    <Accordion.Title className="text-sm" >Pengalaman Magang</Accordion.Title>
+                                    <Accordion.Title className="text-sm" >Pengalaman Ker ja</Accordion.Title>
                                     <Accordion.Content className="text-sm" >
-                                        { dataTipeMagang?.map((item) => {
+                                        { dataTipeKerja?.map((item) => {
                                             return <div key={item.key} className="flex items-center gap-1 mb-1">
-                                                <input { ...register("internshipType") } type="checkbox" value={item.value} name="internshipType" id="internshipType" /> 
-                                                <label htmlFor="internshipType" className="text-sm" >{item.label}</label>
+                                                <input { ...register("jobType") } type="checkbox" value={item.value} name="jobType" id="jobType" /> 
+                                                <label htmlFor="jobType" className="text-sm" >{item.label}</label>
                                             </div>
                                         })}
                                     </Accordion.Content>
@@ -138,7 +138,7 @@ export default function LokerIndex(){
                                 <div onClick={() => onClickButton(item.id)} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
-                                            <Image priority src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
+                                            <Image priority src={item?.Logo ? `${process.env.NEXT_PUBLIC_API_URL}/storage/imglogo/${item.Logo}` : ''} alt={`${item?.NamaPerusahaan || 'Perusahaan'} Logo`} fill className='object-cover m-auto w-full h-full ' />
                                         </div>
                                     </div>
 
@@ -168,7 +168,7 @@ export default function LokerIndex(){
                                 <div onClick={() => onClickButton(item.id)} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
-                                            <Image priority src="/draw/undraw_Experience_design_re_dmqq.png" alt='dashboard-image' fill className='object-cover m-auto w-full h-full ' />
+                                            <Image priority src={item?.Logo ? `${process.env.NEXT_PUBLIC_API_URL}/storage/imglogo/${item.Logo}` : ''} alt={`${item?.NamaPerusahaan || 'Perusahaan'} Logo`} fill className='object-cover m-auto w-full h-full ' />
                                         </div>
                                     </div>
 

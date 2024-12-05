@@ -6,7 +6,7 @@ import { HiTrash, HiPencilAlt } from 'react-icons/hi';
 import { useState, useEffect } from "react";
 import { useSkill } from '@/hooks/alumni/skill/useStore.hook';
 
-export default function SkillTable({ userId }: { userId?: string }){
+export default function SkillTable({  }: { userId?: string }){
     const { data, pagination, getSkills, deleteSkill } = useSkill();
 
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);

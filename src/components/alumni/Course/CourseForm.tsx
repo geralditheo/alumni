@@ -36,9 +36,9 @@ export default function AwardForm({ show, hide, uuid }: { show?: boolean , hide?
             });
 
         if (uuid) await updateCourse(formData, uuid)
-            .then((result) => {
+            .then(() => {
                 toast.success("Success update data");
-            }).catch((err) => {
+            }).catch(() => {
                 toast.error("Failed update data");
             });
         

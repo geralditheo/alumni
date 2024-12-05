@@ -23,7 +23,7 @@ export default function LogangIndex(){
 
     const router = useRouter()
 
-    const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
+    const { register, handleSubmit,  } = useForm<Inputs>();
     const [ user, setUser] = useState<User>();
     const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
     const { data: dataPengalamanMagang } = getPengalamanMagang();
@@ -140,7 +140,7 @@ export default function LogangIndex(){
 
                     {/* Data */}
                     <div>
-                        { dataLogangAlumni.map((item, index) => {
+                        { dataLogangAlumni.map((item, ) => {
                             const tags = item.Tags.split(',');
 
                             return (
@@ -170,7 +170,7 @@ export default function LogangIndex(){
                             )
                         })}
 
-                        { dataLogangAdmin.map((item, index) => {
+                        { dataLogangAdmin.map((item, ) => {
                             const tags = item.Tags.split(',');
 
                             return (
@@ -200,7 +200,7 @@ export default function LogangIndex(){
                             )
                         })}
 
-                        { dataLogangMhs.map((item, index) => {
+                        { dataLogangMhs.map((item) => {
                             const tags = item.Tags.split(',');
 
                             return (

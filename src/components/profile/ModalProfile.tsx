@@ -11,7 +11,7 @@ type Inputs = {
 };
 
 
-export default function ModalProfile({show, hide, uuid}: { show?: boolean , hide?: () => void, uuid?: string }){
+export default function ModalProfile({show, hide }: { show?: boolean , hide?: () => void, uuid?: string }){
 
     const { register, handleSubmit, reset } = useForm<Inputs>();
     const { uploadPhotoAdmin, uploadPhotoAlumni } = useProfile();

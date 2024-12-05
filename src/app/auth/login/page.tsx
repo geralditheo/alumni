@@ -46,7 +46,7 @@ export default function Login({ searchParams }: { searchParams: { type: LoginTyp
             toast.success("Log in successfully");
             return router.replace("/dashboard");
         } catch (error: Error | any) {
-            toast.error( error.message ? error.message : "Login Failed");
+            toast.error( error?.message ? error.message : "Login Failed");
         }
 
         setIsDisabled(false);

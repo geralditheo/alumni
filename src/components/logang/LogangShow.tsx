@@ -1,11 +1,10 @@
 import { Modal } from "flowbite-react";
 import { HiLocationMarker } from "react-icons/hi";
 import { useLogangMahasiswa, useLogangAdmin, useLogangAlumni, Logang } from "@/hooks/logang/useStore.hook";
-import { rupiahFormat } from "@/helper/formatRupiah";
 import { useEffect, useState } from "react";
-import { getUser, User } from '@/hooks/auth/authClient';
+import { getUser,  } from '@/hooks/auth/authClient';
 import Link from 'next/link';
-
+import Image from "next/image";
 
 export default function LogangShow({ uuid, show, onDone }: {uuid?: string, show?: boolean, onDone?: () => void}){
     
@@ -63,7 +62,7 @@ export default function LogangShow({ uuid, show, onDone }: {uuid?: string, show?
             <Modal.Body>
                 <div className="flex items-center justify-center text-center bg-blue-500 bg-opacity-30 p-3 rounded-lg">
                     <div className="flex flex-col items-center">
-                    <img
+                    <Image
                         src={data?.Logo ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${data.Logo}` : `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/default-logo`}
                         alt={`${data?.NamaPerusahaan || 'Perusahaan'} Logo`}
                         className="h-24 w-24 object-contain"

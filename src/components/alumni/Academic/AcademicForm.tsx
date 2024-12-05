@@ -22,7 +22,7 @@ type Inputs = {
 
 export default function AcademicForm({ show, hide, uuid }: { show?: boolean , hide?: () => void, uuid?: string | null }){
 
-    const {  error: academicError, success: academicSuccess,  detailAcademic, postAcademic, updateAcademic } = useAcademic();
+    const { detailAcademic, postAcademic, updateAcademic } = useAcademic();
     const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {

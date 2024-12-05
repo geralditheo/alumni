@@ -6,7 +6,7 @@ import { HiTrash, HiPencilAlt } from 'react-icons/hi';
 import { useState, useEffect } from "react";
 import { useInternship } from '@/hooks/alumni/internship/useStore.hook';
 
-export default function InternshipTable({ userId }: { userId?: string }){
+export default function InternshipTable({  }: { userId?: string }){
 
     const { data, pagination, getInternship, deleteInternship } = useInternship();
 

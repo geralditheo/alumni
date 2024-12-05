@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 
 
 
-export default function AcademicTable({ userId }: { userId?: string }){
+export default function AcademicTable({  }: { userId?: string }){
 
     const { academics, pagination, getAcademics, deleteAcademic } = useAcademic();
 

@@ -30,10 +30,10 @@ export default function DataAlumniPage(){
     const {data:skills, getSkills} = useSkill();
 
     const { data: dataAcademicMhs, get: getAcademicMhs } = useAcademicMhs();    
-    const { data: dataAwardMhs, getAwards: getAwardMhs } = useAwardMhs()
+    const {  getAwards: getAwardMhs } = useAwardMhs()
 
     const [user, setUser] = useState<User | null>(null);
-    const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
+    const [ , setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
 
     useEffect(() => {
         const fetchedUser = getUser();

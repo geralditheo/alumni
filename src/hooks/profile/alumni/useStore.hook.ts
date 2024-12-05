@@ -148,6 +148,7 @@ export function useProfile(){
 
             return data
         } catch (error) {
+            console.log(error);
             throw new Error("Failed to change data alumni");
         }
     }

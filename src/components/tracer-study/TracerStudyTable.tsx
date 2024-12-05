@@ -3,7 +3,6 @@
 import { Table, Pagination } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useTracerStudy } from '@/hooks/tracer-study/tracerStudy.hook';
-import { toast } from 'sonner';
 
 
 

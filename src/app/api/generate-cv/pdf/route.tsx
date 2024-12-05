@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getTokenServer } from '@/hooks/auth/authServer';
 import { DocumentCV } from '@/components/cv/DocumentCV';
 import { renderToStream } from '@react-pdf/renderer';
@@ -88,7 +88,7 @@ export type CVSkill = {
     etoskerja_skill: string
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
 
     const token = await getTokenServer();    
 

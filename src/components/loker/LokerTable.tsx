@@ -8,10 +8,9 @@ import { useLokerAlumni, useLokerAdmin } from '@/hooks/loker/useStore.hook';
 import { getUser, User } from '@/hooks/auth/authClient';
 
 
-export default function LokerTable({ userId }: { userId?: string }){
+export default function LokerTable({  }: { userId?: string }){
 
     const [ openModalForm, setOpenModalForm ] = useState<boolean>(false);
-    const [ user, setUser] = useState<User>();
     const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
     const [ thisUuid, setThisUUid ] = useState<null | string>(null);
     const [ refresh, setRefresh ] = useState<boolean>(true);
@@ -58,7 +57,6 @@ export default function LokerTable({ userId }: { userId?: string }){
             const roleAdmin: boolean | undefined = result?.roles?.includes('admin');
             const roleMahasiswa: boolean | undefined = result?.roles?.includes('mahasiswa');
 
-            setUser(result);
 
             if (roleAlumni) setRole('alumni');
             if (roleAdmin) setRole('admin');

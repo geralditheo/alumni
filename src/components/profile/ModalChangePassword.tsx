@@ -14,7 +14,7 @@ type Inputs = {
 };
 
 
-export default function ModalChangePassword({ show, hide, uuid }: { show: boolean , hide?: () => void, uuid?: string }){
+export default function ModalChangePassword({ show, hide }: { show: boolean , hide?: () => void, uuid?: string }){
 
     const { register, handleSubmit, reset } = useForm<Inputs>();
     const { changePasswordAlumni, changePasswordAdmin } = useProfile();

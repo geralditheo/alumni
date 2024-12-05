@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useCourse } from '@/hooks/alumni/course/useStore.hook';
 
 
-export default function CourseTable({ userId }: { userId?: string }){
+export default function CourseTable({  }: { userId?: string }){
 
     const { data, pagination, getCourses, deleteCourse } = useCourse();
 

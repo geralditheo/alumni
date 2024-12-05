@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import { useState, FormEvent } from "react"
 import { IoIosCheckbox, IoIosContact, IoIosCloudy, IoIosAirplane } from "react-icons/io";
 import { useForm, SubmitHandler, FieldErrors } from 'react-hook-form';
@@ -114,7 +114,7 @@ export default function QuestionerForm({ done } : { done?: () => void }){
                 setStatusField('plane3');
                 setCurrent(4);
             })
-            .catch((err) => {
+            .catch(() => {
                 toast.error("Failed to do registration");
                 setStatusField('none');
                 setCurrent(1);
@@ -125,7 +125,7 @@ export default function QuestionerForm({ done } : { done?: () => void }){
             .then(() => {
                 toast.success("Verification Success");
                 if (done) done();            })
-            .catch((err) => {
+            .catch(() => {
                 toast.error("Verification Failed");
                 setStatusField('none');
                 setCurrent(1);
@@ -153,7 +153,7 @@ export default function QuestionerForm({ done } : { done?: () => void }){
 
         <div className="relative mb-20" >
             <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-40 aspect-square rounded-full border-4 border-white overflow-hidden">
-                <img src="/draw/undraw_pancakes_238t.png" alt="pancakes" className="w-full h-full object-cover" />
+                <Image src="/draw/undraw_pancakes_238t.png" alt="pancakes" className="w-full h-full object-cover" />
             </div>
         </div>
 

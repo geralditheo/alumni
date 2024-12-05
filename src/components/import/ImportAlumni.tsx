@@ -15,7 +15,7 @@ export function ImportAlumni() {
     const { register, handleSubmit, reset } = useForm<Inputs>();
     const [ selectedFile, setSelectedFile ] = useState<File | null>(null);
 
-    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const onSubmit: SubmitHandler<Inputs> = async () => {
         const formData = new FormData();
 
         if (selectedFile) formData.append('file', selectedFile);

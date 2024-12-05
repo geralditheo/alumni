@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useJob } from '@/hooks/alumni/job/useStore.hook';
 
 
-export default function JobTable({ userId }: { userId?: string }){
+export default function JobTable({  }: { userId?: string }){
 
     const { data, pagination, getJobs, deleteJob } = useJob();
 

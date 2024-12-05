@@ -15,7 +15,7 @@ export default function MasaTungguComponent(){
     const { data, tahunLulusData, check: checkMasaTunggu, tahunLulus: getTahunLulus } = useMasaTunggu();
     const [ dataDiagram, setDataDiagram ] = useState<DataDiagram[]>([]);
     const [ filter, setFilter ] = useState({ tahunLulus: "" });
-    const [ refresh, setRefresh ] = useState<Boolean>();
+    const [ refresh, setRefresh ] = useState<boolean>();
 
     const onTahunLulusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         event.preventDefault();

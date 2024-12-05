@@ -23,7 +23,7 @@ export default function LokerIndex(){
 
     const router = useRouter();
 
-    const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
+    const { register, handleSubmit,} = useForm<Inputs>();
     const [ user, setUser] = useState<User>();
     const [ role, setRole ] = useState< "alumni" | "admin" | "mahasiswa" >();
     const { data: dataPengalamanKerja } = getPengalamanKerja();
@@ -138,7 +138,7 @@ export default function LokerIndex(){
                                 <div onClick={() => onClickButton(String(item.id))} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border' >
-                                            <img 
+                                            <Image 
                                                 src={item?.Logo ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${item.Logo}` : '/default_logo.png'}
                                                 alt={`${item?.NamaPerusahaan} Logo`}
                                                 className="h-full w-full object-cover"
@@ -172,7 +172,7 @@ export default function LokerIndex(){
                                 <div onClick={() => onClickButton(String(item.id))} key={item.id} className="bg-white hover:shadow-lg transition-shadow ease-in flex flex-col sm:flex-row gap-3 p-3 border border-blue-500 rounded-md mb-3 w-full hover:cursor-pointer" >
                                     <div className="flex justify-center"  >
                                         <div className='w-52 aspect-square relative border ' >
-                                            <img 
+                                            <Image 
                                                 src={item?.Logo ? `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/storage/imglogo/${item.Logo}` : '/default_logo.png'}
                                                 alt={`${item?.NamaPerusahaan} Logo`}
                                                 className="h-full w-full object-cover"

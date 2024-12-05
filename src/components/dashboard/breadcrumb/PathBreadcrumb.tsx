@@ -23,8 +23,8 @@ export default function AutoBreadcrumb({  capitalizeLinks }: TBreadCrumbProps){
                 {pathNames.length > 0 && separator}
                 {
                     pathNames.map( (link, index) => {
-                        let href = `/${pathNames.slice(0, index + 1).join('/')}`
-                        let itemLink = capitalizeLinks ? link[0].toUpperCase() + link.slice(1, link.length) : link
+                        const href = `/${pathNames.slice(0, index + 1).join('/')}`
+                        const itemLink = capitalizeLinks ? link[0].toUpperCase() + link.slice(1, link.length) : link
                         return (
                             <React.Fragment key={index}>
                                 <li className="text-sm font-semibold text-blue-500" >

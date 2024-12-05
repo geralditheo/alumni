@@ -3,7 +3,6 @@
 import { Modal } from "flowbite-react";
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useAward } from '@/hooks/alumni/award/useStore.hook';
 import { useStatistik } from '@/hooks/statistik/statikstik.hook';
 import { toast } from 'sonner';
 

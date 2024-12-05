@@ -6,7 +6,7 @@ import { HiTrash, HiPencilAlt } from 'react-icons/hi';
 import { useEffect, useState } from "react";
 import { useAward } from '@/hooks/alumni/award/useStore.hook';
 
-export default function AwardTable({ userId }: { userId?: string }){
+export default function AwardTable({  }: { userId?: string }){
 
     const { data, pagination, getAwards, deleteAward } = useAward();
 

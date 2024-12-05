@@ -50,7 +50,7 @@ export default function JobForm({ show, hide, uuid }: { show?: boolean , hide?: 
         if (uuid) await updateJob(formData, uuid)
             .then(() => {
                 toast.success("Success update data");
-            }).catch((err) => {
+            }).catch(() => {
                 toast.error("Failed update data");
             });
         

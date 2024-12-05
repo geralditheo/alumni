@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { getToken } from '@/hooks/auth/authClient';
-import { useState } from 'react';
 
 export function useCvAlumni(){
     const token = getToken();

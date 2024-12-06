@@ -41,7 +41,7 @@ export default function LokerForm({ show, hide, uuid }: { show?: boolean , hide?
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
         const file = data.logoFile?.[0] ?? null;
-        const formData = uuid ? new URLSearchParams() : new FormData();
+        const formData = new FormData();
 
         if (user?.id) formData.append('user_id', user.id);
         if (data.agencyName) formData.append('NamaPerusahaan', data.agencyName);

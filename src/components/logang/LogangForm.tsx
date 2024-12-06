@@ -39,7 +39,7 @@ export default function LogangForm({ show, hide, uuid }: { show?: boolean , hide
 
     const onSubmit: SubmitHandler<Inputs> =  async (data) => {
         const file = data.logoFile?.[0] ?? null;
-        const formData = uuid ? new URLSearchParams() : new FormData();
+        const formData = new FormData();
 
         const date = new Date(String(data.validPeriod));        
 

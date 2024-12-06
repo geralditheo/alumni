@@ -221,7 +221,7 @@ export default function LogangForm({ show, hide, uuid }: { show?: boolean , hide
                     <input  {...register('validPeriod', { valueAsDate: true })} name="validPeriod" id="validPeriod" type="date" className="text-sm" />
                 </div>
 
-                <button type="submit" className="bg-blue-500 px-5 py-1 rounded-md text-white w-full sm:w-auto ">Submit</button>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-600 active:bg-blue-800 px-5 py-2 text-white font-semibold text-xs sm:text-sm  rounded-md flex items-center justify-center gap-x-2 w-full sm:w-auto">Submit</button>
 
 
             </form>

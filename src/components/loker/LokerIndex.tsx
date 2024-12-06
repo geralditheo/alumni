@@ -116,7 +116,7 @@ export default function LokerIndex(){
                                 </Accordion.Panel>
                             </Accordion>
                             
-                            <button type="submit" className="mt-3 px-5 py-1 bg-blue-500 text-white rounded-md w-full sm:w-auto"  >Filter</button>
+                            <button type="submit" className="bg-blue-500 hover:bg-blue-600 active:bg-blue-800 px-5 py-2 text-white font-semibold text-xs sm:text-sm  rounded-md flex items-center justify-center gap-x-2 w-full sm:w-auto">Filter</button>
 
                         </form>
                     </div>

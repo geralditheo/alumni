@@ -71,6 +71,7 @@ export function useLokerAlumni(){
             return data.lokers;
         } catch (error) {
             console.error("Error fetching lokers:", error);
+            
             throw new Error("Error index loker");
         }
     };

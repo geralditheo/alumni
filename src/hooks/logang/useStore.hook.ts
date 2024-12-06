@@ -69,7 +69,7 @@ export function useLogangAlumni(){
 
             if (Array.isArray(data.data)) setData(data.data);
 
-            return data;
+            return data.logangs;
             
         } catch (error) {
 
